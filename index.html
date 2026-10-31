@@ -1,510 +1,895 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HSE Portal | PT Unggul Ejawantah Industri</title>
-<style>
-:root{
-  --g1:#0b8a42;      /* hijau safety utama */
-  --g2:#08672f;      /* hijau tua */
-  --g3:#24a65a;      /* hijau terang */
-  --gbg:#e8f5ec;     /* hijau sangat muda */
-  --bg:#eaf4ed;
-  --tx:#0d3b22;
-  --mut:#5d7a6a;
-  --line:#cfe3d6;
-  --amber:#f08a00;
-  --red:#d32f2f;
-  --blue:#0e7fa8;
-  --purple:#7b3fc4;
-  --yellow:#f5c400;
-  --bounce:cubic-bezier(.34,1.56,.64,1);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--tx);
-  display:flex;flex-direction:column;height:100vh;min-height:700px;position:relative;overflow-x:hidden;
-}
-.ic{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#08783e" />
 
-/* ===== LATAR GEOMETRI HSE ===== */
-.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.bg svg{position:absolute}
-.bg .hex{inset:0;width:100%;height:100%}
-.bg .deco{fill:none;stroke:var(--g1);stroke-linecap:round;stroke-linejoin:round}
-.bg .shield{right:-70px;bottom:20px;width:440px;height:440px;opacity:.10;stroke-width:.6}
-.bg .hat{left:-60px;bottom:30px;width:380px;height:380px;opacity:.09;stroke-width:.6}
-.bg .gear{right:26%;top:34%;width:230px;height:230px;opacity:.08;stroke-width:1}
-.bg .tri{left:38%;bottom:6%;width:190px;height:190px;opacity:.09;stroke-width:.8}
-.bg .cross{left:22%;top:20%;width:90px;height:90px;opacity:.12;fill:var(--g1);stroke:none}
-.bg .cross2{right:6%;top:14%;width:60px;height:60px;opacity:.12;fill:var(--g1);stroke:none}
-header,.stripe,main,footer{position:relative;z-index:1}
+  <title>Dashboard HSE | PT Unggul Ejawantah Industri</title>
 
-/* ===== HEADER ===== */
-header{
-  background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;display:flex;align-items:center;justify-content:space-between;
-  gap:16px;padding:0 20px;height:56px;flex:none;box-shadow:0 2px 6px rgba(0,0,0,.2);
-}
-.brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
-.brand img{height:36px;width:auto}
-.brand .sep{width:1px;height:26px;background:rgba(255,255,255,.55)}
-nav{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
-nav a{
-  color:#fff;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.4px;
-  padding:8px 12px;border-radius:6px;text-transform:uppercase;transition:background .2s;
-}
-nav a:hover{background:rgba(255,255,255,.18);animation:hop .55s ease}
-nav a.active{background:var(--g2);box-shadow:inset 0 -3px 0 var(--yellow)}
-.stripe{height:6px;flex:none;background:repeating-linear-gradient(-45deg,var(--yellow) 0 10px,#1c1c1c 10px 20px)}
+  <style>
+    :root {
+      --green: #08783e;
+      --green-dark: #075b32;
+      --green-light: #e9f5ee;
+      --text: #234337;
+      --muted: #71847b;
+      --border: #dce8e0;
+      --orange: #ed9208;
+      --red: #d63838;
+      --blue: #1486a4;
+      --purple: #8549b6;
+      --shadow: 0 3px 12px rgba(22, 65, 41, .08);
+    }
 
-/* ===== ANIMASI BOUNCE ===== */
-@keyframes popIn{
-  0%{opacity:0;transform:translateY(26px) scale(.88)}
-  55%{opacity:1;transform:translateY(-7px) scale(1.03)}
-  78%{transform:translateY(3px) scale(.99)}
-  100%{opacity:1;transform:none}
-}
-@keyframes hop{
-  0%,100%{transform:translateY(0)}
-  28%{transform:translateY(-9px)}
-  50%{transform:translateY(0)}
-  66%{transform:translateY(-4px)}
-  82%{transform:translateY(0)}
-}
-@keyframes iconBounce{
-  0%,60%,100%{transform:translateY(0)}
-  70%{transform:translateY(-6px)}
-  80%{transform:translateY(0)}
-  88%{transform:translateY(-2px)}
-}
-@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
-.pop{opacity:0;animation:popIn .8s var(--bounce) forwards;animation-delay:calc(var(--i,0) * 80ms)}
+    * { box-sizing: border-box; }
 
-/* ===== LAYOUT ===== */
-main{
-  flex:1;min-height:0;display:grid;gap:10px 12px;padding:12px 20px;
-  grid-template-columns:minmax(0,1fr) 340px;
-  grid-template-rows:auto auto minmax(0,1fr);
-}
-.title{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
-.title h2{font-size:15px;font-weight:800;color:var(--g2);letter-spacing:.2px}
-.title .sub{font-size:11.5px;color:var(--mut)}
-.title .link{margin-left:auto;font-size:12px;font-weight:700;color:var(--g1);text-decoration:none}
-.title .link:hover{text-decoration:underline}
-.quick{grid-column:1/3;grid-row:1}
-.stat{grid-column:1;grid-row:2}
-.finding{grid-column:1;grid-row:3;display:flex;flex-direction:column;min-height:0}
-.side{grid-column:2;grid-row:2/4;display:flex;flex-direction:column;gap:10px;min-height:0}
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+      background-color: #eef6f0;
+      background-image:
+        linear-gradient(30deg, #dcece355 12%, transparent 12.5%, transparent 87%, #dcece355 87.5%),
+        linear-gradient(150deg, #dcece355 12%, transparent 12.5%, transparent 87%, #dcece355 87.5%),
+        linear-gradient(30deg, #dcece355 12%, transparent 12.5%, transparent 87%, #dcece355 87.5%);
+      background-size: 62px 108px;
+      min-height: 100vh;
+    }
 
-/* ===== QUICK REPORT ===== */
-.quick .row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.qcard{
-  display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;text-decoration:none;color:inherit;
-  background:#fff;border-radius:8px;padding:10px 14px;min-height:72px;border-left:5px solid var(--c);
-  box-shadow:0 2px 6px rgba(13,59,34,.12);transition:box-shadow .2s;
-}
-.qcard:hover{animation:hop .6s ease;box-shadow:0 8px 18px rgba(13,59,34,.2)}
-.qcard .ico{
-  width:42px;height:42px;border-radius:50%;background:var(--t);color:var(--c);
-  display:flex;align-items:center;justify-content:center;font-size:22px;
-}
-.qcard .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.qcard b{font-size:15px;color:var(--c)}
-.qcard .go{font-size:11.5px;font-weight:700;color:var(--c);white-space:nowrap}
-.qcard p{font-size:11.5px;color:var(--mut);margin-top:2px;line-height:1.35}
-.qcard.hz{--c:var(--amber);--t:#fff1dc}
-.qcard.nm{--c:var(--g1);--t:var(--gbg)}
-.qcard.in{--c:var(--red);--t:#fde4e4}
+    button, input, select { font: inherit; }
+    button, select { cursor: pointer; }
+    button { -webkit-tap-highlight-color: transparent; }
+    button:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 3px solid #e7ad13;
+      outline-offset: 3px;
+    }
 
-/* ===== STATISTIK ===== */
-.stat .row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
-.sbox{
-  background:#fff;color:var(--tx);border-radius:8px;padding:10px 6px;text-align:center;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
-  min-height:92px;box-shadow:0 2px 6px rgba(13,59,34,.12);border-bottom:4px solid var(--c);
-  transition:box-shadow .2s;
-}
-.sbox:hover{animation:hop .6s ease;box-shadow:0 8px 18px rgba(13,59,34,.2)}
-.sbox .ic{font-size:24px;color:var(--c);animation:iconBounce 3s infinite;animation-delay:calc(var(--i,0) * .35s)}
-.sbox b{font-size:25px;line-height:1.15;color:var(--g2)}
-.sbox span{font-size:11px;color:var(--mut)}
+    .topbar {
+      background: linear-gradient(105deg, #086332, #098647);
+      color: white;
+      min-height: 64px;
+      padding: 10px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+    }
 
-/* ===== KARTU / TABEL ===== */
-.card{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:0 2px 6px rgba(13,59,34,.1)}
-.finding .card{flex:1;min-height:0;display:flex;flex-direction:column}
-.tscroll{flex:1;overflow:auto;min-height:0}
-table{width:100%;border-collapse:collapse;font-size:12.5px}
-th{position:sticky;top:0;background:var(--gbg);text-align:left;padding:8px 10px;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--g2);z-index:1}
-td{padding:7px 10px;border-top:1px solid var(--line);vertical-align:middle}
-tbody tr{transition:background .15s}
-tbody tr:hover td{background:#f3faf5}
-.tag,.badge{display:inline-block;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:700;white-space:nowrap}
-.tag{color:#fff;border-radius:5px}
-.t-Hazard{background:var(--amber)}
-.t-Inspection{background:var(--blue)}
-.t-Observation{background:var(--purple)}
-.t-Incident{background:var(--red)}
-.t-NearMiss{background:var(--g1)}
-.badge.over{background:#fde4e4;color:#b71c1c}
-.badge.prog{background:#dff1fa;color:#0b6283}
-.badge.open{background:#fff3c4;color:#7a5c00}
-.empty{padding:24px;text-align:center;color:var(--mut);font-size:13px}
+    .brand, .brand-identity, .nav, .footer-brand {
+      display: flex;
+      align-items: center;
+    }
 
-/* ===== SISI KANAN: YEAR + TREND ===== */
-.year{
-  background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;border-radius:8px;padding:8px 12px;flex:none;
-  display:flex;align-items:center;justify-content:center;gap:10px;font-weight:700;letter-spacing:.6px;font-size:13px;
-  box-shadow:0 2px 6px rgba(13,59,34,.18);
-}
-.year select{font:inherit;font-weight:700;padding:3px 10px;border-radius:5px;border:0;background:#fff;color:var(--g2);cursor:pointer}
-.chart{flex:1;min-height:0;display:flex;flex-direction:column;padding:8px 10px 4px}
-.chart h3{font-size:12px;font-weight:800;color:var(--g2);flex:none;display:flex;justify-content:space-between}
-.chart h3 em{font-style:normal;font-weight:600;color:var(--mut);font-size:11px}
-.plot{flex:1;min-height:0;position:relative;overflow:hidden}
-.plot svg{position:absolute;left:0;top:0;display:block}
-.grid{stroke:#dbe9e0;stroke-width:1}
-.ax{font-size:9px;fill:#6b8576}
-.a{animation:grow .95s var(--bounce) both}
+    .brand { gap: 16px; flex-shrink: 0; }
+    .brand-identity { gap: 9px; }
+    .logo {
+      color: #52c4d0;
+      font-size: 33px;
+      font-weight: 900;
+      letter-spacing: -4px;
+      line-height: 1;
+    }
 
-/* ===== FOOTER ===== */
-footer{
-  background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;flex:none;height:46px;margin:0 20px 12px;border-radius:8px;
-  display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:13px;
-  box-shadow:0 2px 6px rgba(13,59,34,.2);
-}
-footer .brand img{height:26px}
-footer .brand{font-size:13px}
+    .company-name {
+      font-size: 8px;
+      color: #91d0c8;
+      line-height: 1.5;
+      letter-spacing: 2px;
+    }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width:980px){
-  body{height:auto;min-height:100vh}
-  header{height:auto;flex-direction:column;align-items:flex-start;padding:10px 14px}
-  nav{justify-content:flex-start}
-  main{grid-template-columns:1fr;grid-template-rows:none;padding:12px 14px}
-  .quick,.stat,.finding,.side{grid-column:1;grid-row:auto}
-  .quick .row{grid-template-columns:1fr}
-  .stat .row{grid-template-columns:repeat(3,1fr)}
-  .finding .card{max-height:360px}
-  .chart{min-height:200px}
-  footer{margin:0 14px 12px;height:auto;padding:12px 14px;flex-direction:column;gap:6px;text-align:center}
-}
-@media (prefers-reduced-motion:reduce){
-  *{animation:none!important;transition:none!important}
-  .pop{opacity:1}
-}
-</style>
+    .department {
+      border-left: 1px solid #ffffff70;
+      padding-left: 16px;
+      font-size: 15px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .nav { gap: 5px; flex-wrap: wrap; }
+    .nav button {
+      border: 0;
+      color: #e1f2e7;
+      background: transparent;
+      border-radius: 7px;
+      padding: 11px 13px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .nav button:hover { background: #ffffff16; }
+    .nav button.active {
+      background: #005c31;
+      box-shadow: inset 0 -3px #f3c920;
+      color: white;
+    }
+
+    .safety-stripe {
+      height: 7px;
+      background: repeating-linear-gradient(
+        -45deg, #f7ce19 0, #f7ce19 12px,
+        #183327 12px, #183327 24px
+      );
+    }
+
+    main { max-width: 1700px; margin: auto; padding: 18px 20px; }
+
+    .page-heading, .section-heading, .table-tools, .chart-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .page-heading { margin-bottom: 16px; }
+    h1 { font-size: 22px; margin: 0 0 5px; color: var(--green-dark); }
+    .subtitle { color: var(--muted); margin: 0; font-size: 12px; }
+    .demo-label {
+      padding: 7px 10px;
+      border-radius: 6px;
+      background: #fff6d6;
+      color: #82600b;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .section-heading { justify-content: flex-start; margin-bottom: 9px; }
+    h2 { margin: 0; font-size: 15px; color: var(--green-dark); }
+    .section-heading span { font-size: 11px; color: var(--muted); }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .quick-card {
+      --accent: var(--green);
+      --tint: #eaf6ee;
+      width: 100%;
+      border: 0;
+      border-left: 5px solid var(--accent);
+      border-radius: 9px;
+      background: white;
+      box-shadow: var(--shadow);
+      text-align: left;
+      display: flex;
+      align-items: center;
+      padding: 17px;
+      gap: 12px;
+      color: var(--text);
+      transition: transform .15s;
+    }
+
+    .quick-card:hover { transform: translateY(-2px); }
+    .quick-card.hazard { --accent: var(--orange); --tint: #fff3de; }
+    .quick-card.incident { --accent: var(--red); --tint: #fdebec; }
+
+    .quick-icon {
+      width: 43px;
+      height: 43px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      color: var(--accent);
+      background: var(--tint);
+    }
+
+    .quick-copy { flex: 1; }
+    .quick-title { color: var(--accent); font-weight: 800; font-size: 15px; }
+    .quick-description { margin-top: 5px; font-size: 11px; color: var(--muted); }
+    .quick-action { font-size: 11px; font-weight: 700; color: var(--accent); }
+
+    .dashboard-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 17px;
+    }
+
+    .stat-card {
+      --accent: var(--green);
+      background: white;
+      border-radius: 9px;
+      border-bottom: 4px solid var(--accent);
+      text-align: center;
+      padding: 13px 5px 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-icon { font-size: 23px; color: var(--accent); height: 29px; }
+    .stat-value { font-size: 27px; font-weight: 800; color: var(--green-dark); margin: 3px 0; }
+    .stat-label { color: var(--muted); font-size: 11px; }
+
+    .panel {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .findings-panel { min-height: 400px; }
+    .table-tools { padding: 13px; border-bottom: 1px solid var(--border); }
+    .table-tools input, .table-tools select {
+      border: 1px solid var(--border);
+      padding: 9px 10px;
+      border-radius: 6px;
+      background: white;
+      color: var(--text);
+      min-width: 0;
+    }
+
+    .table-tools input { flex: 1; }
+    .table-scroll { overflow-x: auto; }
+
+    table { border-collapse: collapse; width: 100%; white-space: nowrap; }
+    th {
+      text-align: left;
+      color: var(--green-dark);
+      font-size: 10px;
+      letter-spacing: .35px;
+      background: #eaf5ee;
+      padding: 12px 10px;
+    }
+
+    td { padding: 11px 10px; border-bottom: 1px solid var(--border); font-size: 11px; }
+    tbody tr:nth-child(even) { background: #f8fbf9; }
+    tbody tr:hover { background: #f0f7f3; }
+    .finding-text { min-width: 230px; white-space: normal; line-height: 1.5; }
+    .badge { display: inline-block; padding: 4px 8px; border-radius: 5px; font-size: 10px; font-weight: 700; }
+    .type-hazard { color: white; background: var(--orange); }
+    .type-inspection { color: white; background: var(--blue); }
+    .type-observation { color: white; background: var(--purple); }
+    .type-incident { color: white; background: var(--red); }
+    .status-overdue { background: #fde5e5; color: #b82a2a; }
+    .status-progress { background: #e0f2fa; color: #176c89; }
+    .status-open { background: #fff3c5; color: #876600; }
+    .detail-button {
+      border: 0;
+      background: #e8f4ed;
+      color: var(--green);
+      border-radius: 5px;
+      padding: 6px 8px;
+      font-size: 11px;
+    }
+
+    .table-footer { padding: 12px 13px; color: var(--muted); font-size: 11px; }
+    .empty { padding: 35px; text-align: center; color: var(--muted); }
+
+    .year-filter {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 10px;
+      border-radius: 9px;
+      color: white;
+      background: linear-gradient(100deg, var(--green-dark), #099148);
+      margin-bottom: 11px;
+      font-weight: 800;
+    }
+
+    .year-filter select {
+      border: 0;
+      border-radius: 5px;
+      padding: 5px 10px;
+      color: var(--green-dark);
+      background: white;
+      font-weight: 700;
+    }
+
+    .chart-panel { margin-bottom: 11px; padding: 12px; }
+    .chart-heading { margin-bottom: 7px; }
+    .chart-heading h3 { font-size: 12px; margin: 0; color: var(--green-dark); }
+    .chart-heading span { font-size: 10px; color: var(--muted); }
+    .chart { width: 100%; height: auto; display: block; }
+    .chart-empty { color: var(--muted); padding: 42px 10px; text-align: center; }
+
+    .footer {
+      margin: 0 20px 16px;
+      padding: 13px 18px;
+      background: linear-gradient(100deg, #076431, #098747);
+      border-radius: 9px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      font-size: 11px;
+    }
+
+    .footer-brand { gap: 14px; font-weight: 700; }
+    .footer .logo { font-size: 26px; }
+
+    dialog {
+      border: 0;
+      border-radius: 12px;
+      padding: 0;
+      width: min(480px, calc(100% - 30px));
+      color: var(--text);
+      box-shadow: 0 20px 70px #0004;
+    }
+
+    dialog::backdrop { background: #07271988; }
+    .modal-header {
+      background: var(--green);
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h2 { color: white; font-size: 16px; }
+    .modal-close { background: transparent; color: white; border: 0; font-size: 25px; }
+    .modal-body { padding: 20px; line-height: 1.7; }
+    .modal-body p { margin: 0 0 12px; }
+    .modal-body dl { margin: 0; }
+    .modal-body dt { color: var(--muted); font-size: 11px; margin-top: 12px; }
+    .modal-body dd { margin: 2px 0 0; }
+    .modal-note { background: #fff6db; padding: 11px; border-radius: 6px; font-size: 12px; }
+
+    @media (min-width: 1700px) {
+      .footer { max-width: 1660px; margin-left: auto; margin-right: auto; }
+    }
+
+    @media (max-width: 1180px) {
+      .topbar { flex-wrap: wrap; gap: 12px; }
+      .nav { width: 100%; }
+      .dashboard-layout { grid-template-columns: minmax(0, 1fr) 300px; }
+      .stats-grid { grid-template-columns: repeat(3, 1fr); }
+      .quick-action { display: none; }
+    }
+
+    @media (max-width: 850px) {
+      .dashboard-layout { grid-template-columns: 1fr; }
+      .sidebar { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+      .year-filter { grid-column: 1 / -1; margin: 0; }
+      .chart-panel { margin: 0; }
+      .quick-card { padding: 13px 10px; gap: 8px; }
+      .quick-title { font-size: 13px; }
+      .quick-description { line-height: 1.5; }
+    }
+
+    @media (max-width: 600px) {
+      main { padding: 15px 12px; }
+      .topbar { padding: 12px; }
+      .brand { gap: 12px; }
+      .department { font-size: 12px; padding-left: 12px; }
+      .company-name { font-size: 7px; letter-spacing: 1px; }
+      .logo { font-size: 29px; }
+      .nav { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 3px; }
+      .nav button { flex-shrink: 0; padding: 10px; font-size: 11px; }
+      .page-heading { align-items: flex-start; }
+      h1 { font-size: 19px; }
+      .demo-label { font-size: 9px; }
+      .quick-grid { grid-template-columns: 1fr; gap: 9px; }
+      .quick-card { padding: 12px; }
+      .quick-action { display: block; }
+      .quick-description { font-size: 11px; }
+      .section-heading { flex-wrap: wrap; gap: 5px; }
+      .stat-value { font-size: 24px; }
+      .sidebar { grid-template-columns: 1fr; }
+      .chart { max-height: 210px; }
+      .table-tools { flex-wrap: wrap; }
+      .table-tools input { flex-basis: 100%; }
+      .table-tools select { width: 100%; }
+      .footer { margin: 0 12px 12px; flex-direction: column; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
 </head>
+
 <body>
-
-<!-- ===== LATAR GEOMETRI BERTEMA HSE ===== -->
-<div class="bg" aria-hidden="true">
-  <!-- pola sarang lebah (heksagon) -->
-  <svg class="hex" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <pattern id="hexp" width="56" height="100" patternUnits="userSpaceOnUse" patternTransform="scale(.9)">
-        <path d="M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100" fill="none" stroke="#0b8a42" stroke-opacity=".13" stroke-width="1.2"/>
-        <path d="M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34" fill="none" stroke="#0b8a42" stroke-opacity=".13" stroke-width="1.2"/>
-      </pattern>
-    </defs>
-    <rect width="100%" height="100%" fill="url(#hexp)"/>
-  </svg>
-  <!-- perisai + centang -->
-  <svg class="deco shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
-  <!-- helm safety -->
-  <svg class="deco hat" viewBox="0 0 24 24"><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M14 6a6 6 0 0 1 6 6v3"/><path d="M4 15v-3a6 6 0 0 1 6-6"/><rect x="2" y="15" width="20" height="4" rx="1"/></svg>
-  <!-- roda gigi -->
-  <svg class="deco gear" viewBox="-80 -80 160 160"><circle r="60" stroke-width="16" stroke-dasharray="15.7 15.7"/><circle r="50" stroke-width="10"/><circle r="22" stroke-width="7"/></svg>
-  <!-- segitiga peringatan -->
-  <svg class="deco tri" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-  <!-- palang P3K -->
-  <svg class="cross" viewBox="0 0 24 24"><path d="M8 3h8v5h5v8h-5v5H8v-5H3V8h5z"/></svg>
-  <svg class="cross2" viewBox="0 0 24 24"><path d="M8 3h8v5h5v8h-5v5H8v-5H3V8h5z"/></svg>
-</div>
-
-<!-- ===== KUMPULAN IKON ===== -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="i-hazard" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
-  <symbol id="i-nearmiss" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></symbol>
-  <symbol id="i-incident" viewBox="0 0 24 24"><path d="M7 18v-6a5 5 0 1 1 10 0v6"/><path d="M5 21a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2z"/><path d="M21 12h1"/><path d="M18.5 4.5 18 5"/><path d="M2 12h1"/><path d="M12 2v1"/><path d="m4.929 4.929.707.707"/><path d="M12 12v6"/></symbol>
-  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
-  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
-  <symbol id="i-clipboard" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></symbol>
-</svg>
-
-<!-- ===== HEADER ===== -->
-<header>
-  <div class="brand">
-    <img src="assets/gambar/logo.png" alt="Logo" onerror="this.style.display='none'">
-    <span class="sep"></span>
-    <span>HSE DEPARTEMENT</span>
-  </div>
-  <nav>
-    <a href="index.html" class="active">Home</a>
-    <a href="profile.html">Profile</a>
-    <a href="data.html">Data</a>
-    <a href="report.html">Report</a>
-    <a href="health.html">Health</a>
-    <a href="sdm.html">SDM</a>
-    <a href="permit.html">Permit</a>
-    <a href="library.html">Library</a>
-  </nav>
-</header>
-<div class="stripe"></div>
-
-<!-- ===== ISI HALAMAN ===== -->
-<main>
-
-  <section class="quick">
-    <div class="title"><h2>Quick Report</h2><span class="sub">Seen something unsafe? Report it now.</span></div>
-    <div class="row">
-      <div class="pop" style="--i:0"><a class="qcard hz" href="hazard.html">
-        <div class="ico"><svg class="ic"><use href="#i-hazard"/></svg></div>
-        <div><div class="top"><b>Hazard Report</b><span class="go">Create report →</span></div><p>Unsafe conditions or acts found in the field.</p></div>
-      </a></div>
-      <div class="pop" style="--i:1"><a class="qcard nm" href="nearmiss.html">
-        <div class="ico"><svg class="ic"><use href="#i-nearmiss"/></svg></div>
-        <div><div class="top"><b>Near Miss Report</b><span class="go">Create report →</span></div><p>Near-miss events that caused no injury or loss.</p></div>
-      </a></div>
-      <div class="pop" style="--i:2"><a class="qcard in" href="incident.html">
-        <div class="ico"><svg class="ic"><use href="#i-incident"/></svg></div>
-        <div><div class="top"><b>Incident Report</b><span class="go">Create report →</span></div><p>Accidents, injuries, damage, or emergency events.</p></div>
-      </a></div>
-    </div>
-  </section>
-
-  <section class="stat">
-    <div class="title"><h2>HSE Statistics</h2><span class="sub" id="showing"></span></div>
-    <div class="row">
-      <div class="pop" style="--i:3"><div class="sbox" style="--c:var(--g1);--i:0"><svg class="ic"><use href="#i-users"/></svg><b id="s-mp">0</b><span>Manpower</span></div></div>
-      <div class="pop" style="--i:4"><div class="sbox" style="--c:var(--g2);--i:1"><svg class="ic"><use href="#i-clock"/></svg><b id="s-mh">0</b><span>Man Hours</span></div></div>
-      <div class="pop" style="--i:5"><div class="sbox" style="--c:var(--amber);--i:2"><svg class="ic"><use href="#i-hazard"/></svg><b id="s-hr">0</b><span>Hazard Reports</span></div></div>
-      <div class="pop" style="--i:6"><div class="sbox" style="--c:var(--g3);--i:3"><svg class="ic"><use href="#i-nearmiss"/></svg><b id="s-nm">0</b><span>Near Miss</span></div></div>
-      <div class="pop" style="--i:7"><div class="sbox" style="--c:var(--red);--i:4"><svg class="ic"><use href="#i-incident"/></svg><b id="s-in">0</b><span>Incidents</span></div></div>
-      <div class="pop" style="--i:8"><div class="sbox" style="--c:var(--blue);--i:5"><svg class="ic"><use href="#i-clipboard"/></svg><b id="s-of">0</b><span>Open Follow-ups</span></div></div>
-    </div>
-  </section>
-
-  <section class="finding pop" style="--i:9">
-    <div class="title"><h2 id="f-title">Open Findings</h2><a class="link" href="finding.html">View All →</a></div>
-    <div class="card">
-      <div class="tscroll">
-        <table>
-          <thead><tr><th>ID</th><th>Type</th><th>Finding</th><th>Location</th><th>PIC</th><th>Due Date</th><th>Status</th></tr></thead>
-          <tbody id="f-body"></tbody>
-        </table>
+  <header>
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-identity" aria-label="PT Unggul Ejawantah Industri">
+          <div class="logo">UEI</div>
+          <div class="company-name">
+            UNGGUL<br />EJAWANTAH<br />INDUSTRI
+          </div>
+        </div>
+        <div class="department">HSE DEPARTMENT</div>
       </div>
+
+      <nav class="nav" aria-label="Navigasi utama">
+        <button type="button" class="active" aria-current="page">HOME</button>
+        <button type="button" data-page="Profil Departemen HSE">PROFILE</button>
+        <button type="button" data-page="Data HSE">DATA</button>
+        <button type="button" data-page="Laporan HSE">REPORT</button>
+        <button type="button" data-page="Kesehatan Kerja">HEALTH</button>
+        <button type="button" data-page="SDM & Pelatihan">SDM</button>
+        <button type="button" data-page="Permit to Work">PERMIT</button>
+        <button type="button" data-page="Library Dokumen">LIBRARY</button>
+      </nav>
     </div>
-  </section>
+    <div class="safety-stripe" aria-hidden="true"></div>
+  </header>
 
-  <aside class="side">
-    <div class="year pop" style="--i:3">YEAR : <select id="year"></select></div>
-
-    <div class="card chart pop" style="--i:4">
-      <h3>Man Hours Trend <em id="t-mh"></em></h3>
-      <div class="plot" id="c-mh"></div>
+  <main>
+    <div class="page-heading">
+      <div>
+        <h1>Dashboard HSE</h1>
+        <p class="subtitle">PT Unggul Ejawantah Industri · Safety starts with us.</p>
+      </div>
+      <span class="demo-label">MODE DEMO · DATA CONTOH</span>
     </div>
-    <div class="card chart pop" style="--i:5">
-      <h3>Hazard Report Trend <em id="t-hr"></em></h3>
-      <div class="plot" id="c-hr"></div>
+
+    <section aria-labelledby="quick-title">
+      <div class="section-heading">
+        <h2 id="quick-title">Quick Report</h2>
+        <span>Temukan kondisi tidak aman? Laporkan melalui menu berikut.</span>
+      </div>
+
+      <div class="quick-grid">
+        <button type="button" class="quick-card hazard" data-report="Hazard Report">
+          <span class="quick-icon" aria-hidden="true">⚠</span>
+          <span class="quick-copy">
+            <span class="quick-title">Hazard Report</span>
+            <span class="quick-description" style="display:block">
+              Laporkan kondisi atau tindakan tidak aman.
+            </span>
+          </span>
+          <span class="quick-action">Buat laporan →</span>
+        </button>
+
+        <button type="button" class="quick-card" data-report="Near Miss Report">
+          <span class="quick-icon" aria-hidden="true">◇</span>
+          <span class="quick-copy">
+            <span class="quick-title">Near Miss Report</span>
+            <span class="quick-description" style="display:block">
+              Laporkan kejadian nyaris celaka.
+            </span>
+          </span>
+          <span class="quick-action">Buat laporan →</span>
+        </button>
+
+        <button type="button" class="quick-card incident" data-report="Incident Report">
+          <span class="quick-icon" aria-hidden="true">✚</span>
+          <span class="quick-copy">
+            <span class="quick-title">Incident Report</span>
+            <span class="quick-description" style="display:block">
+              Laporkan kecelakaan atau kejadian darurat.
+            </span>
+          </span>
+          <span class="quick-action">Buat laporan →</span>
+        </button>
+      </div>
+    </section>
+
+    <div class="dashboard-layout">
+      <div>
+        <section aria-labelledby="statistics-title">
+          <div class="section-heading">
+            <h2 id="statistics-title">HSE Statistics</h2>
+            <span id="statistics-note"></span>
+          </div>
+          <div class="stats-grid" id="stats-grid"></div>
+        </section>
+
+        <section aria-labelledby="findings-title">
+          <div class="section-heading">
+            <h2 id="findings-title">Open Findings <span id="findings-count"></span></h2>
+          </div>
+
+          <div class="panel findings-panel">
+            <div class="table-tools">
+              <input
+                type="search"
+                id="finding-search"
+                placeholder="Cari ID, temuan, lokasi, atau PIC..."
+                aria-label="Cari temuan"
+              />
+              <select id="status-filter" aria-label="Filter status temuan">
+                <option value="all">Semua status</option>
+                <option value="overdue">Overdue</option>
+                <option value="progress">In Progress</option>
+                <option value="open">Open</option>
+              </select>
+            </div>
+
+            <div class="table-scroll">
+              <table aria-label="Daftar temuan HSE yang belum selesai">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">TYPE</th>
+                    <th scope="col">FINDING</th>
+                    <th scope="col">LOCATION</th>
+                    <th scope="col">PIC</th>
+                    <th scope="col">DUE DATE</th>
+                    <th scope="col">STATUS</th>
+                    <th scope="col">AKSI</th>
+                  </tr>
+                </thead>
+                <tbody id="findings-body"></tbody>
+              </table>
+            </div>
+            <div class="table-footer" id="table-summary" aria-live="polite"></div>
+          </div>
+        </section>
+      </div>
+
+      <aside class="sidebar" aria-label="Filter tahun dan grafik HSE">
+        <div class="year-filter">
+          <label for="year-select">TAHUN :</label>
+          <select id="year-select">
+            <option value="2026">2026</option>
+            <option value="2025">2025</option>
+          </select>
+        </div>
+
+        <section class="panel chart-panel">
+          <div class="chart-heading">
+            <h3>Man Hours Trend</h3>
+            <span id="hours-total"></span>
+          </div>
+          <div id="hours-chart"></div>
+        </section>
+
+        <section class="panel chart-panel">
+          <div class="chart-heading">
+            <h3>Hazard Report Trend</h3>
+            <span id="hazard-total"></span>
+          </div>
+          <div id="hazard-chart"></div>
+        </section>
+
+        <section class="panel chart-panel">
+          <div class="chart-heading">
+            <h3>Incident Trend</h3>
+            <span id="incident-total"></span>
+          </div>
+          <div id="incident-chart"></div>
+        </section>
+      </aside>
     </div>
-    <div class="card chart pop" style="--i:6">
-      <h3>Incident Trend <em id="t-in"></em></h3>
-      <div class="plot" id="c-in"></div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-brand">
+      <span class="logo" aria-hidden="true">UEI</span>
+      <span>HSE DEPARTMENT</span>
     </div>
-  </aside>
+    <span>© <span id="copyright-year"></span> PT Unggul Ejawantah Industri · HSE Portal</span>
+  </footer>
 
-</main>
+  <dialog id="info-dialog" aria-labelledby="modal-title">
+    <div class="modal-header">
+      <h2 id="modal-title"></h2>
+      <button type="button" class="modal-close" id="modal-close" aria-label="Tutup">×</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </dialog>
 
-<!-- ===== FOOTER ===== -->
-<footer>
-  <div class="brand">
-    <img src="assets/gambar/logo.png" alt="Logo" onerror="this.style.display='none'">
-    <span>HSE DEPARTEMENT</span>
-  </div>
-  <div id="copy"></div>
-</footer>
+  <script>
+    "use strict";
 
-<script>
-/* =====================================================
-   DATA CONTOH (sementara)
-   Nanti bagian ini diganti dengan data asli / Google Sheets
-   Urutan bulan: Jan - Des (boleh kurang dari 12 bulan
-   bila bulan berjalan belum selesai)
-   ===================================================== */
-const DATA = {
-  2025: {
-    manpower: 168,
-    manhours: [30200,29800,31500,30900,31800,30400,32100,32600,31700,32300,31900,30100],
-    hazard:   [12,9,14,11,13,10,15,12,11,13,9,8],
-    nearmiss: [4,3,5,4,4,3,5,4,3,4,4,3],
-    incident: [1,0,1,1,0,1,0,1,1,0,1,0]
-  },
-  2026: {
-    manpower: 214,
-    manhours: [36200,35100,37800,36500,38000,37200,39100,38600,37700,40050],
-    hazard:   [14,11,16,12,9,13,10,8,11,9],
-    nearmiss: [5,4,6,5,3,5,4,5,5,5],
-    incident: [1,0,2,1,0,1,0,2,1,2]
-  }
-};
+    // Seluruh data di bawah adalah data demonstrasi.
+    // Tanggal acuan dibuat tetap agar tampilan demo konsisten.
+    const DEMO_DATE = "2026-10-31";
+    const MONTHS = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt"];
 
-/* status: Open | In Progress | Closed  (Closed tidak ditampilkan) */
-const FINDINGS = [
-  {id:"HZ-0142", type:"Hazard",      temuan:"Handrail tangga area packing longgar",           lokasi:"Packing",    pic:"Supervisor Produksi",  due:"2026-10-20", status:"Open"},
-  {id:"IN-0031", type:"Inspection",  temuan:"APAR belum diisi ulang melewati masa berlaku",   lokasi:"Gudang",     pic:"Tim Maintenance",      due:"2026-10-23", status:"Open"},
-  {id:"HZ-0149", type:"Hazard",      temuan:"Kabel listrik terkelupas di panel utama",        lokasi:"Workshop",   pic:"Tim Elektrikal",       due:"2026-10-27", status:"Open"},
-  {id:"OB-0207", type:"Observation", temuan:"Pekerja tidak memakai sarung tangan saat grinding", lokasi:"Fabrikasi", pic:"Supervisor Fabrikasi", due:"2026-10-30", status:"Open"},
-  {id:"IC-0012", type:"Incident",    temuan:"Tindak lanjut investigasi: perbaikan guard mesin", lokasi:"Produksi 2", pic:"Manajer Produksi",   due:"2026-11-02", status:"In Progress"},
-  {id:"HZ-0153", type:"Hazard",      temuan:"Lantai licin akibat kebocoran oli",              lokasi:"Area Mesin", pic:"Tim Maintenance",      due:"2026-11-05", status:"Open"},
-  {id:"HZ-0130", type:"Hazard",      temuan:"Rambu APD hilang di pintu masuk",                lokasi:"Gerbang",    pic:"Tim HSE",              due:"2026-09-30", status:"Closed"}
-];
+    const dashboardData = {
+      "2026": {
+        manpower: 214,
+        nearMiss: 47,
+        hours: [36000, 35000, 38000, 36500, 38000, 37250, 39000, 38500, 37750, 40250],
+        hazards: [14, 11, 16, 12, 9, 13, 10, 8, 11, 9],
+        incidents: [1, 0, 2, 1, 0, 1, 0, 2, 1, 2],
+        findings: [
+          {
+            id: "HZ-0142", type: "Hazard",
+            finding: "Handrail tangga area packing longgar",
+            location: "Packing", pic: "Supervisor Produksi",
+            due: "2026-10-20", state: "open",
+            action: "Kencangkan sambungan dan verifikasi kestabilan handrail."
+          },
+          {
+            id: "IN-0031", type: "Inspection",
+            finding: "APAR belum diisi ulang melewati masa berlaku",
+            location: "Gudang", pic: "Tim Maintenance",
+            due: "2026-10-23", state: "open",
+            action: "Lakukan pengisian ulang dan pembaruan label pemeriksaan."
+          },
+          {
+            id: "HZ-0149", type: "Hazard",
+            finding: "Kabel listrik terkelupas di panel utama",
+            location: "Workshop", pic: "Tim Elektrikal",
+            due: "2026-10-27", state: "open",
+            action: "Tindak lanjut contoh: penggantian kabel oleh personel berwenang."
+          },
+          {
+            id: "OB-0207", type: "Observation",
+            finding: "Pekerja tidak memakai sarung tangan saat grinding",
+            location: "Fabrikasi", pic: "Supervisor Fabrikasi",
+            due: "2026-10-30", state: "open",
+            action: "Tinjau kepatuhan APD sesuai penilaian risiko pekerjaan."
+          },
+          {
+            id: "IC-0012", type: "Incident",
+            finding: "Tindak lanjut investigasi: perbaikan guard mesin",
+            location: "Produksi 2", pic: "Manajer Produksi",
+            due: "2026-11-02", state: "progress",
+            action: "Perbaikan guard dan verifikasi penyelesaian oleh tim terkait."
+          },
+          {
+            id: "HZ-0153", type: "Hazard",
+            finding: "Lantai licin akibat kebocoran oli",
+            location: "Area Mesin", pic: "Tim Maintenance",
+            due: "2026-11-05", state: "open",
+            action: "Tindak lanjuti sumber kebocoran dan kebersihan area."
+          }
+        ]
+      },
+      "2025": null
+    };
 
-/* ===================================================== */
-const MON = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
-const BLN = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
-const $ = id => document.getElementById(id);
-const fmt = n => Number(n).toLocaleString("id-ID");
-const sum = a => a.reduce((x,y)=>x+y,0);
-const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-/* angka naik dengan efek memantul */
-function countTo(el, target){
-  if(reduce){ el.textContent = fmt(target); return; }
-  const t0 = performance.now(), dur = 1000;
-  const ease = t => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3*Math.pow(t-1,3) + c1*Math.pow(t-1,2); };
-  (function step(now){
-    const t = Math.min((now - t0) / dur, 1);
-    el.textContent = fmt(Math.round(target * ease(t)));
-    if(t < 1) requestAnimationFrame(step);
-  })(t0);
-}
-
-/* ---------- GRAFIK (SVG dengan sumbu) ---------- */
-function niceStep(x){
-  const p = Math.pow(10, Math.floor(Math.log10(x)));
-  const f = x / p;
-  return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * p;
-}
-function axisScale(max, intOnly){
-  if(max <= 0) max = 1;
-  let step = niceStep(max / 5);
-  if(intOnly) step = Math.max(1, Math.ceil(step));
-  return { step, top: Math.ceil(max / step) * step };
-}
-
-function drawChart(el, anim){
-  const c = el._cfg;
-  const W = el.clientWidth, H = el.clientHeight;
-  if(W < 60 || H < 50) return;
-  el._w = W; el._h = H;
-
-  const m = { l: c.intOnly ? 24 : 42, r: 8, t: 8, b: 18 };
-  const pw = W - m.l - m.r, ph = H - m.t - m.b, n = c.data.length;
-  const sc = axisScale(Math.max(...c.data), c.intOnly);
-  const y = v => m.t + ph - (v / sc.top) * ph;
-  const base = m.t + ph;
-  const bw = pw / n;
-  const cls = anim && !reduce ? "a" : "";
-  let s = "";
-
-  for(let i = 0; i * sc.step <= sc.top + 1e-9; i++){
-    const v = i * sc.step;
-    s += `<line class="grid" x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}"/>
-          <text class="ax" x="${m.l - 5}" y="${y(v) + 3}" text-anchor="end">${fmt(v)}</text>`;
-  }
-  for(let i = 0; i < n; i++){
-    s += `<text class="ax" x="${m.l + i*bw + bw/2}" y="${H - 5}" text-anchor="middle">${MON[i]}</text>`;
-  }
-
-  if(c.type === "bar"){
-    c.data.forEach((v,i) => {
-      if(!v) return;
-      s += `<rect class="${cls}" x="${m.l + i*bw + bw*.14}" width="${bw*.72}" y="${y(v)}" height="${base - y(v)}" rx="2" fill="${c.color}"
-              style="transform-origin:0 ${base}px;animation-delay:${i*50}ms"><title>${BLN[i]}: ${fmt(v)}</title></rect>`;
+    const numberFormat = new Intl.NumberFormat("id-ID");
+    const dateFormat = new Intl.DateTimeFormat("id-ID", {
+      day: "2-digit", month: "short", year: "numeric", timeZone: "UTC"
     });
-  } else {
-    const pts = c.data.map((v,i) => [m.l + i*bw + bw/2, y(v)]);
-    const line = pts.map((p,i) => (i ? "L" : "M") + p[0] + " " + p[1]).join(" ");
-    const area = line + ` L${pts[n-1][0]} ${base} L${pts[0][0]} ${base} Z`;
-    s += `<g class="${cls}" style="transform-origin:0 ${base}px">
-            <path d="${area}" fill="${c.color}" fill-opacity=".18"/>
-            <path d="${line}" fill="none" stroke="${c.color}" stroke-width="2.2" stroke-linejoin="round"/>
-            ${pts.map((p,i) => `<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#fff" stroke="${c.color}" stroke-width="2"><title>${BLN[i]}: ${fmt(c.data[i])}</title></circle>`).join("")}
-          </g>`;
-  }
-  el.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${s}</svg>`;
-}
 
-function setChart(id, data, color, type, intOnly){
-  const el = $(id);
-  el._cfg = { data, color, type, intOnly };
-  drawChart(el, true);
-}
+    const $ = (id) => document.getElementById(id);
+    const sum = (values) => values.reduce((total, value) => total + value, 0);
 
-/* gambar ulang saat ukuran layar berubah (tanpa animasi) */
-const ro = new ResizeObserver(entries => {
-  entries.forEach(e => {
-    const el = e.target;
-    if(el._cfg && (el.clientWidth !== el._w || el.clientHeight !== el._h)) drawChart(el, false);
-  });
-});
-["c-mh","c-hr","c-in"].forEach(id => ro.observe($(id)));
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;",
+        '"': "&quot;", "'": "&#39;"
+      })[char]);
+    }
 
-/* ---------- RENDER HALAMAN ---------- */
-function render(year){
-  const d = DATA[year];
-  const today = new Date(); today.setHours(0,0,0,0);
-  const open = FINDINGS
-    .filter(f => f.status !== "Closed")
-    .sort((a,b) => new Date(a.due) - new Date(b.due));
+    function asUTC(date) {
+      return new Date(date + "T00:00:00Z");
+    }
 
-  $("showing").innerHTML = `Showing data for <b>${year}</b> · Updated: ${today.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"})}`;
+    function statusOf(finding) {
+      const days = Math.floor(
+        (asUTC(DEMO_DATE) - asUTC(finding.due)) / 86400000
+      );
 
-  countTo($("s-mp"), d.manpower);
-  countTo($("s-mh"), sum(d.manhours));
-  countTo($("s-hr"), sum(d.hazard));
-  countTo($("s-nm"), sum(d.nearmiss));
-  countTo($("s-in"), sum(d.incident));
-  countTo($("s-of"), open.length);
+      if (days > 0) {
+        return { key: "overdue", text: `Overdue ${days} hari` };
+      }
 
-  $("t-mh").textContent = "Total " + fmt(sum(d.manhours));
-  $("t-hr").textContent = "Total " + fmt(sum(d.hazard));
-  $("t-in").textContent = "Total " + fmt(sum(d.incident));
+      return finding.state === "progress"
+        ? { key: "progress", text: "In Progress" }
+        : { key: "open", text: "Open" };
+    }
 
-  setChart("c-mh", d.manhours, "#0b8a42", "line", false);
-  setChart("c-hr", d.hazard,   "#f08a00", "bar",  true);
-  setChart("c-in", d.incident, "#d32f2f", "bar",  true);
+    function openModal(title, content) {
+      $("modal-title").textContent = title;
+      $("modal-body").innerHTML = content;
+      if (!$("info-dialog").open) $("info-dialog").showModal();
+    }
 
-  $("f-title").textContent = `Open Findings (${open.length})`;
-  $("f-body").innerHTML = open.length ? open.map(f => {
-    const due = new Date(f.due);
-    const days = Math.round((today - due) / 86400000);
-    let st;
-    if(days > 0) st = `<span class="badge over">Overdue ${days} day${days > 1 ? "s" : ""}</span>`;
-    else if(f.status === "In Progress") st = `<span class="badge prog">In Progress</span>`;
-    else st = `<span class="badge open">Open</span>`;
-    const tgl = due.toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"});
-    return `<tr>
-      <td>${esc(f.id)}</td>
-      <td><span class="tag t-${esc(f.type.replace(/\s/g,""))}">${esc(f.type)}</span></td>
-      <td>${esc(f.temuan)}</td><td>${esc(f.lokasi)}</td><td>${esc(f.pic)}</td>
-      <td>${tgl}</td><td>${st}</td>
-    </tr>`;
-  }).join("") : `<tr><td colspan="7" class="empty">Tidak ada temuan terbuka</td></tr>`;
-}
+    function showPendingPage(title) {
+      openModal(
+        title,
+        `<p>Halaman <strong>${escapeHTML(title)}</strong> belum dibuat pada tahap ini.</p>
+         <p class="modal-note">
+           Tahap pertama hanya mencakup dashboard.
+           Fitur ini akan dibuat sebagai halaman terpisah.
+           Belum ada formulir atau data yang disimpan.
+         </p>`
+      );
+    }
 
-(function init(){
-  const years = Object.keys(DATA).map(Number).sort((a,b) => b - a);
-  const now = new Date().getFullYear();
-  $("year").innerHTML = years.map(y => `<option value="${y}">${y}</option>`).join("");
-  $("year").value = years.includes(now) ? now : years[0];
-  $("year").addEventListener("change", e => render(e.target.value));
-  $("copy").textContent = "© " + now + " Dept HSE - All Right Reserved";
-  render($("year").value);
-})();
-</script>
+    function renderStats(data) {
+      const items = [
+        ["♙", "Manpower", data ? data.manpower : null, "#168348"],
+        ["◷", "Man Hours", data ? sum(data.hours) : null, "#086538"],
+        ["⚠", "Hazard Reports", data ? sum(data.hazards) : null, "#ed9208"],
+        ["◇", "Near Miss", data ? data.nearMiss : null, "#2ca365"],
+        ["✚", "Incidents", data ? sum(data.incidents) : null, "#d63838"],
+        ["☷", "Open Follow-ups", data ? data.findings.length : null, "#1486a4"]
+      ];
+
+      $("stats-grid").innerHTML = items.map(([icon, label, value, color]) => `
+        <div class="stat-card" style="--accent:${color}">
+          <div class="stat-icon" aria-hidden="true">${icon}</div>
+          <div class="stat-value">${value === null ? "—" : numberFormat.format(value)}</div>
+          <div class="stat-label">${label}</div>
+        </div>
+      `).join("");
+    }
+
+    function renderFindings() {
+      const data = dashboardData[$("year-select").value];
+      const query = $("finding-search").value.trim().toLocaleLowerCase("id");
+      const filter = $("status-filter").value;
+      const all = data ? data.findings : [];
+
+      const results = all.filter((item) => {
+        const text = [
+          item.id, item.type, item.finding, item.location, item.pic
+        ].join(" ").toLocaleLowerCase("id");
+
+        return text.includes(query) &&
+          (filter === "all" || statusOf(item).key === filter);
+      });
+
+      $("findings-count").textContent = `(${all.length})`;
+
+      $("findings-body").innerHTML = results.length
+        ? results.map((item) => {
+          const status = statusOf(item);
+          return `
+            <tr>
+              <td>${escapeHTML(item.id)}</td>
+              <td>
+                <span class="badge type-${item.type.toLowerCase()}">
+                  ${escapeHTML(item.type)}
+                </span>
+              </td>
+              <td class="finding-text">${escapeHTML(item.finding)}</td>
+              <td>${escapeHTML(item.location)}</td>
+              <td>${escapeHTML(item.pic)}</td>
+              <td>${dateFormat.format(asUTC(item.due))}</td>
+              <td><span class="badge status-${status.key}">${status.text}</span></td>
+              <td>
+                <button type="button" class="detail-button" data-detail="${item.id}"
+                  aria-label="Lihat detail ${item.id}">Detail</button>
+              </td>
+            </tr>
+          `;
+        }).join("")
+        : `<tr><td colspan="8" class="empty">${
+          data ? "Tidak ada temuan yang sesuai dengan pencarian." :
+          "Data demonstrasi untuk tahun ini belum tersedia."
+        }</td></tr>`;
+
+      $("table-summary").textContent = data
+        ? `Menampilkan ${results.length} dari ${all.length} temuan · Status mengacu pada 31 Oktober 2026`
+        : "Belum ada data untuk ditampilkan.";
+    }
+
+    function renderChart(targetId, values, color, type, title) {
+      if (!values) {
+        $(targetId).innerHTML = '<div class="chart-empty">Data belum tersedia</div>';
+        return;
+      }
+
+      const width = 320, height = 145;
+      const left = 38, right = 10, top = 12, bottom = 25;
+      const plotWidth = width - left - right;
+      const plotHeight = height - top - bottom;
+      const maxValue = Math.max(...values);
+      const ceiling = maxValue <= 2 ? 2 : Math.ceil(maxValue / 4) * 4;
+      const steps = ceiling === 2 ? 2 : 4;
+      const stepX = plotWidth / values.length;
+      const baseY = top + plotHeight;
+      const y = (value) => baseY - value / ceiling * plotHeight;
+      const x = (index) => left + stepX * (index + .5);
+
+      let svg = `<svg class="chart" viewBox="0 0 ${width} ${height}"
+        role="img" aria-label="${escapeHTML(title)}">
+        <title>${escapeHTML(title)}</title>
+        <desc>${escapeHTML(values.map((v, i) => `${MONTHS[i]}: ${numberFormat.format(v)}`).join("; "))}</desc>`;
+
+      for (let i = 0; i <= steps; i++) {
+        const value = ceiling / steps * i;
+        svg += `
+          <line x1="${left}" y1="${y(value)}" x2="${width - right}" y2="${y(value)}"
+            stroke="#dce8e0" stroke-width="1"/>
+          <text x="${left - 5}" y="${y(value) + 3}" text-anchor="end"
+            fill="#788c80" font-size="8">${numberFormat.format(value)}</text>
+        `;
+      }
+
+      if (type === "line") {
+        const points = values.map((value, index) => `${x(index)},${y(value)}`).join(" ");
+        svg += `
+          <polygon points="${x(0)},${baseY} ${points} ${x(values.length - 1)},${baseY}"
+            fill="${color}" fill-opacity=".15"/>
+          <polyline points="${points}" fill="none" stroke="${color}" stroke-width="2.2"/>
+        `;
+
+        values.forEach((value, index) => {
+          svg += `<circle cx="${x(index)}" cy="${y(value)}" r="2.8"
+            fill="white" stroke="${color}" stroke-width="1.8">
+            <title>${MONTHS[index]}: ${numberFormat.format(value)}</title>
+          </circle>`;
+        });
+      } else {
+        values.forEach((value, index) => {
+          svg += `<rect x="${x(index) - stepX * .32}" y="${y(value)}"
+            width="${stepX * .64}" height="${baseY - y(value)}"
+            rx="1.5" fill="${color}">
+            <title>${MONTHS[index]}: ${numberFormat.format(value)}</title>
+          </rect>`;
+        });
+      }
+
+      values.forEach((value, index) => {
+        svg += `<text x="${x(index)}" y="${height - 9}" text-anchor="middle"
+          fill="#788c80" font-size="8">${MONTHS[index]}</text>`;
+      });
+
+      $(targetId).innerHTML = svg + "</svg>";
+    }
+
+    function renderDashboard() {
+      const year = $("year-select").value;
+      const data = dashboardData[year];
+
+      $("statistics-note").textContent = data
+        ? `Data contoh Januari–Oktober ${year} · Acuan 31 Oktober 2026`
+        : `Tahun ${year} · Data belum tersedia`;
+
+      renderStats(data);
+      renderFindings();
+
+      const charts = [
+        ["hours", "hours-chart", "hours-total", "#168348", "line", "Tren jam kerja"],
+        ["hazards", "hazard-chart", "hazard-total", "#ed9208", "bar", "Tren laporan hazard"],
+        ["incidents", "incident-chart", "incident-total", "#d63838", "bar", "Tren insiden"]
+      ];
+
+      charts.forEach(([key, target, total, color, type, title]) => {
+        $(total).textContent = data ? `Total ${numberFormat.format(sum(data[key]))}` : "—";
+        renderChart(target, data ? data[key] : null, color, type, title);
+      });
+    }
+
+    document.querySelectorAll("[data-page]").forEach((button) => {
+      button.addEventListener("click", () => showPendingPage(button.dataset.page));
+    });
+
+    document.querySelectorAll("[data-report]").forEach((button) => {
+      button.addEventListener("click", () => showPendingPage(button.dataset.report));
+    });
+
+    $("findings-body").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-detail]");
+      if (!button) return;
+
+      const data = dashboardData[$("year-select").value];
+      const item = data?.findings.find((finding) => finding.id === button.dataset.detail);
+      if (!item) return;
+
+      const fields = [
+        ["Jenis", item.type],
+        ["Temuan", item.finding],
+        ["Lokasi", item.location],
+        ["Penanggung jawab", item.pic],
+        ["Target selesai", dateFormat.format(asUTC(item.due))],
+        ["Status", statusOf(item).text],
+        ["Rencana tindak lanjut contoh", item.action]
+      ];
+
+      openModal(
+        `Detail Temuan · ${item.id}`,
+        `<dl>${fields.map(([label, value]) =>
+          `<dt>${escapeHTML(label)}</dt><dd>${escapeHTML(value)}</dd>`
+        ).join("")}</dl>`
+      );
+    });
+
+    $("modal-close").addEventListener("click", () => $("info-dialog").close());
+    $("finding-search").addEventListener("input", renderFindings);
+    $("status-filter").addEventListener("change", renderFindings);
+    $("year-select").addEventListener("change", renderDashboard);
+
+    $("copyright-year").textContent = new Date().getFullYear();
+    renderDashboard();
+  </script>
 </body>
 </html>
