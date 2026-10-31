@@ -11,7 +11,6 @@
     :root {
       --green: #08783e;
       --green-dark: #075b32;
-      --green-light: #e9f5ee;
       --text: #234337;
       --muted: #71847b;
       --border: #dce8e0;
@@ -26,27 +25,29 @@
 
     body {
       margin: 0;
+      min-height: 100vh;
       color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 13px;
+      font: 13px Arial, Helvetica, sans-serif;
       background-color: #eef6f0;
       background-image:
         linear-gradient(30deg, #dcece355 12%, transparent 12.5%, transparent 87%, #dcece355 87.5%),
-        linear-gradient(150deg, #dcece355 12%, transparent 12.5%, transparent 87%, #dcece355 87.5%),
-        linear-gradient(30deg, #dcece355 12%, transparent 12.5%, transparent 87%, #dcece355 87.5%);
+        linear-gradient(150deg, #dcece355 12%, transparent 12.5%, transparent 87%, #dcece355 87.5%);
       background-size: 62px 108px;
-      min-height: 100vh;
     }
 
     button, input, select { font: inherit; }
     button, select { cursor: pointer; }
+    a { color: inherit; }
     button { -webkit-tap-highlight-color: transparent; }
-    button:focus-visible, input:focus-visible, select:focus-visible {
+
+    :is(button, a, input, select):focus-visible {
       outline: 3px solid #e7ad13;
       outline-offset: 3px;
     }
 
     .topbar {
+      position: relative;
+      z-index: 20;
       background: linear-gradient(105deg, #086332, #098647);
       color: white;
       min-height: 64px;
@@ -64,6 +65,7 @@
 
     .brand { gap: 16px; flex-shrink: 0; }
     .brand-identity { gap: 9px; }
+
     .logo {
       color: #52c4d0;
       font-size: 33px;
@@ -88,7 +90,12 @@
     }
 
     .nav { gap: 5px; flex-wrap: wrap; }
-    .nav button {
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
       border: 0;
       color: #e1f2e7;
       background: transparent;
@@ -96,13 +103,85 @@
       padding: 11px 13px;
       font-size: 12px;
       font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
     }
 
-    .nav button:hover { background: #ffffff16; }
-    .nav button.active {
+    .nav-link:hover,
+    .nav-link[aria-expanded="true"] {
+      background: #ffffff16;
+    }
+
+    .nav-link.active {
       background: #005c31;
       box-shadow: inset 0 -3px #f3c920;
       color: white;
+    }
+
+    .dropdown { position: relative; }
+    .dropdown-arrow { font-size: 10px; transition: transform .15s; }
+
+    [aria-expanded="true"] .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-panel {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 235px;
+      background: white;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-top: 3px solid #e6bd17;
+      border-radius: 8px;
+      box-shadow: 0 12px 30px #163d2930;
+      padding: 7px;
+    }
+
+    .dropdown-panel[hidden] { display: none; }
+
+    .dropdown-heading {
+      padding: 8px 10px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 1px;
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 12px 10px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .dropdown-item:hover {
+      color: var(--green-dark);
+      background: #edf7f0;
+    }
+
+    .dropdown-icon {
+      display: grid;
+      place-items: center;
+      width: 31px;
+      height: 31px;
+      border-radius: 7px;
+      color: var(--orange);
+      background: #fff3de;
+      font-size: 19px;
+    }
+
+    .dropdown-item small {
+      display: block;
+      margin-top: 4px;
+      font-size: 10px;
+      font-weight: 400;
+      color: var(--muted);
     }
 
     .safety-stripe {
@@ -125,6 +204,7 @@
     .page-heading { margin-bottom: 16px; }
     h1 { font-size: 22px; margin: 0 0 5px; color: var(--green-dark); }
     .subtitle { color: var(--muted); margin: 0; font-size: 12px; }
+
     .demo-label {
       padding: 7px 10px;
       border-radius: 6px;
@@ -134,7 +214,11 @@
       white-space: nowrap;
     }
 
-    .section-heading { justify-content: flex-start; margin-bottom: 9px; }
+    .section-heading {
+      justify-content: flex-start;
+      margin-bottom: 9px;
+    }
+
     h2 { margin: 0; font-size: 15px; color: var(--green-dark); }
     .section-heading span { font-size: 11px; color: var(--muted); }
 
@@ -160,6 +244,7 @@
       padding: 17px;
       gap: 12px;
       color: var(--text);
+      text-decoration: none;
       transition: transform .15s;
     }
 
@@ -181,7 +266,15 @@
 
     .quick-copy { flex: 1; }
     .quick-title { color: var(--accent); font-weight: 800; font-size: 15px; }
-    .quick-description { margin-top: 5px; font-size: 11px; color: var(--muted); }
+
+    .quick-description {
+      display: block;
+      margin-top: 5px;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
     .quick-action { font-size: 11px; font-weight: 700; color: var(--accent); }
 
     .dashboard-layout {
@@ -221,7 +314,12 @@
     }
 
     .findings-panel { min-height: 400px; }
-    .table-tools { padding: 13px; border-bottom: 1px solid var(--border); }
+
+    .table-tools {
+      padding: 13px;
+      border-bottom: 1px solid var(--border);
+    }
+
     .table-tools input, .table-tools select {
       border: 1px solid var(--border);
       padding: 9px 10px;
@@ -233,8 +331,8 @@
 
     .table-tools input { flex: 1; }
     .table-scroll { overflow-x: auto; }
-
     table { border-collapse: collapse; width: 100%; white-space: nowrap; }
+
     th {
       text-align: left;
       color: var(--green-dark);
@@ -244,11 +342,24 @@
       padding: 12px 10px;
     }
 
-    td { padding: 11px 10px; border-bottom: 1px solid var(--border); font-size: 11px; }
+    td {
+      padding: 11px 10px;
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+    }
+
     tbody tr:nth-child(even) { background: #f8fbf9; }
     tbody tr:hover { background: #f0f7f3; }
     .finding-text { min-width: 230px; white-space: normal; line-height: 1.5; }
-    .badge { display: inline-block; padding: 4px 8px; border-radius: 5px; font-size: 10px; font-weight: 700; }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
     .type-hazard { color: white; background: var(--orange); }
     .type-inspection { color: white; background: var(--blue); }
     .type-observation { color: white; background: var(--purple); }
@@ -256,6 +367,7 @@
     .status-overdue { background: #fde5e5; color: #b82a2a; }
     .status-progress { background: #e0f2fa; color: #176c89; }
     .status-open { background: #fff3c5; color: #876600; }
+
     .detail-button {
       border: 0;
       background: #e8f4ed;
@@ -318,11 +430,13 @@
       border-radius: 12px;
       padding: 0;
       width: min(480px, calc(100% - 30px));
+      max-height: 85vh;
       color: var(--text);
       box-shadow: 0 20px 70px #0004;
     }
 
     dialog::backdrop { background: #07271988; }
+
     .modal-header {
       background: var(--green);
       color: white;
@@ -338,7 +452,7 @@
     .modal-body p { margin: 0 0 12px; }
     .modal-body dl { margin: 0; }
     .modal-body dt { color: var(--muted); font-size: 11px; margin-top: 12px; }
-    .modal-body dd { margin: 2px 0 0; }
+    .modal-body dd { margin: 2px 0 0; overflow-wrap: anywhere; }
     .modal-note { background: #fff6db; padding: 11px; border-radius: 6px; font-size: 12px; }
 
     @media (min-width: 1700px) {
@@ -355,12 +469,15 @@
 
     @media (max-width: 850px) {
       .dashboard-layout { grid-template-columns: 1fr; }
-      .sidebar { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+      .sidebar {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
       .year-filter { grid-column: 1 / -1; margin: 0; }
       .chart-panel { margin: 0; }
       .quick-card { padding: 13px 10px; gap: 8px; }
       .quick-title { font-size: 13px; }
-      .quick-description { line-height: 1.5; }
     }
 
     @media (max-width: 600px) {
@@ -370,15 +487,15 @@
       .department { font-size: 12px; padding-left: 12px; }
       .company-name { font-size: 7px; letter-spacing: 1px; }
       .logo { font-size: 29px; }
-      .nav { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 3px; }
-      .nav button { flex-shrink: 0; padding: 10px; font-size: 11px; }
+      .nav { gap: 3px; }
+      .nav-link { padding: 10px; font-size: 11px; }
+      .dropdown-panel { left: 0; right: auto; width: 220px; }
       .page-heading { align-items: flex-start; }
       h1 { font-size: 19px; }
       .demo-label { font-size: 9px; }
       .quick-grid { grid-template-columns: 1fr; gap: 9px; }
       .quick-card { padding: 12px; }
       .quick-action { display: block; }
-      .quick-description { font-size: 11px; }
       .section-heading { flex-wrap: wrap; gap: 5px; }
       .stat-value { font-size: 24px; }
       .sidebar { grid-template-columns: 1fr; }
@@ -409,16 +526,59 @@
       </div>
 
       <nav class="nav" aria-label="Navigasi utama">
-        <button type="button" class="active" aria-current="page">HOME</button>
-        <button type="button" data-page="Profil Departemen HSE">PROFILE</button>
-        <button type="button" data-page="Data HSE">DATA</button>
-        <button type="button" data-page="Laporan HSE">REPORT</button>
-        <button type="button" data-page="Kesehatan Kerja">HEALTH</button>
-        <button type="button" data-page="SDM & Pelatihan">SDM</button>
-        <button type="button" data-page="Permit to Work">PERMIT</button>
-        <button type="button" data-page="Library Dokumen">LIBRARY</button>
+        <a class="nav-link active" href="index.html" aria-current="page">HOME</a>
+
+        <button type="button" class="nav-link" data-page="Profil Departemen HSE">
+          PROFILE
+        </button>
+
+        <button type="button" class="nav-link" data-page="Data HSE">
+          DATA
+        </button>
+
+        <div class="dropdown" id="report-dropdown">
+          <button
+            type="button"
+            class="nav-link"
+            id="report-toggle"
+            aria-expanded="false"
+            aria-controls="report-submenu"
+          >
+            REPORT
+            <span class="dropdown-arrow" aria-hidden="true">▼</span>
+          </button>
+
+          <div class="dropdown-panel" id="report-submenu" hidden>
+            <div class="dropdown-heading">PELAPORAN HSE</div>
+
+            <a class="dropdown-item" href="hazard-report.html">
+              <span class="dropdown-icon" aria-hidden="true">⚠</span>
+              <span>
+                Hazard Report
+                <small>Formulir pelaporan hazard</small>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <button type="button" class="nav-link" data-page="Kesehatan Kerja">
+          HEALTH
+        </button>
+
+        <button type="button" class="nav-link" data-page="SDM & Pelatihan">
+          SDM
+        </button>
+
+        <button type="button" class="nav-link" data-page="Permit to Work">
+          PERMIT
+        </button>
+
+        <button type="button" class="nav-link" data-page="Library Dokumen">
+          LIBRARY
+        </button>
       </nav>
     </div>
+
     <div class="safety-stripe" aria-hidden="true"></div>
   </header>
 
@@ -426,7 +586,9 @@
     <div class="page-heading">
       <div>
         <h1>Dashboard HSE</h1>
-        <p class="subtitle">PT Unggul Ejawantah Industri · Safety starts with us.</p>
+        <p class="subtitle">
+          PT Unggul Ejawantah Industri · Safety starts with us.
+        </p>
       </div>
       <span class="demo-label">MODE DEMO · DATA CONTOH</span>
     </div>
@@ -438,22 +600,22 @@
       </div>
 
       <div class="quick-grid">
-        <button type="button" class="quick-card hazard" data-report="Hazard Report">
+        <a class="quick-card hazard" href="hazard-report.html">
           <span class="quick-icon" aria-hidden="true">⚠</span>
           <span class="quick-copy">
             <span class="quick-title">Hazard Report</span>
-            <span class="quick-description" style="display:block">
+            <span class="quick-description">
               Laporkan kondisi atau tindakan tidak aman.
             </span>
           </span>
           <span class="quick-action">Buat laporan →</span>
-        </button>
+        </a>
 
         <button type="button" class="quick-card" data-report="Near Miss Report">
           <span class="quick-icon" aria-hidden="true">◇</span>
           <span class="quick-copy">
             <span class="quick-title">Near Miss Report</span>
-            <span class="quick-description" style="display:block">
+            <span class="quick-description">
               Laporkan kejadian nyaris celaka.
             </span>
           </span>
@@ -464,7 +626,7 @@
           <span class="quick-icon" aria-hidden="true">✚</span>
           <span class="quick-copy">
             <span class="quick-title">Incident Report</span>
-            <span class="quick-description" style="display:block">
+            <span class="quick-description">
               Laporkan kecelakaan atau kejadian darurat.
             </span>
           </span>
@@ -485,7 +647,9 @@
 
         <section aria-labelledby="findings-title">
           <div class="section-heading">
-            <h2 id="findings-title">Open Findings <span id="findings-count"></span></h2>
+            <h2 id="findings-title">
+              Open Findings <span id="findings-count"></span>
+            </h2>
           </div>
 
           <div class="panel findings-panel">
@@ -521,6 +685,7 @@
                 <tbody id="findings-body"></tbody>
               </table>
             </div>
+
             <div class="table-footer" id="table-summary" aria-live="polite"></div>
           </div>
         </section>
@@ -567,13 +732,18 @@
       <span class="logo" aria-hidden="true">UEI</span>
       <span>HSE DEPARTMENT</span>
     </div>
-    <span>© <span id="copyright-year"></span> PT Unggul Ejawantah Industri · HSE Portal</span>
+    <span>
+      © <span id="copyright-year"></span>
+      PT Unggul Ejawantah Industri · HSE Portal
+    </span>
   </footer>
 
   <dialog id="info-dialog" aria-labelledby="modal-title">
     <div class="modal-header">
       <h2 id="modal-title"></h2>
-      <button type="button" class="modal-close" id="modal-close" aria-label="Tutup">×</button>
+      <button type="button" class="modal-close" id="modal-close" aria-label="Tutup">
+        ×
+      </button>
     </div>
     <div class="modal-body" id="modal-body"></div>
   </dialog>
@@ -581,59 +751,82 @@
   <script>
     "use strict";
 
-    // Seluruh data di bawah adalah data demonstrasi.
-    // Tanggal acuan dibuat tetap agar tampilan demo konsisten.
+    // Data demonstrasi, bukan data operasional perusahaan.
     const DEMO_DATE = "2026-10-31";
-    const MONTHS = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt"];
+    const MONTHS = [
+      "Jan", "Feb", "Mar", "Apr", "Mei",
+      "Jun", "Jul", "Agu", "Sep", "Okt"
+    ];
 
     const dashboardData = {
       "2026": {
         manpower: 214,
         nearMiss: 47,
-        hours: [36000, 35000, 38000, 36500, 38000, 37250, 39000, 38500, 37750, 40250],
+        hours: [
+          36000, 35000, 38000, 36500, 38000,
+          37250, 39000, 38500, 37750, 40250
+        ],
         hazards: [14, 11, 16, 12, 9, 13, 10, 8, 11, 9],
         incidents: [1, 0, 2, 1, 0, 1, 0, 2, 1, 2],
         findings: [
           {
-            id: "HZ-0142", type: "Hazard",
+            id: "HZ-0142",
+            type: "Hazard",
             finding: "Handrail tangga area packing longgar",
-            location: "Packing", pic: "Supervisor Produksi",
-            due: "2026-10-20", state: "open",
+            location: "Packing",
+            pic: "Supervisor Produksi",
+            due: "2026-10-20",
+            state: "open",
             action: "Kencangkan sambungan dan verifikasi kestabilan handrail."
           },
           {
-            id: "IN-0031", type: "Inspection",
+            id: "IN-0031",
+            type: "Inspection",
             finding: "APAR belum diisi ulang melewati masa berlaku",
-            location: "Gudang", pic: "Tim Maintenance",
-            due: "2026-10-23", state: "open",
+            location: "Gudang",
+            pic: "Tim Maintenance",
+            due: "2026-10-23",
+            state: "open",
             action: "Lakukan pengisian ulang dan pembaruan label pemeriksaan."
           },
           {
-            id: "HZ-0149", type: "Hazard",
+            id: "HZ-0149",
+            type: "Hazard",
             finding: "Kabel listrik terkelupas di panel utama",
-            location: "Workshop", pic: "Tim Elektrikal",
-            due: "2026-10-27", state: "open",
+            location: "Workshop",
+            pic: "Tim Elektrikal",
+            due: "2026-10-27",
+            state: "open",
             action: "Tindak lanjut contoh: penggantian kabel oleh personel berwenang."
           },
           {
-            id: "OB-0207", type: "Observation",
+            id: "OB-0207",
+            type: "Observation",
             finding: "Pekerja tidak memakai sarung tangan saat grinding",
-            location: "Fabrikasi", pic: "Supervisor Fabrikasi",
-            due: "2026-10-30", state: "open",
+            location: "Fabrikasi",
+            pic: "Supervisor Fabrikasi",
+            due: "2026-10-30",
+            state: "open",
             action: "Tinjau kepatuhan APD sesuai penilaian risiko pekerjaan."
           },
           {
-            id: "IC-0012", type: "Incident",
+            id: "IC-0012",
+            type: "Incident",
             finding: "Tindak lanjut investigasi: perbaikan guard mesin",
-            location: "Produksi 2", pic: "Manajer Produksi",
-            due: "2026-11-02", state: "progress",
+            location: "Produksi 2",
+            pic: "Manajer Produksi",
+            due: "2026-11-02",
+            state: "progress",
             action: "Perbaikan guard dan verifikasi penyelesaian oleh tim terkait."
           },
           {
-            id: "HZ-0153", type: "Hazard",
+            id: "HZ-0153",
+            type: "Hazard",
             finding: "Lantai licin akibat kebocoran oli",
-            location: "Area Mesin", pic: "Tim Maintenance",
-            due: "2026-11-05", state: "open",
+            location: "Area Mesin",
+            pic: "Tim Maintenance",
+            due: "2026-11-05",
+            state: "open",
             action: "Tindak lanjuti sumber kebocoran dan kebersihan area."
           }
         ]
@@ -641,18 +834,25 @@
       "2025": null
     };
 
+    const $ = (id) => document.getElementById(id);
     const numberFormat = new Intl.NumberFormat("id-ID");
     const dateFormat = new Intl.DateTimeFormat("id-ID", {
-      day: "2-digit", month: "short", year: "numeric", timeZone: "UTC"
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      timeZone: "UTC"
     });
 
-    const $ = (id) => document.getElementById(id);
-    const sum = (values) => values.reduce((total, value) => total + value, 0);
+    const sum = (values) =>
+      values.reduce((total, value) => total + value, 0);
 
     function escapeHTML(value) {
       return String(value).replace(/[&<>"']/g, (char) => ({
-        "&": "&amp;", "<": "&lt;", ">": "&gt;",
-        '"': "&quot;", "'": "&#39;"
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
       })[char]);
     }
 
@@ -666,7 +866,10 @@
       );
 
       if (days > 0) {
-        return { key: "overdue", text: `Overdue ${days} hari` };
+        return {
+          key: "overdue",
+          text: `Overdue ${days} hari`
+        };
       }
 
       return finding.state === "progress"
@@ -674,18 +877,57 @@
         : { key: "open", text: "Open" };
     }
 
+    // Navigasi submenu REPORT.
+    function setReportMenu(isOpen, returnFocus = false) {
+      $("report-toggle").setAttribute("aria-expanded", String(isOpen));
+      $("report-submenu").hidden = !isOpen;
+
+      if (returnFocus) $("report-toggle").focus();
+    }
+
+    $("report-toggle").addEventListener("click", () => {
+      const isOpen =
+        $("report-toggle").getAttribute("aria-expanded") === "true";
+
+      setReportMenu(!isOpen);
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!$("report-dropdown").contains(event.target)) {
+        setReportMenu(false);
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      const isOpen =
+        $("report-toggle").getAttribute("aria-expanded") === "true";
+
+      if (event.key === "Escape" && isOpen) {
+        setReportMenu(false, true);
+      }
+    });
+
+    $("report-dropdown").addEventListener("focusout", (event) => {
+      if (!$("report-dropdown").contains(event.relatedTarget)) {
+        setReportMenu(false);
+      }
+    });
+
     function openModal(title, content) {
+      setReportMenu(false);
       $("modal-title").textContent = title;
       $("modal-body").innerHTML = content;
-      if (!$("info-dialog").open) $("info-dialog").showModal();
+
+      if (!$("info-dialog").open) {
+        $("info-dialog").showModal();
+      }
     }
 
     function showPendingPage(title) {
       openModal(
         title,
-        `<p>Halaman <strong>${escapeHTML(title)}</strong> belum dibuat pada tahap ini.</p>
+        `<p>Halaman ${escapeHTML(title)} belum dibuat pada tahap ini.</p>
          <p class="modal-note">
-           Tahap pertama hanya mencakup dashboard.
            Fitur ini akan dibuat sebagai halaman terpisah.
            Belum ada formulir atau data yang disimpan.
          </p>`
@@ -702,24 +944,35 @@
         ["☷", "Open Follow-ups", data ? data.findings.length : null, "#1486a4"]
       ];
 
-      $("stats-grid").innerHTML = items.map(([icon, label, value, color]) => `
-        <div class="stat-card" style="--accent:${color}">
-          <div class="stat-icon" aria-hidden="true">${icon}</div>
-          <div class="stat-value">${value === null ? "—" : numberFormat.format(value)}</div>
-          <div class="stat-label">${label}</div>
-        </div>
-      `).join("");
+      $("stats-grid").innerHTML = items.map(
+        ([icon, label, value, color]) => `
+          <div class="stat-card" style="--accent:${color}">
+            <div class="stat-icon" aria-hidden="true">${icon}</div>
+            <div class="stat-value">
+              ${value === null ? "—" : numberFormat.format(value)}
+            </div>
+            <div class="stat-label">${label}</div>
+          </div>
+        `
+      ).join("");
     }
 
     function renderFindings() {
       const data = dashboardData[$("year-select").value];
-      const query = $("finding-search").value.trim().toLocaleLowerCase("id");
+      const query = $("finding-search").value
+        .trim()
+        .toLocaleLowerCase("id");
+
       const filter = $("status-filter").value;
       const all = data ? data.findings : [];
 
       const results = all.filter((item) => {
         const text = [
-          item.id, item.type, item.finding, item.location, item.pic
+          item.id,
+          item.type,
+          item.finding,
+          item.location,
+          item.pic
         ].join(" ").toLocaleLowerCase("id");
 
         return text.includes(query) &&
@@ -731,6 +984,7 @@
       $("findings-body").innerHTML = results.length
         ? results.map((item) => {
           const status = statusOf(item);
+
           return `
             <tr>
               <td>${escapeHTML(item.id)}</td>
@@ -743,18 +997,33 @@
               <td>${escapeHTML(item.location)}</td>
               <td>${escapeHTML(item.pic)}</td>
               <td>${dateFormat.format(asUTC(item.due))}</td>
-              <td><span class="badge status-${status.key}">${status.text}</span></td>
               <td>
-                <button type="button" class="detail-button" data-detail="${item.id}"
-                  aria-label="Lihat detail ${item.id}">Detail</button>
+                <span class="badge status-${status.key}">
+                  ${status.text}
+                </span>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="detail-button"
+                  data-detail="${item.id}"
+                  aria-label="Lihat detail ${item.id}"
+                >
+                  Detail
+                </button>
               </td>
             </tr>
           `;
         }).join("")
-        : `<tr><td colspan="8" class="empty">${
-          data ? "Tidak ada temuan yang sesuai dengan pencarian." :
-          "Data demonstrasi untuk tahun ini belum tersedia."
-        }</td></tr>`;
+        : `
+          <tr>
+            <td colspan="8" class="empty">
+              ${data
+                ? "Tidak ada temuan yang sesuai dengan pencarian."
+                : "Data demonstrasi untuk tahun ini belum tersedia."}
+            </td>
+          </tr>
+        `;
 
       $("table-summary").textContent = data
         ? `Menampilkan ${results.length} dari ${all.length} temuan · Status mengacu pada 31 Oktober 2026`
@@ -763,12 +1032,18 @@
 
     function renderChart(targetId, values, color, type, title) {
       if (!values) {
-        $(targetId).innerHTML = '<div class="chart-empty">Data belum tersedia</div>';
+        $(targetId).innerHTML =
+          '<div class="chart-empty">Data belum tersedia</div>';
         return;
       }
 
-      const width = 320, height = 145;
-      const left = 38, right = 10, top = 12, bottom = 25;
+      const width = 320;
+      const height = 145;
+      const left = 38;
+      const right = 10;
+      const top = 12;
+      const bottom = 25;
+
       const plotWidth = width - left - right;
       const plotHeight = height - top - bottom;
       const maxValue = Math.max(...values);
@@ -776,51 +1051,88 @@
       const steps = ceiling === 2 ? 2 : 4;
       const stepX = plotWidth / values.length;
       const baseY = top + plotHeight;
+
       const y = (value) => baseY - value / ceiling * plotHeight;
       const x = (index) => left + stepX * (index + .5);
 
-      let svg = `<svg class="chart" viewBox="0 0 ${width} ${height}"
-        role="img" aria-label="${escapeHTML(title)}">
-        <title>${escapeHTML(title)}</title>
-        <desc>${escapeHTML(values.map((v, i) => `${MONTHS[i]}: ${numberFormat.format(v)}`).join("; "))}</desc>`;
+      let svg = `
+        <svg
+          class="chart"
+          viewBox="0 0 ${width} ${height}"
+          role="img"
+          aria-label="${escapeHTML(title)}"
+        >
+          <title>${escapeHTML(title)}</title>
+          <desc>${escapeHTML(
+            values.map((value, index) =>
+              `${MONTHS[index]}: ${numberFormat.format(value)}`
+            ).join("; ")
+          )}</desc>
+      `;
 
       for (let i = 0; i <= steps; i++) {
         const value = ceiling / steps * i;
+
         svg += `
-          <line x1="${left}" y1="${y(value)}" x2="${width - right}" y2="${y(value)}"
-            stroke="#dce8e0" stroke-width="1"/>
-          <text x="${left - 5}" y="${y(value) + 3}" text-anchor="end"
-            fill="#788c80" font-size="8">${numberFormat.format(value)}</text>
+          <line
+            x1="${left}" y1="${y(value)}"
+            x2="${width - right}" y2="${y(value)}"
+            stroke="#dce8e0" stroke-width="1"
+          />
+          <text
+            x="${left - 5}" y="${y(value) + 3}"
+            text-anchor="end" fill="#788c80" font-size="8"
+          >${numberFormat.format(value)}</text>
         `;
       }
 
       if (type === "line") {
-        const points = values.map((value, index) => `${x(index)},${y(value)}`).join(" ");
+        const points = values.map(
+          (value, index) => `${x(index)},${y(value)}`
+        ).join(" ");
+
         svg += `
-          <polygon points="${x(0)},${baseY} ${points} ${x(values.length - 1)},${baseY}"
-            fill="${color}" fill-opacity=".15"/>
-          <polyline points="${points}" fill="none" stroke="${color}" stroke-width="2.2"/>
+          <polygon
+            points="${x(0)},${baseY} ${points} ${x(values.length - 1)},${baseY}"
+            fill="${color}" fill-opacity=".15"
+          />
+          <polyline
+            points="${points}"
+            fill="none" stroke="${color}" stroke-width="2.2"
+          />
         `;
 
         values.forEach((value, index) => {
-          svg += `<circle cx="${x(index)}" cy="${y(value)}" r="2.8"
-            fill="white" stroke="${color}" stroke-width="1.8">
-            <title>${MONTHS[index]}: ${numberFormat.format(value)}</title>
-          </circle>`;
+          svg += `
+            <circle
+              cx="${x(index)}" cy="${y(value)}" r="2.8"
+              fill="white" stroke="${color}" stroke-width="1.8"
+            >
+              <title>${MONTHS[index]}: ${numberFormat.format(value)}</title>
+            </circle>
+          `;
         });
       } else {
         values.forEach((value, index) => {
-          svg += `<rect x="${x(index) - stepX * .32}" y="${y(value)}"
-            width="${stepX * .64}" height="${baseY - y(value)}"
-            rx="1.5" fill="${color}">
-            <title>${MONTHS[index]}: ${numberFormat.format(value)}</title>
-          </rect>`;
+          svg += `
+            <rect
+              x="${x(index) - stepX * .32}" y="${y(value)}"
+              width="${stepX * .64}" height="${baseY - y(value)}"
+              rx="1.5" fill="${color}"
+            >
+              <title>${MONTHS[index]}: ${numberFormat.format(value)}</title>
+            </rect>
+          `;
         });
       }
 
       values.forEach((value, index) => {
-        svg += `<text x="${x(index)}" y="${height - 9}" text-anchor="middle"
-          fill="#788c80" font-size="8">${MONTHS[index]}</text>`;
+        svg += `
+          <text
+            x="${x(index)}" y="${height - 9}"
+            text-anchor="middle" fill="#788c80" font-size="8"
+          >${MONTHS[index]}</text>
+        `;
       });
 
       $(targetId).innerHTML = svg + "</svg>";
@@ -838,23 +1150,39 @@
       renderFindings();
 
       const charts = [
-        ["hours", "hours-chart", "hours-total", "#168348", "line", "Tren jam kerja"],
-        ["hazards", "hazard-chart", "hazard-total", "#ed9208", "bar", "Tren laporan hazard"],
-        ["incidents", "incident-chart", "incident-total", "#d63838", "bar", "Tren insiden"]
+        ["hours", "hours-chart", "hours-total",
+          "#168348", "line", "Tren jam kerja"],
+        ["hazards", "hazard-chart", "hazard-total",
+          "#ed9208", "bar", "Tren laporan hazard"],
+        ["incidents", "incident-chart", "incident-total",
+          "#d63838", "bar", "Tren insiden"]
       ];
 
       charts.forEach(([key, target, total, color, type, title]) => {
-        $(total).textContent = data ? `Total ${numberFormat.format(sum(data[key]))}` : "—";
-        renderChart(target, data ? data[key] : null, color, type, title);
+        $(total).textContent = data
+          ? `Total ${numberFormat.format(sum(data[key]))}`
+          : "—";
+
+        renderChart(
+          target,
+          data ? data[key] : null,
+          color,
+          type,
+          title
+        );
       });
     }
 
     document.querySelectorAll("[data-page]").forEach((button) => {
-      button.addEventListener("click", () => showPendingPage(button.dataset.page));
+      button.addEventListener("click", () => {
+        showPendingPage(button.dataset.page);
+      });
     });
 
     document.querySelectorAll("[data-report]").forEach((button) => {
-      button.addEventListener("click", () => showPendingPage(button.dataset.report));
+      button.addEventListener("click", () => {
+        showPendingPage(button.dataset.report);
+      });
     });
 
     $("findings-body").addEventListener("click", (event) => {
@@ -862,7 +1190,10 @@
       if (!button) return;
 
       const data = dashboardData[$("year-select").value];
-      const item = data?.findings.find((finding) => finding.id === button.dataset.detail);
+      const item = data?.findings.find(
+        (finding) => finding.id === button.dataset.detail
+      );
+
       if (!item) return;
 
       const fields = [
@@ -878,17 +1209,22 @@
       openModal(
         `Detail Temuan · ${item.id}`,
         `<dl>${fields.map(([label, value]) =>
-          `<dt>${escapeHTML(label)}</dt><dd>${escapeHTML(value)}</dd>`
+          `<dt>${escapeHTML(label)}</dt>
+           <dd>${escapeHTML(value)}</dd>`
         ).join("")}</dl>`
       );
     });
 
-    $("modal-close").addEventListener("click", () => $("info-dialog").close());
+    $("modal-close").addEventListener("click", () => {
+      $("info-dialog").close();
+    });
+
     $("finding-search").addEventListener("input", renderFindings);
     $("status-filter").addEventListener("change", renderFindings);
     $("year-select").addEventListener("change", renderDashboard);
 
     $("copyright-year").textContent = new Date().getFullYear();
+
     renderDashboard();
   </script>
 </body>
