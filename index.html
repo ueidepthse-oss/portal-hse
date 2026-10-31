@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HSE Portal | PT Unggul Ejawantah Industri</title>
+<style>
+:root{
+  --c1:#1d5f80; --c2:#154a66; --c3:#2a7ba3;
+  --bg:#eef3f6; --tx:#12303f; --line:#cfdde5;
+  --ok:#2e9e6b; --warn:#e0a21a; --bad:#d2493f;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--tx);
+  display:flex;flex-direction:column;height:100vh;min-height:680px;
+}
+.ic{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ===== HEADER ===== */
+header{
+  background:var(--c1);color:#fff;display:flex;align-items:center;justify-content:space-between;
+  gap:16px;padding:0 20px;height:56px;flex:none;box-shadow:0 2px 6px rgba(0,0,0,.15);
+}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
+.brand img{height:36px;width:auto}
+.brand .sep{width:1px;height:26px;background:rgba(255,255,255,.5)}
+nav{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+nav a{
+  color:#fff;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.4px;
+  padding:8px 12px;border-radius:6px;text-transform:uppercase;
+}
+nav a:hover{background:rgba(255,255,255,.15)}
+nav a.active{background:var(--c2)}
+
+/* ===== LAYOUT ===== */
+main{
+  flex:1;min-height:0;display:grid;gap:10px 12px;padding:12px 20px;
+  grid-template-columns:minmax(0,1fr) 340px;
+  grid-template-rows:auto auto minmax(0,1fr);
+}
+.title{font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--c2);margin-bottom:6px}
+.quick{grid-column:1/3;grid-row:1}
+.stat{grid-column:1;grid-row:2}
+.finding{grid-column:1;grid-row:3;display:flex;flex-direction:column;min-height:0}
+.side{grid-column:2;grid-row:2/4;display:flex;flex-direction:column;gap:10px;min-height:0}
+
+/* ===== QUICK REPORT ===== */
+.quick .row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.qcard{
+  background:var(--c1);color:#fff;text-decoration:none;border-radius:6px;height:64px;
+  display:flex;align-items:center;justify-content:center;gap:14px;
+  font-weight:700;letter-spacing:.6px;text-transform:uppercase;font-size:14px;
+  transition:.15s;box-shadow:0 1px 3px rgba(0,0,0,.15);
+}
+.qcard .ic{font-size:30px}
+.qcard small{display:block;font-weight:400;font-size:11px;letter-spacing:.3px;text-transform:none;opacity:.85}
+.qcard:hover{background:var(--c3);transform:translateY(-2px)}
+
+/* ===== STATISTIK ===== */
+.stat .row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.sbox{
+  background:var(--c1);color:#fff;border-radius:6px;padding:10px 6px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  min-height:92px;box-shadow:0 1px 3px rgba(0,0,0,.15);
+}
+.sbox .ic{font-size:22px;opacity:.9}
+.sbox b{font-size:24px;line-height:1.1}
+.sbox span{font-size:11px;letter-spacing:.4px;text-transform:uppercase;opacity:.9}
+
+/* ===== OPEN FINDING ===== */
+.card{background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.finding .card{flex:1;min-height:0;display:flex;flex-direction:column}
+.chead{
+  background:var(--c1);color:#fff;font-size:12px;font-weight:700;letter-spacing:.6px;
+  text-transform:uppercase;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;flex:none;
+}
+.chead em{font-style:normal;font-weight:400;opacity:.9;text-transform:none}
+.tscroll{flex:1;overflow:auto;min-height:0}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{position:sticky;top:0;background:#e3edf2;text-align:left;padding:8px 10px;font-size:12px;text-transform:uppercase;letter-spacing:.3px}
+td{padding:8px 10px;border-top:1px solid var(--line)}
+tr:hover td{background:#f4f8fa}
+.badge{display:inline-block;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:700;color:#fff}
+.badge.open{background:var(--warn)}
+.badge.over{background:var(--bad)}
+.empty{padding:24px;text-align:center;color:#6b8594;font-size:13px}
+
+/* ===== SIDE (YEAR + TREND) ===== */
+.year{
+  background:var(--c1);color:#fff;border-radius:6px;padding:8px 12px;flex:none;
+  display:flex;align-items:center;justify-content:center;gap:10px;font-weight:700;letter-spacing:.6px;font-size:13px;
+}
+.year select{
+  font:inherit;font-weight:700;padding:3px 8px;border-radius:4px;border:0;background:#fff;color:var(--c2);cursor:pointer;
+}
+.chart{flex:1;min-height:0;display:flex;flex-direction:column}
+.chart .plot{flex:1;min-height:0;display:flex;gap:3px;padding:8px 10px 6px}
+.col{flex:1;min-width:0;display:flex;flex-direction:column}
+.bw{flex:1;position:relative;min-height:0}
+.bar{position:absolute;left:12%;right:12%;bottom:0;border-radius:3px 3px 0 0;min-height:1px}
+.bar span{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-size:9px;font-weight:600;white-space:nowrap;padding-bottom:1px}
+.lbl{font-size:10px;text-align:center;color:#6b8594;padding-top:3px;flex:none}
+
+/* ===== FOOTER ===== */
+footer{
+  background:var(--c1);color:#fff;flex:none;height:46px;margin:0 20px 12px;border-radius:6px;
+  display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:13px;
+}
+footer .brand img{height:26px}
+footer .brand{font-size:13px}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:980px){
+  body{height:auto;min-height:100vh}
+  header{height:auto;flex-direction:column;align-items:flex-start;padding:10px 14px}
+  nav{justify-content:flex-start}
+  main{grid-template-columns:1fr;grid-template-rows:none;padding:12px 14px}
+  .quick,.stat,.finding,.side{grid-column:1;grid-row:auto}
+  .quick .row{grid-template-columns:1fr}
+  .stat .row{grid-template-columns:repeat(3,1fr)}
+  .finding .card{max-height:340px}
+  .chart{min-height:190px}
+  footer{margin:0 14px 12px;height:auto;padding:12px 14px;flex-direction:column;gap:6px;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== KUMPULAN IKON ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-hazard" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-nearmiss" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></symbol>
+  <symbol id="i-incident" viewBox="0 0 24 24"><path d="M7 18v-6a5 5 0 1 1 10 0v6"/><path d="M5 21a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2z"/><path d="M21 12h1"/><path d="M18.5 4.5 18 5"/><path d="M2 12h1"/><path d="M12 2v1"/><path d="m4.929 4.929.707.707"/><path d="M12 12v6"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-clipboard" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></symbol>
+</svg>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="brand">
+    <img src="assets/gambar/logo.png" alt="Logo" onerror="this.style.display='none'">
+    <span class="sep"></span>
+    <span>HSE DEPARTEMENT</span>
+  </div>
+  <nav>
+    <a href="index.html" class="active">Home</a>
+    <a href="profile.html">Profile</a>
+    <a href="data.html">Data</a>
+    <a href="report.html">Report</a>
+    <a href="health.html">Health</a>
+    <a href="sdm.html">SDM</a>
+    <a href="permit.html">Permit</a>
+    <a href="library.html">Library</a>
+  </nav>
+</header>
+
+<!-- ===== ISI HALAMAN ===== -->
+<main>
+
+  <section class="quick">
+    <div class="title">Quick Report</div>
+    <div class="row">
+      <a class="qcard" href="hazard.html"><svg class="ic"><use href="#i-hazard"/></svg><div>Hazard<small>Laporkan kondisi berbahaya</small></div></a>
+      <a class="qcard" href="nearmiss.html"><svg class="ic"><use href="#i-nearmiss"/></svg><div>Near Miss<small>Laporkan hampir celaka</small></div></a>
+      <a class="qcard" href="incident.html"><svg class="ic"><use href="#i-incident"/></svg><div>Incident<small>Laporkan kejadian insiden</small></div></a>
+    </div>
+  </section>
+
+  <section class="stat">
+    <div class="title">HSE Statistik</div>
+    <div class="row">
+      <div class="sbox"><svg class="ic"><use href="#i-users"/></svg><b id="s-mp">0</b><span>Manpower</span></div>
+      <div class="sbox"><svg class="ic"><use href="#i-clock"/></svg><b id="s-mh">0</b><span>Man Hours</span></div>
+      <div class="sbox"><svg class="ic"><use href="#i-hazard"/></svg><b id="s-hr">0</b><span>Hazard Report</span></div>
+      <div class="sbox"><svg class="ic"><use href="#i-nearmiss"/></svg><b id="s-nm">0</b><span>Near Miss</span></div>
+      <div class="sbox"><svg class="ic"><use href="#i-incident"/></svg><b id="s-in">0</b><span>Incident</span></div>
+      <div class="sbox"><svg class="ic"><use href="#i-clipboard"/></svg><b id="s-of">0</b><span>Open Finding</span></div>
+    </div>
+  </section>
+
+  <section class="finding">
+    <div class="title">Open Finding</div>
+    <div class="card">
+      <div class="chead"><span>Daftar temuan yang belum selesai</span><em id="f-info"></em></div>
+      <div class="tscroll">
+        <table>
+          <thead><tr><th>No</th><th>Temuan</th><th>Lokasi</th><th>Sumber</th><th>Due Date</th><th>Status</th></tr></thead>
+          <tbody id="f-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <aside class="side">
+    <div class="year">YEAR : <select id="year"></select></div>
+
+    <div class="card chart">
+      <div class="chead"><span>Man Hours Trend</span><em id="t-mh"></em></div>
+      <div class="plot" id="c-mh"></div>
+    </div>
+    <div class="card chart">
+      <div class="chead"><span>Hazard Report Trend</span><em id="t-hr"></em></div>
+      <div class="plot" id="c-hr"></div>
+    </div>
+    <div class="card chart">
+      <div class="chead"><span>Incident Trend</span><em id="t-in"></em></div>
+      <div class="plot" id="c-in"></div>
+    </div>
+  </aside>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="brand">
+    <img src="assets/gambar/logo.png" alt="Logo" onerror="this.style.display='none'">
+    <span>HSE DEPARTEMENT</span>
+  </div>
+  <div id="copy"></div>
+</footer>
+
+<script>
+/* =====================================================
+   DATA CONTOH (sementara)
+   Nanti bagian ini diganti dengan data asli / Google Sheets
+   Urutan bulan: Jan - Des
+   ===================================================== */
+const DATA = {
+  2025: {
+    manpower: 168,
+    manhours: [21500,20800,22100,21900,22400,21700,22800,23100,22500,23000,22700,21200],
+    hazard:   [6,5,8,7,9,6,10,8,7,9,6,5],
+    nearmiss: [2,1,3,2,2,1,3,2,1,2,2,1],
+    incident: [1,0,1,0,0,1,0,0,1,0,0,0]
+  },
+  2026: {
+    manpower: 182,
+    manhours: [22800,22100,23500,23200,23900,23400,24100,24600,23800,24300,0,0],
+    hazard:   [8,7,10,9,12,8,11,9,10,13,0,0],
+    nearmiss: [3,2,3,2,4,2,3,2,3,4,0,0],
+    incident: [0,1,0,0,1,0,0,0,1,0,0,0]
+  }
+};
+
+const FINDINGS = [
+  {temuan:"Kabel las terkelupas di area workshop",       lokasi:"Workshop",        sumber:"Hazard Report", due:"2026-11-05", status:"Open"},
+  {temuan:"APAR di pos jaga tidak terpasang di dinding", lokasi:"Pos Jaga",        sumber:"Inspeksi APAR", due:"2026-10-25", status:"Open"},
+  {temuan:"Handrail tangga conveyor longgar",            lokasi:"Conveyor 2",      sumber:"Inspeksi Area", due:"2026-11-12", status:"Open"},
+  {temuan:"Tumpahan oli belum dibersihkan",              lokasi:"Area Genset",     sumber:"Near Miss",     due:"2026-11-02", status:"Open"},
+  {temuan:"Rambu APD hilang di pintu masuk",             lokasi:"Gerbang Utama",   sumber:"Hazard Report", due:"2026-09-30", status:"Closed"}
+];
+
+/* ===================================================== */
+const BLN = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+const $ = id => document.getElementById(id);
+const fmt = n => Number(n).toLocaleString("id-ID");
+const sum = a => a.reduce((x,y)=>x+y,0);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const short = n => n >= 1000 ? (n/1000).toFixed(1).replace(".0","").replace(".",",") + "k" : n;
+
+function drawBars(el, arr, color, compact){
+  const max = Math.max(...arr, 1);
+  el.innerHTML = arr.map((v,i) => {
+    const r = v / max;
+    return `<div class="col" title="${BLN[i]}: ${fmt(v)}">
+      <div class="bw">
+        <div class="bar" style="height:calc((100% - 12px) * ${r});background:${color}">
+          ${v ? `<span>${compact ? short(v) : v}</span>` : ""}
+        </div>
+      </div>
+      <div class="lbl">${BLN[i][0]}</div>
+    </div>`;
+  }).join("");
+}
+
+function render(year){
+  const d = DATA[year];
+  const today = new Date(); today.setHours(0,0,0,0);
+
+  // temuan terbuka (dihitung dari data, bukan diketik manual)
+  const open = FINDINGS.filter(f => f.status !== "Closed");
+
+  $("s-mp").textContent = fmt(d.manpower);
+  $("s-mh").textContent = fmt(sum(d.manhours));
+  $("s-hr").textContent = fmt(sum(d.hazard));
+  $("s-nm").textContent = fmt(sum(d.nearmiss));
+  $("s-in").textContent = fmt(sum(d.incident));
+  $("s-of").textContent = fmt(open.length);
+
+  $("t-mh").textContent = "Total " + fmt(sum(d.manhours));
+  $("t-hr").textContent = "Total " + fmt(sum(d.hazard));
+  $("t-in").textContent = "Total " + fmt(sum(d.incident));
+
+  drawBars($("c-mh"), d.manhours, "#1d5f80", true);
+  drawBars($("c-hr"), d.hazard,   "#e0a21a", false);
+  drawBars($("c-in"), d.incident, "#d2493f", false);
+
+  $("f-info").textContent = open.length + " temuan terbuka";
+  $("f-body").innerHTML = open.length ? open.map((f,i) => {
+    const over = new Date(f.due) < today;
+    const tgl = new Date(f.due).toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"});
+    return `<tr>
+      <td>${i+1}</td><td>${esc(f.temuan)}</td><td>${esc(f.lokasi)}</td><td>${esc(f.sumber)}</td>
+      <td>${tgl}</td>
+      <td><span class="badge ${over?"over":"open"}">${over?"Overdue":"Open"}</span></td>
+    </tr>`;
+  }).join("") : `<tr><td colspan="6" class="empty">Tidak ada temuan terbuka</td></tr>`;
+}
+
+(function init(){
+  const years = Object.keys(DATA).map(Number).sort((a,b)=>b-a);
+  const now = new Date().getFullYear();
+  $("year").innerHTML = years.map(y => `<option value="${y}">${y}</option>`).join("");
+  $("year").value = years.includes(now) ? now : years[0];
+  $("year").addEventListener("change", e => render(e.target.value));
+  $("copy").textContent = "© " + now + " Dept HSE - All Right Reserved";
+  render($("year").value);
+})();
+</script>
+</body>
+</html>
