@@ -48,14 +48,14 @@
     .topbar {
       position: relative;
       z-index: 20;
-      background: linear-gradient(105deg, #086332, #098647);
-      color: white;
       min-height: 64px;
       padding: 10px 22px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 22px;
+      color: white;
+      background: linear-gradient(105deg, #086332, #098647);
     }
 
     .brand, .brand-identity, .nav, .footer-brand {
@@ -119,7 +119,11 @@
     }
 
     .dropdown { position: relative; }
-    .dropdown-arrow { font-size: 10px; transition: transform .15s; }
+
+    .dropdown-arrow {
+      font-size: 10px;
+      transition: transform .15s;
+    }
 
     [aria-expanded="true"] .dropdown-arrow {
       transform: rotate(180deg);
@@ -129,14 +133,14 @@
       position: absolute;
       top: calc(100% + 8px);
       right: 0;
-      width: 235px;
+      width: 245px;
+      padding: 7px;
       background: white;
       color: var(--text);
       border: 1px solid var(--border);
       border-top: 3px solid #e6bd17;
       border-radius: 8px;
       box-shadow: 0 12px 30px #163d2930;
-      padding: 7px;
     }
 
     .dropdown-panel[hidden] { display: none; }
@@ -170,10 +174,19 @@
       place-items: center;
       width: 31px;
       height: 31px;
+      flex-shrink: 0;
       border-radius: 7px;
+      font-size: 19px;
+    }
+
+    .dropdown-icon.hazard {
       color: var(--orange);
       background: #fff3de;
-      font-size: 19px;
+    }
+
+    .dropdown-icon.nearmiss {
+      color: var(--green);
+      background: #e7f5ec;
     }
 
     .dropdown-item small {
@@ -187,12 +200,17 @@
     .safety-stripe {
       height: 7px;
       background: repeating-linear-gradient(
-        -45deg, #f7ce19 0, #f7ce19 12px,
+        -45deg,
+        #f7ce19 0, #f7ce19 12px,
         #183327 12px, #183327 24px
       );
     }
 
-    main { max-width: 1700px; margin: auto; padding: 18px 20px; }
+    main {
+      max-width: 1700px;
+      margin: auto;
+      padding: 18px 20px;
+    }
 
     .page-heading, .section-heading, .table-tools, .chart-heading {
       display: flex;
@@ -202,8 +220,18 @@
     }
 
     .page-heading { margin-bottom: 16px; }
-    h1 { font-size: 22px; margin: 0 0 5px; color: var(--green-dark); }
-    .subtitle { color: var(--muted); margin: 0; font-size: 12px; }
+
+    h1 {
+      font-size: 22px;
+      margin: 0 0 5px;
+      color: var(--green-dark);
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin: 0;
+      font-size: 12px;
+    }
 
     .demo-label {
       padding: 7px 10px;
@@ -219,8 +247,16 @@
       margin-bottom: 9px;
     }
 
-    h2 { margin: 0; font-size: 15px; color: var(--green-dark); }
-    .section-heading span { font-size: 11px; color: var(--muted); }
+    h2 {
+      margin: 0;
+      font-size: 15px;
+      color: var(--green-dark);
+    }
+
+    .section-heading span {
+      font-size: 11px;
+      color: var(--muted);
+    }
 
     .quick-grid {
       display: grid;
@@ -249,8 +285,16 @@
     }
 
     .quick-card:hover { transform: translateY(-2px); }
-    .quick-card.hazard { --accent: var(--orange); --tint: #fff3de; }
-    .quick-card.incident { --accent: var(--red); --tint: #fdebec; }
+
+    .quick-card.hazard {
+      --accent: var(--orange);
+      --tint: #fff3de;
+    }
+
+    .quick-card.incident {
+      --accent: var(--red);
+      --tint: #fdebec;
+    }
 
     .quick-icon {
       width: 43px;
@@ -265,7 +309,12 @@
     }
 
     .quick-copy { flex: 1; }
-    .quick-title { color: var(--accent); font-weight: 800; font-size: 15px; }
+
+    .quick-title {
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 15px;
+    }
 
     .quick-description {
       display: block;
@@ -275,7 +324,11 @@
       line-height: 1.5;
     }
 
-    .quick-action { font-size: 11px; font-weight: 700; color: var(--accent); }
+    .quick-action {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+    }
 
     .dashboard-layout {
       display: grid;
@@ -301,8 +354,19 @@
       box-shadow: var(--shadow);
     }
 
-    .stat-icon { font-size: 23px; color: var(--accent); height: 29px; }
-    .stat-value { font-size: 27px; font-weight: 800; color: var(--green-dark); margin: 3px 0; }
+    .stat-icon {
+      font-size: 23px;
+      color: var(--accent);
+      height: 29px;
+    }
+
+    .stat-value {
+      font-size: 27px;
+      font-weight: 800;
+      color: var(--green-dark);
+      margin: 3px 0;
+    }
+
     .stat-label { color: var(--muted); font-size: 11px; }
 
     .panel {
@@ -331,7 +395,12 @@
 
     .table-tools input { flex: 1; }
     .table-scroll { overflow-x: auto; }
-    table { border-collapse: collapse; width: 100%; white-space: nowrap; }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      white-space: nowrap;
+    }
 
     th {
       text-align: left;
@@ -350,7 +419,12 @@
 
     tbody tr:nth-child(even) { background: #f8fbf9; }
     tbody tr:hover { background: #f0f7f3; }
-    .finding-text { min-width: 230px; white-space: normal; line-height: 1.5; }
+
+    .finding-text {
+      min-width: 230px;
+      white-space: normal;
+      line-height: 1.5;
+    }
 
     .badge {
       display: inline-block;
@@ -377,8 +451,17 @@
       font-size: 11px;
     }
 
-    .table-footer { padding: 12px 13px; color: var(--muted); font-size: 11px; }
-    .empty { padding: 35px; text-align: center; color: var(--muted); }
+    .table-footer {
+      padding: 12px 13px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .empty {
+      padding: 35px;
+      text-align: center;
+      color: var(--muted);
+    }
 
     .year-filter {
       display: flex;
@@ -404,10 +487,21 @@
 
     .chart-panel { margin-bottom: 11px; padding: 12px; }
     .chart-heading { margin-bottom: 7px; }
-    .chart-heading h3 { font-size: 12px; margin: 0; color: var(--green-dark); }
+
+    .chart-heading h3 {
+      font-size: 12px;
+      margin: 0;
+      color: var(--green-dark);
+    }
+
     .chart-heading span { font-size: 10px; color: var(--muted); }
     .chart { width: 100%; height: auto; display: block; }
-    .chart-empty { color: var(--muted); padding: 42px 10px; text-align: center; }
+
+    .chart-empty {
+      color: var(--muted);
+      padding: 42px 10px;
+      text-align: center;
+    }
 
     .footer {
       margin: 0 20px 16px;
@@ -447,33 +541,60 @@
     }
 
     .modal-header h2 { color: white; font-size: 16px; }
-    .modal-close { background: transparent; color: white; border: 0; font-size: 25px; }
+
+    .modal-close {
+      background: transparent;
+      color: white;
+      border: 0;
+      font-size: 25px;
+    }
+
     .modal-body { padding: 20px; line-height: 1.7; }
     .modal-body p { margin: 0 0 12px; }
     .modal-body dl { margin: 0; }
-    .modal-body dt { color: var(--muted); font-size: 11px; margin-top: 12px; }
+
+    .modal-body dt {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 12px;
+    }
+
     .modal-body dd { margin: 2px 0 0; overflow-wrap: anywhere; }
-    .modal-note { background: #fff6db; padding: 11px; border-radius: 6px; font-size: 12px; }
+
+    .modal-note {
+      background: #fff6db;
+      padding: 11px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
 
     @media (min-width: 1700px) {
-      .footer { max-width: 1660px; margin-left: auto; margin-right: auto; }
+      .footer {
+        max-width: 1660px;
+        margin-left: auto;
+        margin-right: auto;
+      }
     }
 
     @media (max-width: 1180px) {
       .topbar { flex-wrap: wrap; gap: 12px; }
       .nav { width: 100%; }
-      .dashboard-layout { grid-template-columns: minmax(0, 1fr) 300px; }
+      .dashboard-layout {
+        grid-template-columns: minmax(0, 1fr) 300px;
+      }
       .stats-grid { grid-template-columns: repeat(3, 1fr); }
       .quick-action { display: none; }
     }
 
     @media (max-width: 850px) {
       .dashboard-layout { grid-template-columns: 1fr; }
+
       .sidebar {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 10px;
       }
+
       .year-filter { grid-column: 1 / -1; margin: 0; }
       .chart-panel { margin: 0; }
       .quick-card { padding: 13px 10px; gap: 8px; }
@@ -489,7 +610,13 @@
       .logo { font-size: 29px; }
       .nav { gap: 3px; }
       .nav-link { padding: 10px; font-size: 11px; }
-      .dropdown-panel { left: 0; right: auto; width: 220px; }
+
+      .dropdown-panel {
+        left: 0;
+        right: auto;
+        width: 220px;
+      }
+
       .page-heading { align-items: flex-start; }
       h1 { font-size: 19px; }
       .demo-label { font-size: 9px; }
@@ -503,7 +630,12 @@
       .table-tools { flex-wrap: wrap; }
       .table-tools input { flex-basis: 100%; }
       .table-tools select { width: 100%; }
-      .footer { margin: 0 12px 12px; flex-direction: column; text-align: center; }
+
+      .footer {
+        margin: 0 12px 12px;
+        flex-direction: column;
+        text-align: center;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -526,7 +658,9 @@
       </div>
 
       <nav class="nav" aria-label="Navigasi utama">
-        <a class="nav-link active" href="index.html" aria-current="page">HOME</a>
+        <a class="nav-link active" href="index.html" aria-current="page">
+          HOME
+        </a>
 
         <button type="button" class="nav-link" data-page="Profil Departemen HSE">
           PROFILE
@@ -552,10 +686,18 @@
             <div class="dropdown-heading">PELAPORAN HSE</div>
 
             <a class="dropdown-item" href="hazard-report.html">
-              <span class="dropdown-icon" aria-hidden="true">⚠</span>
+              <span class="dropdown-icon hazard" aria-hidden="true">⚠</span>
               <span>
                 Hazard Report
                 <small>Formulir pelaporan hazard</small>
+              </span>
+            </a>
+
+            <a class="dropdown-item" href="near-miss-report.html">
+              <span class="dropdown-icon nearmiss" aria-hidden="true">◇</span>
+              <span>
+                Near Miss Report
+                <small>Formulir kejadian nyaris celaka</small>
               </span>
             </a>
           </div>
@@ -611,7 +753,7 @@
           <span class="quick-action">Buat laporan →</span>
         </a>
 
-        <button type="button" class="quick-card" data-report="Near Miss Report">
+        <a class="quick-card" href="near-miss-report.html">
           <span class="quick-icon" aria-hidden="true">◇</span>
           <span class="quick-copy">
             <span class="quick-title">Near Miss Report</span>
@@ -620,9 +762,13 @@
             </span>
           </span>
           <span class="quick-action">Buat laporan →</span>
-        </button>
+        </a>
 
-        <button type="button" class="quick-card incident" data-report="Incident Report">
+        <button
+          type="button"
+          class="quick-card incident"
+          data-report="Incident Report"
+        >
           <span class="quick-icon" aria-hidden="true">✚</span>
           <span class="quick-copy">
             <span class="quick-title">Incident Report</span>
@@ -660,6 +806,7 @@
                 placeholder="Cari ID, temuan, lokasi, atau PIC..."
                 aria-label="Cari temuan"
               />
+
               <select id="status-filter" aria-label="Filter status temuan">
                 <option value="all">Semua status</option>
                 <option value="overdue">Overdue</option>
@@ -686,7 +833,11 @@
               </table>
             </div>
 
-            <div class="table-footer" id="table-summary" aria-live="polite"></div>
+            <div
+              class="table-footer"
+              id="table-summary"
+              aria-live="polite"
+            ></div>
           </div>
         </section>
       </div>
@@ -732,6 +883,7 @@
       <span class="logo" aria-hidden="true">UEI</span>
       <span>HSE DEPARTMENT</span>
     </div>
+
     <span>
       © <span id="copyright-year"></span>
       PT Unggul Ejawantah Industri · HSE Portal
@@ -741,9 +893,12 @@
   <dialog id="info-dialog" aria-labelledby="modal-title">
     <div class="modal-header">
       <h2 id="modal-title"></h2>
-      <button type="button" class="modal-close" id="modal-close" aria-label="Tutup">
-        ×
-      </button>
+      <button
+        type="button"
+        class="modal-close"
+        id="modal-close"
+        aria-label="Tutup"
+      >×</button>
     </div>
     <div class="modal-body" id="modal-body"></div>
   </dialog>
@@ -753,6 +908,7 @@
 
     // Data demonstrasi, bukan data operasional perusahaan.
     const DEMO_DATE = "2026-10-31";
+
     const MONTHS = [
       "Jan", "Feb", "Mar", "Apr", "Mei",
       "Jun", "Jul", "Agu", "Sep", "Okt"
@@ -836,6 +992,7 @@
 
     const $ = (id) => document.getElementById(id);
     const numberFormat = new Intl.NumberFormat("id-ID");
+
     const dateFormat = new Intl.DateTimeFormat("id-ID", {
       day: "2-digit",
       month: "short",
@@ -877,9 +1034,12 @@
         : { key: "open", text: "Open" };
     }
 
-    // Navigasi submenu REPORT.
     function setReportMenu(isOpen, returnFocus = false) {
-      $("report-toggle").setAttribute("aria-expanded", String(isOpen));
+      $("report-toggle").setAttribute(
+        "aria-expanded",
+        String(isOpen)
+      );
+
       $("report-submenu").hidden = !isOpen;
 
       if (returnFocus) $("report-toggle").focus();
@@ -959,6 +1119,7 @@
 
     function renderFindings() {
       const data = dashboardData[$("year-select").value];
+
       const query = $("finding-search").value
         .trim()
         .toLocaleLowerCase("id");
@@ -1047,13 +1208,20 @@
       const plotWidth = width - left - right;
       const plotHeight = height - top - bottom;
       const maxValue = Math.max(...values);
-      const ceiling = maxValue <= 2 ? 2 : Math.ceil(maxValue / 4) * 4;
+
+      const ceiling = maxValue <= 2
+        ? 2
+        : Math.ceil(maxValue / 4) * 4;
+
       const steps = ceiling === 2 ? 2 : 4;
       const stepX = plotWidth / values.length;
       const baseY = top + plotHeight;
 
-      const y = (value) => baseY - value / ceiling * plotHeight;
-      const x = (index) => left + stepX * (index + .5);
+      const y = (value) =>
+        baseY - value / ceiling * plotHeight;
+
+      const x = (index) =>
+        left + stepX * (index + .5);
 
       let svg = `
         <svg
@@ -1075,13 +1243,19 @@
 
         svg += `
           <line
-            x1="${left}" y1="${y(value)}"
-            x2="${width - right}" y2="${y(value)}"
-            stroke="#dce8e0" stroke-width="1"
+            x1="${left}"
+            y1="${y(value)}"
+            x2="${width - right}"
+            y2="${y(value)}"
+            stroke="#dce8e0"
+            stroke-width="1"
           />
           <text
-            x="${left - 5}" y="${y(value) + 3}"
-            text-anchor="end" fill="#788c80" font-size="8"
+            x="${left - 5}"
+            y="${y(value) + 3}"
+            text-anchor="end"
+            fill="#788c80"
+            font-size="8"
           >${numberFormat.format(value)}</text>
         `;
       }
@@ -1094,21 +1268,30 @@
         svg += `
           <polygon
             points="${x(0)},${baseY} ${points} ${x(values.length - 1)},${baseY}"
-            fill="${color}" fill-opacity=".15"
+            fill="${color}"
+            fill-opacity=".15"
           />
           <polyline
             points="${points}"
-            fill="none" stroke="${color}" stroke-width="2.2"
+            fill="none"
+            stroke="${color}"
+            stroke-width="2.2"
           />
         `;
 
         values.forEach((value, index) => {
           svg += `
             <circle
-              cx="${x(index)}" cy="${y(value)}" r="2.8"
-              fill="white" stroke="${color}" stroke-width="1.8"
+              cx="${x(index)}"
+              cy="${y(value)}"
+              r="2.8"
+              fill="white"
+              stroke="${color}"
+              stroke-width="1.8"
             >
-              <title>${MONTHS[index]}: ${numberFormat.format(value)}</title>
+              <title>
+                ${MONTHS[index]}: ${numberFormat.format(value)}
+              </title>
             </circle>
           `;
         });
@@ -1116,11 +1299,16 @@
         values.forEach((value, index) => {
           svg += `
             <rect
-              x="${x(index) - stepX * .32}" y="${y(value)}"
-              width="${stepX * .64}" height="${baseY - y(value)}"
-              rx="1.5" fill="${color}"
+              x="${x(index) - stepX * .32}"
+              y="${y(value)}"
+              width="${stepX * .64}"
+              height="${baseY - y(value)}"
+              rx="1.5"
+              fill="${color}"
             >
-              <title>${MONTHS[index]}: ${numberFormat.format(value)}</title>
+              <title>
+                ${MONTHS[index]}: ${numberFormat.format(value)}
+              </title>
             </rect>
           `;
         });
@@ -1129,8 +1317,11 @@
       values.forEach((value, index) => {
         svg += `
           <text
-            x="${x(index)}" y="${height - 9}"
-            text-anchor="middle" fill="#788c80" font-size="8"
+            x="${x(index)}"
+            y="${height - 9}"
+            text-anchor="middle"
+            fill="#788c80"
+            font-size="8"
           >${MONTHS[index]}</text>
         `;
       });
@@ -1150,12 +1341,18 @@
       renderFindings();
 
       const charts = [
-        ["hours", "hours-chart", "hours-total",
-          "#168348", "line", "Tren jam kerja"],
-        ["hazards", "hazard-chart", "hazard-total",
-          "#ed9208", "bar", "Tren laporan hazard"],
-        ["incidents", "incident-chart", "incident-total",
-          "#d63838", "bar", "Tren insiden"]
+        [
+          "hours", "hours-chart", "hours-total",
+          "#168348", "line", "Tren jam kerja"
+        ],
+        [
+          "hazards", "hazard-chart", "hazard-total",
+          "#ed9208", "bar", "Tren laporan hazard"
+        ],
+        [
+          "incidents", "incident-chart", "incident-total",
+          "#d63838", "bar", "Tren insiden"
+        ]
       ];
 
       charts.forEach(([key, target, total, color, type, title]) => {
@@ -1190,6 +1387,7 @@
       if (!button) return;
 
       const data = dashboardData[$("year-select").value];
+
       const item = data?.findings.find(
         (finding) => finding.id === button.dataset.detail
       );
