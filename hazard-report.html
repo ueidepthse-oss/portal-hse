@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#08783e" />
+
+  <title>Hazard Report | PT Unggul Ejawantah Industri</title>
+
+  <style>
+    :root {
+      --green: #08783e;
+      --green-dark: #075b32;
+      --text: #234337;
+      --muted: #71847b;
+      --border: #dce8e0;
+      --orange: #ed9208;
+      --shadow: 0 3px 12px rgba(22, 65, 41, .08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      background-color: #eef6f0;
+      background-image:
+        linear-gradient(30deg, #dcece355 12%, transparent 12.5%, transparent 87%, #dcece355 87.5%),
+        linear-gradient(150deg, #dcece355 12%, transparent 12.5%, transparent 87%, #dcece355 87.5%);
+      background-size: 62px 108px;
+    }
+
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    a { color: var(--green); }
+
+    :is(button, a, input, select, textarea):focus-visible {
+      outline: 3px solid #e7ad13;
+      outline-offset: 3px;
+    }
+
+    .topbar {
+      background: linear-gradient(105deg, #086332, #098647);
+      color: white;
+      padding: 12px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .brand, .brand-identity, .nav {
+      display: flex;
+      align-items: center;
+    }
+
+    .brand { gap: 16px; }
+    .brand-identity { gap: 9px; }
+
+    .logo {
+      color: #52c4d0;
+      font-size: 33px;
+      font-weight: 900;
+      letter-spacing: -4px;
+      line-height: 1;
+    }
+
+    .company-name {
+      font-size: 8px;
+      color: #91d0c8;
+      letter-spacing: 2px;
+      line-height: 1.5;
+    }
+
+    .department {
+      border-left: 1px solid #ffffff70;
+      padding-left: 16px;
+      font-size: 15px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .nav { gap: 7px; }
+
+    .nav a {
+      padding: 10px 13px;
+      border-radius: 7px;
+      text-decoration: none;
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .nav a:hover { background: #ffffff16; }
+
+    .nav .active {
+      background: #005c31;
+      box-shadow: inset 0 -3px #f3c920;
+    }
+
+    .safety-stripe {
+      height: 7px;
+      background: repeating-linear-gradient(
+        -45deg,
+        #f7ce19 0, #f7ce19 12px,
+        #183327 12px, #183327 24px
+      );
+    }
+
+    main {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 22px;
+      flex: 1;
+    }
+
+    .breadcrumb {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 17px;
+    }
+
+    .breadcrumb a { text-decoration: none; }
+
+    .page-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      color: var(--green-dark);
+      font-size: 25px;
+      margin: 0 0 7px;
+    }
+
+    .subtitle { margin: 0; color: var(--muted); line-height: 1.6; }
+
+    .demo-label {
+      background: #fff3ce;
+      color: #80600e;
+      border-radius: 6px;
+      padding: 8px 11px;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-heading {
+      border-bottom: 1px solid var(--border);
+      padding: 18px 20px;
+      background: #fafdfb;
+    }
+
+    .panel-heading h2 {
+      font-size: 16px;
+      color: var(--green-dark);
+      margin: 0 0 5px;
+    }
+
+    .panel-heading p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    form { padding: 20px; }
+
+    fieldset {
+      border: 0;
+      padding: 0;
+      margin: 0 0 25px;
+      min-width: 0;
+    }
+
+    legend {
+      color: var(--green-dark);
+      font-weight: 700;
+      font-size: 14px;
+      padding: 0;
+      margin-bottom: 16px;
+    }
+
+    .section-number {
+      display: inline-grid;
+      place-items: center;
+      width: 25px;
+      height: 25px;
+      background: #e7f4ec;
+      border-radius: 50%;
+      margin-right: 7px;
+      font-size: 12px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 17px;
+    }
+
+    .field { min-width: 0; }
+    .full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      font-weight: 700;
+      font-size: 12px;
+      margin-bottom: 7px;
+    }
+
+    .required { color: #c83535; }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 11px 12px;
+      background: white;
+      border: 1px solid #cfded4;
+      border-radius: 6px;
+      color: var(--text);
+    }
+
+    input:hover, select:hover, textarea:hover { border-color: #85ad95; }
+    textarea { resize: vertical; min-height: 115px; line-height: 1.6; }
+
+    .help {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .counter { text-align: right; }
+
+    .confirmation {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      background: #f1f8f3;
+      padding: 13px;
+      border-radius: 7px;
+      margin-bottom: 20px;
+    }
+
+    .confirmation input { width: 16px; height: 16px; flex-shrink: 0; margin: 2px 0; }
+    .confirmation label { margin: 0; font-weight: 400; line-height: 1.7; }
+
+    .actions {
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button {
+      border: 1px solid transparent;
+      border-radius: 7px;
+      padding: 11px 16px;
+      font-weight: 700;
+      font-size: 12px;
+      text-decoration: none;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .button-primary { color: white; background: var(--green); }
+    .button-primary:hover { background: var(--green-dark); }
+    .button-secondary { background: white; border-color: #cfded4; color: var(--text); }
+    .button-secondary:hover { background: #f2f7f4; }
+    .button-warning { background: #fff3dd; color: #8f5900; }
+
+    .sidebar { display: grid; gap: 15px; }
+    .side-content { padding: 17px; line-height: 1.8; }
+    .side-content h2 { font-size: 14px; color: var(--green-dark); margin: 0 0 10px; }
+    .side-content p { margin: 0 0 10px; }
+    .side-content p:last-child { margin-bottom: 0; }
+    .side-content ol { padding-left: 19px; margin: 0; }
+    .side-content li { margin-bottom: 7px; }
+
+    .notice {
+      border-left: 4px solid var(--orange);
+      background: #fffaf0;
+    }
+
+    .small { font-size: 12px; color: var(--muted); }
+
+    .footer {
+      margin: 0 22px 18px;
+      padding: 15px 18px;
+      background: linear-gradient(100deg, #076431, #098747);
+      border-radius: 9px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      font-size: 11px;
+    }
+
+    dialog {
+      width: min(620px, calc(100% - 28px));
+      max-height: 88vh;
+      padding: 0;
+      border: 0;
+      border-radius: 12px;
+      color: var(--text);
+      box-shadow: 0 20px 70px #0004;
+    }
+
+    dialog::backdrop { background: #07271999; }
+
+    .modal-heading {
+      background: var(--green);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+    }
+
+    .modal-heading h2 { font-size: 16px; margin: 0; }
+    .modal-close { border: 0; background: transparent; color: white; font-size: 25px; }
+    .modal-body { padding: 20px; line-height: 1.7; }
+    .modal-body p { margin: 0 0 12px; }
+
+    .preview-list { margin: 0; }
+    .preview-list dt { font-size: 11px; color: var(--muted); margin-top: 14px; }
+    .preview-list dt:first-child { margin-top: 0; }
+    .preview-list dd { margin: 3px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .status-box {
+      padding: 13px;
+      border-radius: 7px;
+      background: #fff4da;
+      color: #805b14;
+      font-size: 12px;
+    }
+
+    @media (max-width: 950px) {
+      .topbar { flex-wrap: wrap; }
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 600px) {
+      .topbar { padding: 12px; gap: 14px; }
+      .brand { gap: 10px; }
+      .department { font-size: 12px; padding-left: 10px; }
+      .company-name { font-size: 7px; letter-spacing: 1px; }
+      .logo { font-size: 29px; }
+      .nav { width: 100%; }
+      .nav a { font-size: 11px; }
+      main { padding: 17px 12px; }
+      h1 { font-size: 22px; }
+      .page-heading { flex-wrap: wrap; }
+      .form-grid, .sidebar { grid-template-columns: 1fr; }
+      form, .panel-heading { padding: 17px; }
+      .actions .button { width: 100%; }
+      .footer { margin: 0 12px 12px; flex-direction: column; text-align: center; }
+      .modal-actions .button { flex: 1; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-identity" aria-label="PT Unggul Ejawantah Industri">
+          <div class="logo">UEI</div>
+          <div class="company-name">UNGGUL<br />EJAWANTAH<br />INDUSTRI</div>
+        </div>
+        <div class="department">HSE DEPARTMENT</div>
+      </div>
+
+      <nav class="nav" aria-label="Navigasi utama">
+        <a href="index.html">HOME</a>
+        <a href="hazard-report.html" class="active" aria-current="page">HAZARD REPORT</a>
+      </nav>
+    </div>
+
+    <div class="safety-stripe" aria-hidden="true"></div>
+  </header>
+
+  <main>
+    <div class="breadcrumb">
+      <a href="index.html">Dashboard</a>
+      <span aria-hidden="true"> / </span>
+      <span>Hazard Report</span>
+    </div>
+
+    <div class="page-heading">
+      <div>
+        <h1>Hazard Report</h1>
+        <p class="subtitle">
+          Formulir pelaporan kondisi dan tindakan tidak aman.
+        </p>
+      </div>
+      <span class="demo-label">MODE DEMO · BELUM TERHUBUNG DATABASE</span>
+    </div>
+
+    <div class="layout">
+      <section class="panel" aria-labelledby="form-title">
+        <div class="panel-heading">
+          <h2 id="form-title">Formulir Laporan Hazard</h2>
+          <p>
+            Kolom bertanda <span class="required">*</span> wajib diisi.
+            Gunakan data fiktif selama pengujian.
+          </p>
+        </div>
+
+        <form id="hazard-form">
+          <fieldset>
+            <legend><span class="section-number">1</span>Identitas Pelapor</legend>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="reporter">Nama pelapor <span class="required">*</span></label>
+                <input id="reporter" name="reporter" type="text"
+                  placeholder="Contoh: Pelapor Demo" required maxlength="100" />
+              </div>
+
+              <div class="field">
+                <label for="employee-id">NIK / ID karyawan</label>
+                <input id="employee-id" name="employeeId" type="text"
+                  placeholder="Opsional" maxlength="40" />
+              </div>
+
+              <div class="field">
+                <label for="department">Departemen <span class="required">*</span></label>
+                <select id="department" name="department" required>
+                  <option value="">Pilih departemen</option>
+                  <option>HSE</option>
+                  <option>Produksi</option>
+                  <option>Maintenance</option>
+                  <option>Warehouse / Gudang</option>
+                  <option>Quality Control</option>
+                  <option>HR / GA</option>
+                  <option>Engineering</option>
+                  <option>Kontraktor</option>
+                  <option>Lainnya</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="contact">Kontak pelapor</label>
+                <input id="contact" name="contact" type="text"
+                  placeholder="Email / ekstensi / nomor kontak contoh" maxlength="120" />
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend><span class="section-number">2</span>Informasi Temuan</legend>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="observed-at">Tanggal & waktu temuan <span class="required">*</span></label>
+                <input id="observed-at" name="observedAt" type="datetime-local" required />
+                <span class="help">Isi sesuai waktu lokal lokasi temuan.</span>
+              </div>
+
+              <div class="field">
+                <label for="location">Area / lokasi <span class="required">*</span></label>
+                <select id="location" name="location" required>
+                  <option value="">Pilih lokasi</option>
+                  <option>Produksi 1</option>
+                  <option>Produksi 2</option>
+                  <option>Packing</option>
+                  <option>Gudang</option>
+                  <option>Workshop</option>
+                  <option>Fabrikasi</option>
+                  <option>Area Mesin</option>
+                  <option>Kantor</option>
+                  <option>Area Luar / Jalan</option>
+                  <option>Lainnya</option>
+                </select>
+              </div>
+
+              <div class="field full">
+                <label for="specific-location">Detail titik lokasi <span class="required">*</span></label>
+                <input id="specific-location" name="specificLocation" type="text"
+                  placeholder="Contoh: Tangga sisi timur area packing"
+                  required maxlength="200" />
+              </div>
+
+              <div class="field">
+                <label for="category">Kategori temuan <span class="required">*</span></label>
+                <select id="category" name="category" required>
+                  <option value="">Pilih kategori</option>
+                  <option>Kondisi tidak aman</option>
+                  <option>Tindakan tidak aman</option>
+                  <option>Kondisi dan tindakan tidak aman</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="priority">Usulan prioritas <span class="required">*</span></label>
+                <select id="priority" name="priority" required aria-describedby="priority-help">
+                  <option value="">Pilih usulan prioritas</option>
+                  <option>Rendah</option>
+                  <option>Sedang</option>
+                  <option>Tinggi</option>
+                  <option>Perlu peninjauan segera</option>
+                </select>
+                <span class="help" id="priority-help">
+                  Pilihan pelapor, bukan hasil penilaian risiko atau persetujuan HSE.
+                </span>
+              </div>
+
+              <div class="field full">
+                <label for="description">Deskripsi temuan <span class="required">*</span></label>
+                <textarea id="description" name="description" required
+                  minlength="20" maxlength="2000"
+                  placeholder="Jelaskan apa yang ditemukan, lokasi, serta situasi saat temuan terjadi."
+                  aria-describedby="description-help description-counter"></textarea>
+                <span class="help" id="description-help">Minimal 20 karakter.</span>
+                <span class="help counter" id="description-counter">0 / 2.000 karakter</span>
+              </div>
+
+              <div class="field full">
+                <label for="potential-impact">Potensi dampak yang diamati</label>
+                <textarea id="potential-impact" name="potentialImpact" maxlength="1000"
+                  placeholder="Tuliskan potensi dampak menurut pengamatan pelapor."></textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend><span class="section-number">3</span>Informasi Tindak Lanjut</legend>
+
+            <div class="form-grid">
+              <div class="field full">
+                <label for="immediate-action">Tindakan yang sudah dilakukan</label>
+                <textarea id="immediate-action" name="immediateAction" maxlength="1000"
+                  placeholder="Jika belum ada tindakan, tuliskan belum ada."></textarea>
+              </div>
+
+              <div class="field full">
+                <label for="recommendation">Usulan tindak lanjut</label>
+                <textarea id="recommendation" name="recommendation" maxlength="1000"
+                  placeholder="Tuliskan usulan untuk ditinjau oleh tim terkait."></textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="confirmation">
+            <input id="declaration" name="declaration" type="checkbox" required />
+            <label for="declaration">
+              Saya memahami bahwa ini formulir demonstrasi.
+              Data belum dikirim atau disimpan sebagai laporan resmi.
+              <span class="required">*</span>
+            </label>
+          </div>
+
+          <div class="actions">
+            <button type="button" class="button button-secondary" id="reset-button">
+              Kosongkan Formulir
+            </button>
+            <button type="submit" class="button button-primary">
+              Pratinjau Laporan →
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="sidebar" aria-label="Informasi formulir">
+        <section class="panel side-content">
+          <h2>Alur halaman ini</h2>
+          <ol>
+            <li>Isi identitas pelapor.</li>
+            <li>Lengkapi informasi temuan.</li>
+            <li>Tuliskan informasi tindak lanjut.</li>
+            <li>Periksa pratinjau laporan.</li>
+            <li>Konfirmasi simulasi.</li>
+          </ol>
+        </section>
+
+        <section class="panel side-content notice">
+          <h2>Status pengembangan</h2>
+          <p>Halaman ini belum terhubung ke layanan pelaporan perusahaan.</p>
+          <p class="small">
+            Belum ada nomor laporan resmi, pengiriman notifikasi,
+            unggahan foto, atau penyimpanan database.
+          </p>
+          <p class="small">
+            Konfirmasi simulasi tidak berarti laporan telah diterima tim HSE.
+          </p>
+        </section>
+
+        <section class="panel side-content">
+          <h2>Privasi pengujian</h2>
+          <p class="small">
+            Gunakan nama, kontak, dan temuan fiktif.
+            Isi formulir hilang ketika halaman dimuat ulang atau ditutup.
+          </p>
+          <a class="button button-secondary" href="index.html">
+            ← Kembali ke Dashboard
+          </a>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span>UEI · HSE DEPARTMENT</span>
+    <span>
+      © <span id="copyright-year"></span> PT Unggul Ejawantah Industri · HSE Portal
+    </span>
+  </footer>
+
+  <dialog id="preview-dialog" aria-labelledby="preview-title">
+    <div class="modal-heading">
+      <h2 id="preview-title">Pratinjau Laporan Hazard</h2>
+      <button type="button" class="modal-close" id="close-preview" aria-label="Tutup">×</button>
+    </div>
+
+    <div class="modal-body">
+      <p class="status-box">
+        Pratinjau demonstrasi. Laporan belum dikirim dan belum memiliki nomor resmi.
+      </p>
+      <dl class="preview-list" id="preview-content"></dl>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="button button-secondary" id="edit-button">
+        Kembali Edit
+      </button>
+      <button type="button" class="button button-primary" id="confirm-button">
+        Konfirmasi Simulasi
+      </button>
+    </div>
+  </dialog>
+
+  <dialog id="message-dialog" aria-labelledby="message-title">
+    <div class="modal-heading">
+      <h2 id="message-title"></h2>
+      <button type="button" class="modal-close" id="close-message" aria-label="Tutup">×</button>
+    </div>
+
+    <div class="modal-body" id="message-content"></div>
+
+    <div class="modal-actions">
+      <button type="button" class="button button-secondary" id="cancel-reset" hidden>
+        Batal
+      </button>
+      <button type="button" class="button button-primary" id="message-action">
+        Mengerti
+      </button>
+    </div>
+  </dialog>
+
+  <script>
+    "use strict";
+
+    const $ = (id) => document.getElementById(id);
+    const form = $("hazard-form");
+    let messageMode = "info";
+
+    const previewFields = [
+      ["Nama pelapor", "reporter"],
+      ["NIK / ID karyawan", "employeeId"],
+      ["Departemen", "department"],
+      ["Kontak", "contact"],
+      ["Tanggal & waktu temuan", "observedAt"],
+      ["Area / lokasi", "location"],
+      ["Detail titik lokasi", "specificLocation"],
+      ["Kategori temuan", "category"],
+      ["Usulan prioritas", "priority"],
+      ["Deskripsi temuan", "description"],
+      ["Potensi dampak", "potentialImpact"],
+      ["Tindakan yang sudah dilakukan", "immediateAction"],
+      ["Usulan tindak lanjut", "recommendation"]
+    ];
+
+    function updateCounter() {
+      $("description-counter").textContent =
+        `${new Intl.NumberFormat("id-ID").format($("description").value.length)} / 2.000 karakter`;
+    }
+
+    function formatDateTime(value) {
+      if (!value) return "—";
+
+      const [date, time] = value.split("T");
+      const [year, month, day] = date.split("-");
+
+      return `${day}/${month}/${year}, ${time} (waktu lokal lokasi temuan)`;
+    }
+
+    function renderPreview() {
+      const data = new FormData(form);
+      const fragment = document.createDocumentFragment();
+
+      previewFields.forEach(([label, name]) => {
+        const term = document.createElement("dt");
+        const detail = document.createElement("dd");
+
+        let value = String(data.get(name) || "").trim();
+        if (name === "observedAt") value = formatDateTime(value);
+
+        term.textContent = label;
+        detail.textContent = value || "Tidak diisi";
+
+        fragment.append(term, detail);
+      });
+
+      $("preview-content").replaceChildren(fragment);
+    }
+
+    function showMessage(title, paragraphs, mode = "info") {
+      messageMode = mode;
+      $("message-title").textContent = title;
+
+      const fragment = document.createDocumentFragment();
+
+      paragraphs.forEach((text) => {
+        const paragraph = document.createElement("p");
+        paragraph.textContent = text;
+        fragment.append(paragraph);
+      });
+
+      $("message-content").replaceChildren(fragment);
+      $("cancel-reset").hidden = mode !== "reset";
+      $("message-action").textContent =
+        mode === "reset" ? "Ya, Kosongkan" : "Mengerti";
+
+      $("message-dialog").showModal();
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      form.querySelectorAll('input[type="text"], textarea').forEach((field) => {
+        field.value = field.value.trim();
+      });
+
+      updateCounter();
+
+      if (!form.reportValidity()) return;
+
+      renderPreview();
+      $("preview-dialog").showModal();
+    });
+
+    $("description").addEventListener("input", updateCounter);
+
+    $("close-preview").addEventListener("click", () => {
+      $("preview-dialog").close();
+    });
+
+    $("edit-button").addEventListener("click", () => {
+      $("preview-dialog").close();
+    });
+
+    $("confirm-button").addEventListener("click", () => {
+      $("preview-dialog").close();
+
+      showMessage("Simulasi Selesai — Belum Terkirim", [
+        "Pratinjau laporan telah dikonfirmasi dalam mode demonstrasi.",
+        "Tidak ada data yang dikirim ke server, database, atau tim HSE. Tidak ada nomor laporan resmi yang diterbitkan.",
+        "Isi formulir tetap tersedia untuk diedit selama halaman ini belum dimuat ulang atau ditutup."
+      ]);
+    });
+
+    $("reset-button").addEventListener("click", () => {
+      showMessage(
+        "Kosongkan Formulir?",
+        ["Semua isian pada formulir ini akan dihapus. Tindakan ini tidak dapat dibatalkan."],
+        "reset"
+      );
+    });
+
+    $("message-action").addEventListener("click", () => {
+      if (messageMode === "reset") {
+        form.reset();
+        $("preview-content").replaceChildren();
+        updateCounter();
+      }
+
+      $("message-dialog").close();
+
+      if (messageMode === "reset") $("reporter").focus();
+    });
+
+    $("close-message").addEventListener("click", () => {
+      $("message-dialog").close();
+    });
+
+    $("cancel-reset").addEventListener("click", () => {
+      $("message-dialog").close();
+    });
+
+    $("copyright-year").textContent = new Date().getFullYear();
+    updateCounter();
+  </script>
+</body>
+</html>
