@@ -168,8 +168,8 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
 
     <div class="msg" id="msg"></div>
     <div class="actions">
-      <button type="reset" class="btn sec2" id="reset">Reset</button>
-      <button type="submit" class="btn main" id="send">Kirim Laporan</button>
+      <button type="reset" class="btn sec2" id="btnReset">Reset</button>
+      <button type="submit" class="btn main" id="btnSend">Kirim Laporan</button>
     </div>
   </form>
 </main>
@@ -182,7 +182,7 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
 </div></div>
 
 <footer>
-  <div class="brand"><img src="assets/gambar/logo.png" alt="Logo" onerror="this.style.display='none'"><span>HSE DEPARTEMENT</span></div>
+  <div class="brand"><img src="assets/gambar/logo.png" alt="Logo" onerror="this.style.display='none'"><span>HSE DEPARTEMEN</span></div>
   <div id="copy"></div>
 </footer>
 
@@ -235,7 +235,7 @@ $("thumbs").addEventListener("click", e => {
 });
 
 function showMsg(t){ const m = $("msg"); m.textContent = t; m.style.display = t ? "block" : "none"; }
-$("reset").addEventListener("click", () => { photos = []; drawThumbs(); showMsg(""); setTimeout(setDefaults, 0); });
+$("btnReset").addEventListener("click", () => { photos = []; drawThumbs(); showMsg(""); setTimeout(setDefaults, 0); });
 $("close").addEventListener("click", () => $("modal").classList.remove("on"));
 
 $("frm").addEventListener("submit", async e => {
@@ -248,7 +248,8 @@ $("frm").addEventListener("submit", async e => {
   const kosong = Object.keys(WAJIB).filter(k => !data[k]).map(k => WAJIB[k]);
   if(kosong.length){ showMsg("Lengkapi dulu kolom wajib: " + kosong.join(", ") + "."); return; }
 
-  const btn = $("send"); btn.disabled = true; btn.innerHTML = '<span class="spin"></span>Mengirim...';
+  const btn = $("btnSend"); btn.disabled = true; btn.innerHTML = '<span class="spin"></span>Mengirim...';
+  let sent = false;
   try{
     const res = await fetch(URL_SHEETS, {
       method: "POST",
@@ -257,13 +258,17 @@ $("frm").addEventListener("submit", async e => {
     });
     const j = await res.json();
     if(!j.ok) throw new Error(j.error || "Gagal menyimpan");
+    sent = true;
     $("newid").textContent = j.id;
     $("modal").classList.add("on");
-    $("frm").reset(); photos = []; drawThumbs(); setDefaults();
   }catch(err){
     showMsg("Laporan belum terkirim: " + err.message + ". Periksa koneksi lalu coba lagi.");
   }finally{
     btn.disabled = false; btn.textContent = "Kirim Laporan";
+  }
+  if(sent){
+    HTMLFormElement.prototype.reset.call($("frm"));
+    photos = []; drawThumbs(); setDefaults();
   }
 });
 </script>
