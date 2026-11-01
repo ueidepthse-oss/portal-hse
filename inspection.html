@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inspection Report | HSE Portal</title>
+<style>
+:root{--g1:#0b8a42;--g2:#08672f;--g3:#24a65a;--gbg:#e8f5ec;--bg:#eaf4ed;--tx:#0d3b22;--mut:#5d7a6a;--line:#cfe3d6;--red:#d32f2f;--blue:#0e7fa8;--yellow:#f5c400;--bounce:cubic-bezier(.34,1.56,.64,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;display:flex;flex-direction:column;position:relative;overflow-x:hidden}
+.ic{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg svg{position:absolute}.bg .hex{inset:0;width:100%;height:100%}
+.bg .shield{right:-70px;bottom:20px;width:440px;height:440px;opacity:.10;fill:none;stroke:var(--g1);stroke-width:.6;stroke-linecap:round;stroke-linejoin:round}
+header,.stripe,main,footer{position:relative;z-index:1}header{z-index:5}
+header{background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 20px;height:56px;flex:none;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
+.brand img{height:36px;width:auto}.brand .sep{width:1px;height:26px;background:rgba(255,255,255,.55)}
+nav{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+nav>a,.dd>a{color:#fff;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.4px;padding:8px 12px;border-radius:6px;text-transform:uppercase;display:block;transition:background .2s}
+nav>a:hover,.dd>a:hover{background:rgba(255,255,255,.18);animation:hop .55s ease}
+nav .active{background:var(--g2);box-shadow:inset 0 -3px 0 var(--yellow)}
+.dd{position:relative}.dd>a::after{content:" ▾";font-size:10px}
+.menu{display:none;position:absolute;top:100%;right:0;min-width:210px;padding-top:6px}
+.menu .box{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 10px 24px rgba(13,59,34,.28);border-top:4px solid var(--yellow);animation:popIn .45s var(--bounce)}
+.dd:hover .menu,.dd:focus-within .menu{display:block}
+.menu a{display:flex;align-items:center;gap:10px;padding:10px 14px;color:var(--g2);text-decoration:none;font-size:13px;font-weight:700;border-bottom:1px solid var(--line);transition:padding .2s var(--bounce),background .2s}
+.menu a:last-child{border-bottom:0}.menu a:hover{background:var(--gbg);padding-left:20px}.menu .ic{font-size:17px;color:var(--g1)}
+.stripe{height:6px;flex:none;background:repeating-linear-gradient(-45deg,var(--yellow) 0 10px,#1c1c1c 10px 20px)}
+
+@keyframes popIn{0%{opacity:0;transform:translateY(26px) scale(.88)}55%{opacity:1;transform:translateY(-7px) scale(1.03)}78%{transform:translateY(3px) scale(.99)}100%{opacity:1;transform:none}}
+@keyframes hop{0%,100%{transform:translateY(0)}28%{transform:translateY(-9px)}50%{transform:translateY(0)}66%{transform:translateY(-4px)}82%{transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pop{opacity:0;animation:popIn .8s var(--bounce) forwards;animation-delay:calc(var(--i,0) * 90ms)}
+
+main{flex:1;padding:16px 20px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:14px;align-items:start}
+.crumb{grid-column:1/3;font-size:12px;color:var(--mut)}.crumb a{color:var(--g1);text-decoration:none;font-weight:700}
+.side{background:#fff;border-radius:10px;border-top:6px solid var(--blue);box-shadow:0 4px 14px rgba(13,59,34,.14);padding:12px;position:sticky;top:10px}
+.side h2{font-size:13px;color:var(--g2);text-transform:uppercase;letter-spacing:.5px;margin:2px 4px 8px}
+.side button{display:flex;align-items:center;gap:8px;width:100%;text-align:left;font:inherit;font-size:13px;font-weight:700;color:var(--g2);background:#fff;border:1.5px solid var(--line);border-radius:8px;padding:9px 10px;margin-bottom:6px;cursor:pointer;transition:.2s var(--bounce)}
+.side button small{margin-left:auto;font-weight:600;color:var(--mut);font-size:10.5px}
+.side button:hover{transform:translateX(5px);border-color:var(--g1)}
+.side button.on{background:var(--g1);border-color:var(--g1);color:#fff}.side button.on small{color:#dff5e7}
+.panel{background:#fff;border-radius:10px;border-top:6px solid var(--blue);box-shadow:0 4px 14px rgba(13,59,34,.14);padding:18px 22px 22px;min-width:0}
+.ptitle{display:flex;align-items:center;gap:12px}
+.ptitle .ico{width:46px;height:46px;border-radius:50%;background:#dff1fa;color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:24px;animation:hop 2.8s infinite}
+.ptitle h1{font-size:19px;color:var(--g2)}.ptitle small{display:block;font-size:12px;color:var(--mut);font-weight:400}
+.sec{font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--g2);margin:16px 0 8px;padding-bottom:4px;border-bottom:2px solid var(--gbg)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 16px}.full{grid-column:1/3}
+label{display:block;font-size:12.5px;font-weight:700;margin-bottom:4px}label i{color:var(--red);font-style:normal}
+input,select,textarea{width:100%;font:inherit;font-size:13.5px;padding:9px 11px;border:1.5px solid var(--line);border-radius:7px;background:#fff;color:var(--tx);transition:border .2s,box-shadow .2s}
+textarea{min-height:70px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--g1);box-shadow:0 0 0 3px rgba(11,138,66,.18)}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+.ck{width:100%;border-collapse:collapse;font-size:13px;min-width:560px}
+.ck th{background:var(--gbg);color:var(--g2);font-size:11px;text-transform:uppercase;padding:8px;text-align:center}
+.ck td{border-top:1px solid var(--line);padding:6px 8px;text-align:center}.ck td.t{text-align:left}
+.ck tr:hover td{background:#f3faf5}
+.ck input[type=radio]{width:18px;height:18px;accent-color:var(--g1);cursor:pointer}
+.ck input.bad{accent-color:var(--red)}.ck td input[type=text]{padding:5px 7px;font-size:12.5px}
+.sum{margin-top:8px;font-size:12.5px;font-weight:700;color:var(--g2)}
+.actions{display:flex;gap:12px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap}
+.btn{font:inherit;font-weight:800;letter-spacing:.4px;padding:11px 24px;border-radius:8px;border:0;cursor:pointer;transition:.2s var(--bounce)}
+.btn:hover{transform:translateY(-3px) scale(1.04)}
+.btn.main{background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;box-shadow:0 4px 10px rgba(11,138,66,.35)}
+.btn.sec2{background:#fff;color:var(--g2);border:2px solid var(--g1)}.btn:disabled{opacity:.6;cursor:wait;transform:none}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
+.msg{display:none;margin-top:14px;padding:10px 14px;border-radius:7px;font-size:13px;font-weight:600;background:#fde4e4;color:#b71c1c}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(8,40,22,.55);display:none;align-items:center;justify-content:center;padding:20px}.modal.on{display:flex}
+.mbox{background:#fff;border-radius:14px;padding:28px 30px;text-align:center;max-width:400px;border-top:6px solid var(--g1);animation:popIn .6s var(--bounce)}
+.mbox .ok{width:64px;height:64px;margin:0 auto 10px;border-radius:50%;background:var(--gbg);color:var(--g1);display:flex;align-items:center;justify-content:center;font-size:36px;animation:hop 1.4s infinite}
+.mbox h2{color:var(--g2);margin-bottom:6px}.mbox p{font-size:13.5px;color:var(--mut)}
+.mbox b{display:inline-block;margin:8px 0 14px;font-size:22px;color:var(--g2);background:var(--gbg);padding:4px 16px;border-radius:8px}
+.mbox .btn{margin:0 4px}
+footer{background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;flex:none;height:46px;margin:0 20px 12px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:13px}
+footer .brand{font-size:13px}footer .brand img{height:26px}
+
+/* ===== LEMBAR CETAK (A4 portrait) ===== */
+#sheet{display:none}
+@media print{
+  @page{size:A4 portrait;margin:12.7mm}
+  body{background:#fff;display:block;min-height:0}
+  body>*:not(#sheet){display:none!important}
+  #sheet{display:block;font-family:Arial,sans-serif;color:#000;font-size:9pt;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .ph{display:flex;justify-content:flex-end;align-items:flex-end;gap:8px;border-bottom:2px solid #0F9ED5;padding-bottom:2px}
+  .ph img{height:9mm;width:auto}
+  .ph .id{border-left:2px solid #0F9ED5;margin-left:6px;padding-left:5px;font:bold 7.5pt 'Times New Roman',serif}
+  .ph .id div{display:flex;gap:4px;border-bottom:1px dashed #000;padding:0 2px;line-height:1.35}
+  .ph .id div:last-child{border:0}.ph .id span:first-child{width:23mm}.ph .id span:nth-child(2){width:2mm}.ph .id span:last-child{width:34mm}
+  #sheet h3{text-align:center;font-size:12pt;margin:10px 0 8px;letter-spacing:.3px}
+  #sheet table{width:100%;border-collapse:collapse}
+  .inf td{padding:2px 4px;font-size:9pt}.inf td:nth-child(odd){width:26mm;font-weight:bold}
+  .cl{margin-top:6px}.cl th,.cl td{border:1px solid #000;padding:3px 4px;font-size:8.5pt}
+  .cl th{background:#d9f1fb;text-align:center}.cl td.c{text-align:center;width:11mm}.cl td.n{text-align:center;width:8mm}
+  .tt{margin-top:8px;border:1px solid #000;padding:4px 6px;min-height:14mm;font-size:8.5pt}
+  .sg{margin-top:10px}.sg td{width:50%;text-align:center;vertical-align:top;font-size:9pt}.sg .sp{height:20mm}
+  .ft{position:fixed;left:0;right:0;bottom:0;background:#00B0F0;color:#fff;font:bold 8pt Arial,sans-serif;padding:2px 6px}
+}
+@media (max-width:900px){
+  header{height:auto;flex-direction:column;align-items:flex-start;padding:10px 14px}nav{justify-content:flex-start}.menu{right:auto;left:0}
+  main{grid-template-columns:1fr;padding:12px 14px}.crumb{grid-column:1}.side{position:static}
+  .grid{grid-template-columns:1fr}.full{grid-column:1}.panel{padding:14px}
+  footer{margin:0 14px 12px;height:auto;padding:12px;flex-direction:column;gap:6px;text-align:center}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pop{opacity:1}}
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <svg class="hex" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="hexp" width="56" height="100" patternUnits="userSpaceOnUse" patternTransform="scale(.9)"><path d="M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100" fill="none" stroke="#0b8a42" stroke-opacity=".13" stroke-width="1.2"/><path d="M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34" fill="none" stroke="#0b8a42" stroke-opacity=".13" stroke-width="1.2"/></pattern></defs><rect width="100%" height="100%" fill="url(#hexp)"/></svg>
+  <svg class="shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-hazard" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-nearmiss" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></symbol>
+  <symbol id="i-incident" viewBox="0 0 24 24"><path d="M7 18v-6a5 5 0 1 1 10 0v6"/><path d="M5 21a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2z"/><path d="M21 12h1"/><path d="M18.5 4.5 18 5"/><path d="M2 12h1"/><path d="M12 2v1"/><path d="m4.929 4.929.707.707"/><path d="M12 12v6"/></symbol>
+  <symbol id="i-inspect" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol>
+</svg>
+
+<header>
+  <div class="brand"><img src="assets/gambar/logo.png" alt="Logo" onerror="this.style.display='none'"><span class="sep"></span><span>HSE DEPARTEMENT</span></div>
+  <nav>
+    <a href="index.html">Home</a><a href="profile.html">Profile</a><a href="data.html">Data</a>
+    <div class="dd">
+      <a href="report.html" class="active">Report</a>
+      <div class="menu"><div class="box">
+        <a href="hazard.html"><svg class="ic"><use href="#i-hazard"/></svg>Hazard Report</a>
+        <a href="nearmiss.html"><svg class="ic"><use href="#i-nearmiss"/></svg>Near Miss Report</a>
+        <a href="incident.html"><svg class="ic"><use href="#i-incident"/></svg>Incident Report</a>
+        <a href="inspection.html"><svg class="ic"><use href="#i-inspect"/></svg>Inspection Report</a>
+      </div></div>
+    </div>
+    <a href="health.html">Health</a><a href="sdm.html">SDM</a><a href="permit.html">Permit</a><a href="library.html">Library</a>
+  </nav>
+</header>
+<div class="stripe"></div>
+
+<main>
+  <div class="crumb"><a href="report.html">Report</a> › Inspection Report</div>
+  <aside class="side pop" style="--i:0"><h2>Jenis Inspeksi</h2><div id="list"></div></aside>
+  <form class="panel pop" id="frm" style="--i:1" novalidate></form>
+</main>
+
+<div class="modal" id="modal"><div class="mbox">
+  <div class="ok"><svg class="ic"><use href="#i-check"/></svg></div>
+  <h2>Inspeksi Tersimpan!</h2><p>Data masuk ke Google Sheet. Form dapat dicetak sekarang.</p>
+  <b id="newid">IS-0000</b><br>
+  <button class="btn sec2" id="mPrint" type="button">🖨 Cetak</button><button class="btn main" id="mClose" type="button">Tutup</button>
+</div></div>
+
+<footer>
+  <div class="brand"><img src="assets/gambar/logo.png" alt="Logo" onerror="this.style.display='none'"><span>HSE DEPARTEMENT</span></div>
+  <div id="copy"></div>
+</footer>
+
+<!-- lembar cetak -->
+<div id="sheet"></div>
+
+<script>
+/* ===== PENGATURAN ===== */
+const URL_SHEETS = "https://script.google.com/macros/s/AKfycbwz8ZtmBmsC-Mtxnsd7QKAh1EPGQ1wVKUgn87U-0Xs-o09AvL1MP8D7mRKXEwjcGRd2/exec";
+const TGL_BERLAKU = "01 Oktober 2025", REVISI = "00";   // ubah sesuai dokumen asli bila berbeda
+
+/* butir pemeriksaan */
+const KABEL = ["Kabel dan steker tidak terkelupas atau retak","Saklar ON/OFF berfungsi baik","Rumah alat (bodi) tidak retak atau pecah","Tidak ada suara atau getaran abnormal"];
+const BATERAI = ["Baterai terpasang kuat dan tidak menggembung","Charger dan kabel charger dalam kondisi baik","Indikator baterai berfungsi","Saklar ON/OFF dan tombol reverse berfungsi","Rumah alat (bodi) tidak retak atau pecah"];
+const UMUM = ["Gagang / handle terpasang kuat","Alat bersih dari oli dan kotoran","Label / tag inspeksi masih berlaku"];
+const T = [
+ {k:"apar-powder",n:"APAR Powder",no:"008",apar:"Powder",kap:["6 kg","9 kg"],it:["Jarum pressure gauge berada di zona hijau","Segel dan pin pengaman terpasang","Selang dan nozzle tidak retak atau tersumbat","Tabung tidak berkarat, penyok, atau bocor","Label dan petunjuk penggunaan masih terbaca","Tinggi pemasangan sesuai dan tidak terhalang","Bracket / penggantung kuat","Tanggal kedaluwarsa belum terlewati"]},
+ {k:"apar-co2",n:"APAR CO2",no:"008",apar:"CO2",kap:["9 kg"],it:["Berat tabung sesuai (tidak berkurang)","Segel dan pin pengaman terpasang","Horn / corong tidak retak atau tersumbat","Selang tidak retak atau getas","Tabung tidak berkarat, penyok, atau bocor","Label dan petunjuk penggunaan masih terbaca","Tinggi pemasangan sesuai dan tidak terhalang","Tanggal kedaluwarsa belum terlewati"]},
+ {k:"gerinda",n:"Gerinda Tangan",no:"009",it:["Pelindung (guard) cakram terpasang lengkap","Cakram gerinda tidak retak, aus, atau gompal","Mur pengunci cakram kencang","Handle samping terpasang"].concat(KABEL,UMUM)},
+ {k:"bor-listrik",n:"Bor Listrik",no:"010",it:["Chuck mengunci mata bor dengan kuat","Mata bor tajam dan tidak bengkok","Handle samping terpasang","Tombol pengatur arah putaran berfungsi"].concat(KABEL,UMUM)},
+ {k:"bor-baterai",n:"Bor Baterai",no:"011",it:["Chuck mengunci mata bor dengan kuat","Mata bor tajam dan tidak bengkok","Handle samping terpasang"].concat(BATERAI,UMUM)},
+ {k:"jigsaw",n:"Jig Saw",no:"012",it:["Bilah gergaji terpasang kuat dan tidak bengkok","Pelindung bilah terpasang","Base plate rata dan tidak longgar","Pengatur kecepatan berfungsi"].concat(KABEL,UMUM)},
+ {k:"circular",n:"Circular Saw",no:"013",it:["Mata gergaji tajam, tidak retak, dan tidak aus","Guard atas dan guard bawah bergerak bebas","Mur pengunci mata gergaji kencang","Penahan (fence) dan pengunci kedalaman berfungsi"].concat(KABEL,UMUM)},
+ {k:"heatgun",n:"Heat Gun",no:"014",it:["Nozzle tidak retak atau berubah bentuk","Pengatur suhu dan kipas berfungsi","Tidak ada bau terbakar atau asap","Lubang udara masuk tidak tersumbat"].concat(KABEL,UMUM)},
+ {k:"cutting",n:"Cutting Wheel",no:"015",it:["Cakram potong tidak retak atau gompal","Ukuran cakram sesuai kapasitas alat","Pelindung (guard) terpasang lengkap","Flens dan mur pengunci kencang"].concat(KABEL,UMUM)},
+ {k:"bor-magnet",n:"Bor Magnet",no:"016",it:["Daya magnet menempel kuat pada benda kerja","Tali / rantai pengaman terpasang","Mata bor (annular cutter) tajam dan tidak retak","Sistem pendingin / cairan pelumas berfungsi","Pelindung (guard) mata bor terpasang"].concat(KABEL,UMUM)}
+];
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const iso = () => { const n = new Date(); return new Date(n.getTime() - n.getTimezoneOffset()*60000).toISOString().slice(0,10); };
+const tglIndo = v => { const d = new Date(v); return isNaN(d) ? "" : d.toLocaleDateString("id-ID",{day:"2-digit",month:"long",year:"numeric"}); };
+const judul = t => "FORMULIR INSPEKSI " + t.n.toUpperCase() + (t.apar ? "" : "");
+let cur = T[0];
+
+function renderList(){
+  $("list").innerHTML = T.map(t => `<button type="button" data-k="${t.k}" class="${t.k === cur.k ? "on" : ""}">${esc(t.n)}<small>FRM-${t.no}</small></button>`).join("");
+}
+$("list").addEventListener("click", e => {
+  const b = e.target.closest("button"); if(!b) return;
+  cur = T.find(t => t.k === b.dataset.k); renderList(); renderForm();
+  $("frm").scrollIntoView({behavior:"smooth", block:"start"});
+});
+
+function renderForm(){
+  const t = cur;
+  $("frm").innerHTML = `
+    <div class="ptitle"><div class="ico"><svg class="ic"><use href="#i-inspect"/></svg></div>
+      <h1>${esc(judul(t))}<small>UEI/HSE/FRM/${t.no} · Berlaku ${TGL_BERLAKU} · Rev ${REVISI}</small></h1></div>
+
+    <div class="sec">Data Inspeksi</div>
+    <div class="grid">
+      <div><label>Tanggal Inspeksi <i>*</i></label><input type="date" id="f-tanggal" value="${iso()}"></div>
+      <div><label>${t.apar ? "No. / Kode APAR" : "Kode Alat"} <i>*</i></label><input id="f-kode" placeholder="${t.apar ? "Contoh: APAR-001" : "Contoh: GRD-001"}"></div>
+      <div class="${t.apar ? "" : "full"}"><label>Lokasi <i>*</i></label><input id="f-lokasi"></div>
+      ${t.apar ? `<div><label>Jenis Media</label><input value="${t.apar}" disabled></div>
+      <div><label>Kapasitas <i>*</i></label><select id="f-kap">${t.kap.length > 1 ? '<option value="">- pilih -</option>' : ""}${t.kap.map(x => `<option>${x}</option>`).join("")}</select></div>
+      <div><label>Tanggal Kedaluwarsa <i>*</i></label><input type="date" id="f-exp"></div>` : ""}
+      <div class="full"><label>Nama Inspektur <i>*</i></label><input id="f-inspektur"></div>
+    </div>
+
+    <div class="sec">Checklist Pemeriksaan</div>
+    <div class="tw"><table class="ck"><thead><tr><th>No</th><th style="text-align:left">Butir Pemeriksaan</th><th>Baik</th><th>Tidak Baik</th><th>N/A</th><th>Keterangan</th></tr></thead><tbody>
+      ${t.it.map((x,i) => `<tr><td>${i+1}</td><td class="t">${esc(x)}</td>
+        <td><input type="radio" name="c${i}" value="Baik"></td>
+        <td><input type="radio" class="bad" name="c${i}" value="Tidak Baik"></td>
+        <td><input type="radio" name="c${i}" value="N/A"></td>
+        <td><input type="text" id="k${i}"></td></tr>`).join("")}
+    </tbody></table></div>
+    <div class="sum" id="sum"></div>
+
+    <div class="sec">Catatan &amp; Pengesahan</div>
+    <div class="grid">
+      <div class="full"><label>Catatan / Tindak Lanjut</label><textarea id="f-catatan"></textarea></div>
+      <div class="full"><label>Mengetahui (Nama Supervisor / HSE)</label><input id="f-mengetahui"></div>
+    </div>
+
+    <div class="msg" id="msg"></div>
+    <div class="actions">
+      <button type="button" class="btn sec2" id="bReset">Reset</button>
+      <button type="button" class="btn sec2" id="bPrint">🖨 Cetak</button>
+      <button type="submit" class="btn main" id="bSend">Simpan &amp; Kirim</button>
+    </div>`;
+  $("bReset").onclick = renderForm;
+  $("bPrint").onclick = () => { buildSheet(); window.print(); };
+  $("frm").querySelectorAll(".ck input[type=radio]").forEach(r => r.addEventListener("change", summary));
+  summary();
+}
+
+function state(){
+  const t = cur;
+  const rows = t.it.map((x,i) => { const r = document.querySelector(`input[name="c${i}"]:checked`); return {x, v: r ? r.value : "", k: $("k"+i).value.trim()}; });
+  return {
+    tanggal: $("f-tanggal").value, kode: $("f-kode").value.trim(), lokasi: $("f-lokasi").value.trim(),
+    inspektur: $("f-inspektur").value.trim(), kapasitas: t.apar ? $("f-kap").value : "", expired: t.apar ? $("f-exp").value : "",
+    catatan: $("f-catatan").value.trim(), mengetahui: $("f-mengetahui").value.trim(), rows,
+    baik: rows.filter(r => r.v === "Baik").length, buruk: rows.filter(r => r.v === "Tidak Baik").length,
+    na: rows.filter(r => r.v === "N/A").length, kosong: rows.filter(r => !r.v).length
+  };
+}
+function summary(){
+  const s = state();
+  $("sum").textContent = `Hasil: ${s.baik} Baik · ${s.buruk} Tidak Baik · ${s.na} N/A` + (s.kosong ? ` · ${s.kosong} butir belum diisi` : "");
+  $("sum").style.color = s.buruk ? "#b71c1c" : "";
+}
+function showMsg(t){ const m = $("msg"); m.textContent = t; m.style.display = t ? "block" : "none"; }
+
+/* ===== lembar cetak A4 ===== */
+function buildSheet(){
+  const t = cur, s = state();
+  const mark = (r, v) => r.v === v ? "✓" : "";
+  $("sheet").innerHTML = `
+  <div class="ph"><img src="assets/gambar/logo-ikon.png" alt=""><img src="assets/gambar/logo-uei.png" alt="">
+    <div class="id">
+      <div><span>No. Dokumen</span><span>:</span><span>UEI/HSE/FRM/${t.no}</span></div>
+      <div><span>Tanggal Berlaku</span><span>:</span><span>${TGL_BERLAKU}</span></div>
+      <div><span>No. Revisi</span><span>:</span><span>${REVISI}</span></div>
+      <div><span>Halaman</span><span>:</span><span>1 dari 1</span></div>
+      <div><span>Departemen</span><span>:</span><span>HSE</span></div>
+    </div></div>
+  <h3>${esc(judul(t))}</h3>
+  <table class="inf">
+    <tr><td>Tanggal</td><td>: ${esc(tglIndo(s.tanggal))}</td><td>${t.apar ? "No. APAR" : "Kode Alat"}</td><td>: ${esc(s.kode)}</td></tr>
+    <tr><td>Lokasi</td><td>: ${esc(s.lokasi)}</td><td>Inspektur</td><td>: ${esc(s.inspektur)}</td></tr>
+    ${t.apar ? `<tr><td>Jenis / Kapasitas</td><td>: ${t.apar} / ${esc(s.kapasitas)}</td><td>Kedaluwarsa</td><td>: ${esc(tglIndo(s.expired))}</td></tr>` : ""}
+  </table>
+  <table class="cl"><thead><tr><th>No</th><th>Butir Pemeriksaan</th><th>Baik</th><th>Tidak Baik</th><th>N/A</th><th>Keterangan</th></tr></thead><tbody>
+    ${s.rows.map((r,i) => `<tr><td class="n">${i+1}</td><td>${esc(r.x)}</td><td class="c">${mark(r,"Baik")}</td><td class="c">${mark(r,"Tidak Baik")}</td><td class="c">${mark(r,"N/A")}</td><td>${esc(r.k)}</td></tr>`).join("")}
+  </tbody></table>
+  <div class="tt"><b>Catatan / Tindak Lanjut:</b> ${esc(s.catatan)}<br><b>Hasil:</b> ${s.baik} Baik, ${s.buruk} Tidak Baik, ${s.na} N/A</div>
+  <table class="sg"><tr><td>Diperiksa oleh,<div class="sp"></div><b>( ${esc(s.inspektur) || "..............................."} )</b><br>Inspektur</td>
+    <td>Mengetahui,<div class="sp"></div><b>( ${esc(s.mengetahui) || "..............................."} )</b><br>Supervisor / HSE</td></tr></table>
+  <div class="ft">DOKUMEN MILIK DEPARTEMEN HSE PT UNGGUL EJAWANTAH INDUSTRI</div>`;
+}
+
+/* ===== kirim ke Google Sheets ===== */
+$("frm").addEventListener("submit", async e => {
+  e.preventDefault(); showMsg("");
+  const t = cur, s = state();
+  const k = [];
+  if(!s.tanggal) k.push("Tanggal"); if(!s.kode) k.push("Kode"); if(!s.lokasi) k.push("Lokasi"); if(!s.inspektur) k.push("Inspektur");
+  if(t.apar){ if(!s.kapasitas) k.push("Kapasitas"); if(!s.expired) k.push("Tanggal Kedaluwarsa"); }
+  if(k.length){ showMsg("Lengkapi dulu kolom wajib: " + k.join(", ") + "."); return; }
+  if(s.kosong){ showMsg(`Masih ada ${s.kosong} butir checklist yang belum dipilih.`); return; }
+
+  const data = {
+    tanggal: s.tanggal, form: "UEI/HSE/FRM/" + t.no, alat: t.n, kode: s.kode, lokasi: s.lokasi,
+    kapasitas: s.kapasitas, expired: s.expired, inspektur: s.inspektur,
+    hasil: `${s.baik} Baik, ${s.buruk} Tidak Baik, ${s.na} N/A`,
+    ketidaksesuaian: s.rows.filter(r => r.v === "Tidak Baik").map(r => r.x + (r.k ? " (" + r.k + ")" : "")).join("; "),
+    detail: s.rows.map((r,i) => `${i+1}. ${r.v}${r.k ? " - " + r.k : ""}`).join(" | "),
+    catatan: s.catatan, mengetahui: s.mengetahui
+  };
+  const btn = $("bSend"); btn.disabled = true; btn.innerHTML = '<span class="spin"></span>Mengirim...';
+  let ok = false;
+  try{
+    const res = await fetch(URL_SHEETS, {method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body: JSON.stringify({type:"inspection", status: s.buruk ? "Open" : "Closed", data, photos: []})});
+    const j = await res.json();
+    if(!j.ok) throw new Error(j.error || "Gagal menyimpan");
+    ok = true; $("newid").textContent = j.id;
+  }catch(err){
+    showMsg("Inspeksi belum terkirim: " + err.message + ". Periksa koneksi lalu coba lagi.");
+  }finally{
+    btn.disabled = false; btn.textContent = "Simpan & Kirim";
+  }
+  if(ok){ buildSheet(); $("modal").classList.add("on"); }
+});
+$("mPrint").onclick = () => window.print();
+$("mClose").onclick = () => { $("modal").classList.remove("on"); renderForm(); };
+
+$("copy").textContent = "© " + new Date().getFullYear() + " Dept HSE - All Right Reserved";
+renderList(); renderForm();
+</script>
+</body>
+</html>
