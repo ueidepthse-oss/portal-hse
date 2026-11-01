@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Inspection Report | HSE Portal</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
 :root{--g1:#0b8a42;--g2:#08672f;--g3:#24a65a;--gbg:#e8f5ec;--bg:#eaf4ed;--tx:#0d3b22;--mut:#5d7a6a;--line:#cfe3d6;--red:#d32f2f;--blue:#0e7fa8;--yellow:#f5c400;--bounce:cubic-bezier(.34,1.56,.64,1)}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -66,35 +67,40 @@ input:focus,select:focus,textarea:focus{outline:0;border-color:var(--g1);box-sha
 .btn.sec2{background:#fff;color:var(--g2);border:2px solid var(--g1)}.btn:disabled{opacity:.6;cursor:wait;transform:none}
 .spin{display:inline-block;width:14px;height:14px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
 .msg{display:none;margin-top:14px;padding:10px 14px;border-radius:7px;font-size:13px;font-weight:600;background:#fde4e4;color:#b71c1c}
+.msg.warn{background:#fff3c4;color:#7a5c00}
 .modal{position:fixed;inset:0;z-index:50;background:rgba(8,40,22,.55);display:none;align-items:center;justify-content:center;padding:20px}.modal.on{display:flex}
-.mbox{background:#fff;border-radius:14px;padding:28px 30px;text-align:center;max-width:400px;border-top:6px solid var(--g1);animation:popIn .6s var(--bounce)}
+.mbox{background:#fff;border-radius:14px;padding:28px 30px;text-align:center;max-width:430px;border-top:6px solid var(--g1);animation:popIn .6s var(--bounce)}
 .mbox .ok{width:64px;height:64px;margin:0 auto 10px;border-radius:50%;background:var(--gbg);color:var(--g1);display:flex;align-items:center;justify-content:center;font-size:36px;animation:hop 1.4s infinite}
 .mbox h2{color:var(--g2);margin-bottom:6px}.mbox p{font-size:13.5px;color:var(--mut)}
-.mbox b{display:inline-block;margin:8px 0 14px;font-size:22px;color:var(--g2);background:var(--gbg);padding:4px 16px;border-radius:8px}
-.mbox .btn{margin:0 4px}
+.mbox b{display:inline-block;margin:8px 0 10px;font-size:22px;color:var(--g2);background:var(--gbg);padding:4px 16px;border-radius:8px}
+.mbox .drv{display:block;margin:0 0 12px;font-size:13px;font-weight:700;color:var(--g1)}
+.mbox .btn{margin:4px}
 footer{background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;flex:none;height:46px;margin:0 20px 12px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:13px}
 footer .brand{font-size:13px}footer .brand img{height:26px}
 
-/* ===== LEMBAR CETAK (A4 portrait) ===== */
+/* ===== LEMBAR A4 (dipakai untuk cetak dan untuk PDF) ===== */
 #sheet{display:none}
+.sh{font-family:Arial,sans-serif;color:#000;font-size:9pt;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.pdfwrap{position:absolute;left:-10000px;top:0;width:184.6mm;min-height:268mm;display:flex;flex-direction:column}
+.sh .ph{display:flex;justify-content:flex-end;align-items:flex-end;gap:8px;border-bottom:2px solid #0F9ED5;padding-bottom:2px}
+.sh .ph img{height:9mm;width:auto}
+.sh .ph .id{border-left:2px solid #0F9ED5;margin-left:6px;padding-left:5px;font:bold 7.5pt 'Times New Roman',serif}
+.sh .ph .id div{display:flex;gap:4px;border-bottom:1px dashed #000;padding:0 2px;line-height:1.35}
+.sh .ph .id div:last-child{border:0}.sh .ph .id span:first-child{width:23mm}.sh .ph .id span:nth-child(2){width:2mm}.sh .ph .id span:last-child{width:34mm}
+.sh h3{text-align:center;font-size:12pt;margin:10px 0 8px;letter-spacing:.3px}
+.sh table{width:100%;border-collapse:collapse}
+.sh .inf td{padding:2px 4px;font-size:9pt}.sh .inf td:nth-child(odd){width:26mm;font-weight:bold}
+.sh .cl{margin-top:6px}.sh .cl th,.sh .cl td{border:1px solid #000;padding:3px 4px;font-size:8.5pt}
+.sh .cl th{background:#d9f1fb;text-align:center}.sh .cl td.c{text-align:center;width:11mm}.sh .cl td.n{text-align:center;width:8mm}
+.sh .tt{margin-top:8px;border:1px solid #000;padding:4px 6px;min-height:14mm;font-size:8.5pt}
+.sh .sg{margin-top:10px}.sh .sg td{width:50%;text-align:center;vertical-align:top;font-size:9pt}.sh .sg .sp{height:20mm}
+.sh .ft{background:#00B0F0;color:#fff;font:bold 8pt Arial,sans-serif;padding:3px 6px;margin-top:auto}
 @media print{
   @page{size:A4 portrait;margin:12.7mm}
   body{background:#fff;display:block;min-height:0}
   body>*:not(#sheet){display:none!important}
-  #sheet{display:block;font-family:Arial,sans-serif;color:#000;font-size:9pt;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .ph{display:flex;justify-content:flex-end;align-items:flex-end;gap:8px;border-bottom:2px solid #0F9ED5;padding-bottom:2px}
-  .ph img{height:9mm;width:auto}
-  .ph .id{border-left:2px solid #0F9ED5;margin-left:6px;padding-left:5px;font:bold 7.5pt 'Times New Roman',serif}
-  .ph .id div{display:flex;gap:4px;border-bottom:1px dashed #000;padding:0 2px;line-height:1.35}
-  .ph .id div:last-child{border:0}.ph .id span:first-child{width:23mm}.ph .id span:nth-child(2){width:2mm}.ph .id span:last-child{width:34mm}
-  #sheet h3{text-align:center;font-size:12pt;margin:10px 0 8px;letter-spacing:.3px}
-  #sheet table{width:100%;border-collapse:collapse}
-  .inf td{padding:2px 4px;font-size:9pt}.inf td:nth-child(odd){width:26mm;font-weight:bold}
-  .cl{margin-top:6px}.cl th,.cl td{border:1px solid #000;padding:3px 4px;font-size:8.5pt}
-  .cl th{background:#d9f1fb;text-align:center}.cl td.c{text-align:center;width:11mm}.cl td.n{text-align:center;width:8mm}
-  .tt{margin-top:8px;border:1px solid #000;padding:4px 6px;min-height:14mm;font-size:8.5pt}
-  .sg{margin-top:10px}.sg td{width:50%;text-align:center;vertical-align:top;font-size:9pt}.sg .sp{height:20mm}
-  .ft{position:fixed;left:0;right:0;bottom:0;background:#00B0F0;color:#fff;font:bold 8pt Arial,sans-serif;padding:2px 6px}
+  #sheet{display:block}
+  #sheet .ft{position:fixed;left:0;right:0;bottom:0;margin:0}
 }
 @media (max-width:900px){
   header{height:auto;flex-direction:column;align-items:flex-start;padding:10px 14px}nav{justify-content:flex-start}.menu{right:auto;left:0}
@@ -146,9 +152,10 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
 
 <div class="modal" id="modal"><div class="mbox">
   <div class="ok"><svg class="ic"><use href="#i-check"/></svg></div>
-  <h2>Inspeksi Tersimpan!</h2><p>Data masuk ke Google Sheet. Form dapat dicetak sekarang.</p>
-  <b id="newid">IS-0000</b><br>
-  <button class="btn sec2" id="mPrint" type="button">🖨 Cetak</button><button class="btn main" id="mClose" type="button">Tutup</button>
+  <h2>Inspeksi Tersimpan!</h2><p id="mTxt">Data masuk ke Google Sheet.</p>
+  <b id="newid">IS-0000</b>
+  <a class="drv" id="mDrive" href="#" target="_blank" rel="noopener" style="display:none">📁 Buka PDF di Google Drive</a>
+  <button class="btn sec2" id="mDown" type="button">⬇ Unduh PDF</button><button class="btn sec2" id="mPrint" type="button">🖨 Cetak</button><button class="btn main" id="mClose" type="button">Tutup</button>
 </div></div>
 
 <footer>
@@ -157,14 +164,13 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
 </footer>
 
 <!-- lembar cetak -->
-<div id="sheet"></div>
+<div id="sheet" class="sh"></div>
 
 <script>
 /* ===== PENGATURAN ===== */
 const URL_SHEETS = "https://script.google.com/macros/s/AKfycbwz8ZtmBmsC-Mtxnsd7QKAh1EPGQ1wVKUgn87U-0Xs-o09AvL1MP8D7mRKXEwjcGRd2/exec";
 const TGL_BERLAKU = "01 Oktober 2025", REVISI = "00";   // ubah sesuai dokumen asli bila berbeda
 
-/* butir pemeriksaan */
 const KABEL = ["Kabel dan steker tidak terkelupas atau retak","Saklar ON/OFF berfungsi baik","Rumah alat (bodi) tidak retak atau pecah","Tidak ada suara atau getaran abnormal"];
 const BATERAI = ["Baterai terpasang kuat dan tidak menggembung","Charger dan kabel charger dalam kondisi baik","Indikator baterai berfungsi","Saklar ON/OFF dan tombol reverse berfungsi","Rumah alat (bodi) tidak retak atau pecah"];
 const UMUM = ["Gagang / handle terpasang kuat","Alat bersih dari oli dan kotoran","Label / tag inspeksi masih berlaku"];
@@ -185,8 +191,8 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const iso = () => { const n = new Date(); return new Date(n.getTime() - n.getTimezoneOffset()*60000).toISOString().slice(0,10); };
 const tglIndo = v => { const d = new Date(v); return isNaN(d) ? "" : d.toLocaleDateString("id-ID",{day:"2-digit",month:"long",year:"numeric"}); };
-const judul = t => "FORMULIR INSPEKSI " + t.n.toUpperCase() + (t.apar ? "" : "");
-let cur = T[0];
+const judul = t => "FORMULIR INSPEKSI " + t.n.toUpperCase();
+let cur = T[0], lastPdf = null;
 
 function renderList(){
   $("list").innerHTML = T.map(t => `<button type="button" data-k="${t.k}" class="${t.k === cur.k ? "on" : ""}">${esc(t.n)}<small>FRM-${t.no}</small></button>`).join("");
@@ -258,13 +264,13 @@ function summary(){
   $("sum").textContent = `Hasil: ${s.baik} Baik · ${s.buruk} Tidak Baik · ${s.na} N/A` + (s.kosong ? ` · ${s.kosong} butir belum diisi` : "");
   $("sum").style.color = s.buruk ? "#b71c1c" : "";
 }
-function showMsg(t){ const m = $("msg"); m.textContent = t; m.style.display = t ? "block" : "none"; }
+function showMsg(t, warn){ const m = $("msg"); m.textContent = t; m.className = "msg" + (warn ? " warn" : ""); m.style.display = t ? "block" : "none"; }
 
-/* ===== lembar cetak A4 ===== */
-function buildSheet(){
+/* ===== lembar A4 (HTML) ===== */
+function sheetHtml(){
   const t = cur, s = state();
   const mark = (r, v) => r.v === v ? "✓" : "";
-  $("sheet").innerHTML = `
+  return `
   <div class="ph"><img src="assets/gambar/logo-ikon.png" alt=""><img src="assets/gambar/logo-uei.png" alt="">
     <div class="id">
       <div><span>No. Dokumen</span><span>:</span><span>UEI/HSE/FRM/${t.no}</span></div>
@@ -287,8 +293,34 @@ function buildSheet(){
     <td>Mengetahui,<div class="sp"></div><b>( ${esc(s.mengetahui) || "..............................."} )</b><br>Supervisor / HSE</td></tr></table>
   <div class="ft">DOKUMEN MILIK DEPARTEMEN HSE PT UNGGUL EJAWANTAH INDUSTRI</div>`;
 }
+function buildSheet(){ $("sheet").innerHTML = sheetHtml(); }
 
-/* ===== kirim ke Google Sheets ===== */
+/* ===== buat PDF A4 di browser ===== */
+async function makePdf(){
+  if(!window.html2pdf) throw new Error("pustaka PDF belum termuat (cek koneksi internet)");
+  const w = document.createElement("div");
+  w.className = "sh pdfwrap"; w.innerHTML = sheetHtml();
+  document.body.appendChild(w);
+  try{
+    await Promise.all([...w.querySelectorAll("img")].map(i => i.complete ? 1 : new Promise(r => { i.onload = i.onerror = r; })));
+    const uri = await html2pdf().set({
+      margin: [12.7,12.7,12.7,12.7],
+      image: {type:"jpeg", quality:.92},
+      html2canvas: {scale:1.6, useCORS:true},
+      jsPDF: {unit:"mm", format:"a4", orientation:"portrait"}
+    }).from(w).outputPdf("datauristring");
+    return uri.split(",")[1];
+  }finally{ w.remove(); }
+}
+function pdfName(t, s){ return [t.no, t.n, s.kode, s.tanggal].join("_").replace(/[^\w\-]+/g,"-"); }
+function download(){
+  if(!lastPdf) return;
+  const a = document.createElement("a");
+  a.href = "data:application/pdf;base64," + lastPdf.b64; a.download = lastPdf.name + ".pdf";
+  document.body.appendChild(a); a.click(); a.remove();
+}
+
+/* ===== simpan: PDF + Google Sheets + Google Drive ===== */
 $("frm").addEventListener("submit", async e => {
   e.preventDefault(); showMsg("");
   const t = cur, s = state();
@@ -306,22 +338,35 @@ $("frm").addEventListener("submit", async e => {
     detail: s.rows.map((r,i) => `${i+1}. ${r.v}${r.k ? " - " + r.k : ""}`).join(" | "),
     catatan: s.catatan, mengetahui: s.mengetahui
   };
-  const btn = $("bSend"); btn.disabled = true; btn.innerHTML = '<span class="spin"></span>Mengirim...';
-  let ok = false;
+  const btn = $("bSend"); btn.disabled = true;
+  let ok = false, pdfB64 = "", resp = null, pdfGagal = "";
   try{
+    btn.innerHTML = '<span class="spin"></span>Membuat PDF...';
+    try{ pdfB64 = await makePdf(); }catch(err){ pdfGagal = err.message; }
+    btn.innerHTML = '<span class="spin"></span>Mengirim...';
     const res = await fetch(URL_SHEETS, {method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"},
-      body: JSON.stringify({type:"inspection", status: s.buruk ? "Open" : "Closed", data, photos: []})});
-    const j = await res.json();
-    if(!j.ok) throw new Error(j.error || "Gagal menyimpan");
-    ok = true; $("newid").textContent = j.id;
+      body: JSON.stringify({type:"inspection", status: s.buruk ? "Open" : "Closed", data, photos: [], pdf: pdfB64, pdfName: pdfName(t, s)})});
+    resp = await res.json();
+    if(!resp.ok) throw new Error(resp.error || "Gagal menyimpan");
+    ok = true;
   }catch(err){
     showMsg("Inspeksi belum terkirim: " + err.message + ". Periksa koneksi lalu coba lagi.");
   }finally{
     btn.disabled = false; btn.textContent = "Simpan & Kirim";
   }
-  if(ok){ buildSheet(); $("modal").classList.add("on"); }
+  if(ok){
+    buildSheet();
+    lastPdf = pdfB64 ? {b64: pdfB64, name: pdfName(t, s)} : null;
+    $("newid").textContent = resp.id;
+    $("mDown").style.display = lastPdf ? "" : "none";
+    const dv = $("mDrive");
+    if(resp.pdf){ dv.href = resp.pdf; dv.style.display = "block"; $("mTxt").textContent = "Data masuk ke Google Sheet dan PDF tersimpan otomatis di Google Drive."; }
+    else { dv.style.display = "none"; $("mTxt").textContent = "Data masuk ke Google Sheet" + (pdfGagal ? ", tetapi PDF gagal dibuat: " + pdfGagal + ". Anda masih bisa mencetak form ini." : "."); }
+    $("modal").classList.add("on");
+  }
 });
 $("mPrint").onclick = () => window.print();
+$("mDown").onclick = download;
 $("mClose").onclick = () => { $("modal").classList.remove("on"); renderForm(); };
 
 $("copy").textContent = "© " + new Date().getFullYear() + " Dept HSE - All Right Reserved";
