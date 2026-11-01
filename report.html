@@ -9,73 +9,64 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;display:flex;flex-direction:column;position:relative;overflow-x:hidden}
 .ic{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
-
-/* ===== LATAR GEOMETRI HSE ===== */
 .bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.bg svg{position:absolute}
-.bg .hex{inset:0;width:100%;height:100%}
+.bg svg{position:absolute}.bg .hex{inset:0;width:100%;height:100%}
 .bg .deco{fill:none;stroke:var(--g1);stroke-linecap:round;stroke-linejoin:round}
 .bg .shield{right:-70px;bottom:20px;width:440px;height:440px;opacity:.10;stroke-width:.6}
 .bg .hat{left:-60px;bottom:30px;width:380px;height:380px;opacity:.09;stroke-width:.6}
 .bg .gear{right:26%;top:34%;width:230px;height:230px;opacity:.08;stroke-width:1}
-.bg .cross{left:22%;top:20%;width:90px;height:90px;opacity:.12;fill:var(--g1);stroke:none}
-header,.stripe,main,footer{position:relative;z-index:1}
-header{z-index:5}
+header,.stripe,main,footer{position:relative;z-index:1}header{z-index:5}
 
-/* ===== HEADER + SUBMENU ===== */
 header{background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 20px;height:56px;flex:none;box-shadow:0 2px 6px rgba(0,0,0,.2)}
 .brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
-.brand img{height:36px;width:auto}
-.brand .sep{width:1px;height:26px;background:rgba(255,255,255,.55)}
+.brand img{height:36px;width:auto}.brand .sep{width:1px;height:26px;background:rgba(255,255,255,.55)}
 nav{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
 nav>a,.dd>a{color:#fff;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.4px;padding:8px 12px;border-radius:6px;text-transform:uppercase;transition:background .2s;display:block}
 nav>a:hover,.dd>a:hover{background:rgba(255,255,255,.18);animation:hop .55s ease}
 nav .active{background:var(--g2);box-shadow:inset 0 -3px 0 var(--yellow)}
-.dd{position:relative}
-.dd>a::after{content:" ▾";font-size:10px}
+.dd{position:relative}.dd>a::after{content:" ▾";font-size:10px}
 .menu{display:none;position:absolute;top:100%;right:0;min-width:210px;padding-top:6px}
 .menu .box{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 10px 24px rgba(13,59,34,.28);border-top:4px solid var(--yellow);animation:popIn .45s var(--bounce)}
 .dd:hover .menu,.dd:focus-within .menu{display:block}
-.menu a{display:flex;align-items:center;gap:10px;padding:10px 14px;color:var(--g2);text-decoration:none;font-size:13px;font-weight:700;border-bottom:1px solid var(--line)}
-.menu a:last-child{border-bottom:0}
-.menu a:hover{background:var(--gbg);padding-left:20px}
-.menu a{transition:padding .2s var(--bounce),background .2s}
+.menu a{display:flex;align-items:center;gap:10px;padding:10px 14px;color:var(--g2);text-decoration:none;font-size:13px;font-weight:700;border-bottom:1px solid var(--line);transition:padding .2s var(--bounce),background .2s}
+.menu a:last-child{border-bottom:0}.menu a:hover{background:var(--gbg);padding-left:20px}
 .menu .ic{font-size:17px;color:var(--g1)}
 .stripe{height:6px;flex:none;background:repeating-linear-gradient(-45deg,var(--yellow) 0 10px,#1c1c1c 10px 20px)}
 
-/* ===== ANIMASI BOUNCE ===== */
 @keyframes popIn{0%{opacity:0;transform:translateY(26px) scale(.88)}55%{opacity:1;transform:translateY(-7px) scale(1.03)}78%{transform:translateY(3px) scale(.99)}100%{opacity:1;transform:none}}
 @keyframes hop{0%,100%{transform:translateY(0)}28%{transform:translateY(-9px)}50%{transform:translateY(0)}66%{transform:translateY(-4px)}82%{transform:translateY(0)}}
 @keyframes iconBounce{0%,60%,100%{transform:translateY(0)}70%{transform:translateY(-6px)}80%{transform:translateY(0)}88%{transform:translateY(-2px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes blink{50%{opacity:.3}}
 .pop{opacity:0;animation:popIn .8s var(--bounce) forwards;animation-delay:calc(var(--i,0) * 80ms)}
 
-/* ===== LAYOUT (sesuai wireframe) ===== */
 main{flex:1;padding:14px 20px;display:grid;gap:12px;grid-template-columns:minmax(0,1fr) 240px;grid-template-rows:auto 340px 300px}
 .tabs{grid-column:1/3;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .openlist{grid-column:1;grid-row:2}
 .kpis{grid-column:2;grid-row:2;display:grid;grid-template-rows:repeat(4,1fr);gap:10px}
 .nmlist{grid-column:1/3;grid-row:3}
 .nmlist,.openlist{display:flex;flex-direction:column;min-height:0}
-.title{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.title{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
 .title h2{font-size:15px;font-weight:800;color:var(--g2)}
 .title .sub{font-size:11.5px;color:var(--mut)}
+.live{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--mut)}
+.live i{font-style:normal;color:var(--g1);animation:blink 2s infinite}
+.live.bad i{color:var(--red);animation:none}
+.live button{font:inherit;font-size:11.5px;font-weight:700;color:var(--g2);background:#fff;border:1.5px solid var(--g1);border-radius:6px;padding:3px 10px;cursor:pointer;transition:.2s var(--bounce)}
+.live button:hover{transform:translateY(-2px)}.live button:disabled{opacity:.6;cursor:wait}
 
-/* ===== 4 TOMBOL REPORT ===== */
 .tab{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;background:#fff;border-radius:8px;padding:12px 14px;min-height:68px;border-left:5px solid var(--c);box-shadow:0 2px 6px rgba(13,59,34,.12);transition:box-shadow .2s}
 .tab:hover{animation:hop .6s ease;box-shadow:0 8px 18px rgba(13,59,34,.2)}
 .tab .ico{width:40px;height:40px;border-radius:50%;background:var(--t);color:var(--c);display:flex;align-items:center;justify-content:center;font-size:21px}
-.tab b{display:block;font-size:14px;color:var(--c)}
-.tab small{font-size:11.5px;color:var(--mut)}
+.tab b{display:block;font-size:14px;color:var(--c)}.tab small{font-size:11.5px;color:var(--mut)}
 .tab.hz{--c:var(--amber);--t:#fff1dc}.tab.nm{--c:var(--g1);--t:var(--gbg)}.tab.in{--c:var(--red);--t:#fde4e4}.tab.is{--c:var(--blue);--t:#dff1fa}
 
-/* ===== KOTAK ANGKA ===== */
 .kpi{background:#fff;border-radius:8px;border-left:5px solid var(--c);box-shadow:0 2px 6px rgba(13,59,34,.12);display:flex;align-items:center;gap:12px;padding:0 14px;transition:box-shadow .2s}
 .kpi:hover{animation:hop .6s ease;box-shadow:0 8px 18px rgba(13,59,34,.2)}
 .kpi .ic{font-size:26px;color:var(--c);animation:iconBounce 3s infinite;animation-delay:calc(var(--i,0) * .35s)}
 .kpi b{display:block;font-size:26px;line-height:1.1;color:var(--g2)}
 .kpi span{font-size:11.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.3px}
 
-/* ===== TABEL ===== */
 .card{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:0 2px 6px rgba(13,59,34,.1);flex:1;min-height:0;display:flex;flex-direction:column}
 .tscroll{flex:1;overflow:auto;min-height:0}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
@@ -84,22 +75,19 @@ td{padding:7px 10px;border-top:1px solid var(--line);vertical-align:middle}
 tbody tr:hover td{background:#f3faf5}
 .tag,.badge{display:inline-block;padding:2px 9px;font-size:11px;font-weight:700;white-space:nowrap}
 .tag{color:#fff;border-radius:5px}.badge{border-radius:10px}
-.t-Hazard{background:var(--amber)}.t-Inspection{background:var(--blue)}.t-Observation{background:var(--purple)}.t-Incident{background:var(--red)}.t-NearMiss{background:var(--g1)}
+.t-Hazard{background:var(--amber)}.t-Incident{background:var(--red)}.t-NearMiss{background:var(--g1)}
 .badge.over{background:#fde4e4;color:#b71c1c}.badge.prog{background:#dff1fa;color:#0b6283}.badge.open{background:#fff3c4;color:#7a5c00}.badge.done{background:#d9f2e1;color:var(--g2)}
 .empty{padding:24px;text-align:center;color:var(--mut)}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--g1);border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:8px}
 
-/* ===== FOOTER ===== */
 footer{background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;flex:none;height:46px;margin:0 20px 12px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:13px;box-shadow:0 2px 6px rgba(13,59,34,.2)}
 footer .brand{font-size:13px}footer .brand img{height:26px}
 
 @media (max-width:980px){
-  header{height:auto;flex-direction:column;align-items:flex-start;padding:10px 14px}
-  nav{justify-content:flex-start}.menu{right:auto;left:0}
+  header{height:auto;flex-direction:column;align-items:flex-start;padding:10px 14px}nav{justify-content:flex-start}.menu{right:auto;left:0}
   main{grid-template-columns:1fr;grid-template-rows:none;padding:12px 14px}
-  .tabs{grid-template-columns:1fr 1fr}
-  .tabs,.openlist,.kpis,.nmlist{grid-column:1;grid-row:auto}
-  .kpis{grid-template-rows:none;grid-template-columns:1fr 1fr}.kpi{min-height:70px}
-  .openlist,.nmlist{height:320px}
+  .tabs{grid-template-columns:1fr 1fr}.tabs,.openlist,.kpis,.nmlist{grid-column:1;grid-row:auto}
+  .kpis{grid-template-rows:none;grid-template-columns:1fr 1fr}.kpi{min-height:70px}.openlist,.nmlist{height:320px}
   footer{margin:0 14px 12px;height:auto;padding:12px 14px;flex-direction:column;gap:6px;text-align:center}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pop{opacity:1}}
@@ -107,16 +95,13 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
 </head>
 <body>
 
-<!-- ===== LATAR GEOMETRI BERTEMA HSE ===== -->
 <div class="bg" aria-hidden="true">
   <svg class="hex" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="hexp" width="56" height="100" patternUnits="userSpaceOnUse" patternTransform="scale(.9)"><path d="M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100" fill="none" stroke="#0b8a42" stroke-opacity=".13" stroke-width="1.2"/><path d="M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34" fill="none" stroke="#0b8a42" stroke-opacity=".13" stroke-width="1.2"/></pattern></defs><rect width="100%" height="100%" fill="url(#hexp)"/></svg>
   <svg class="deco shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
   <svg class="deco hat" viewBox="0 0 24 24"><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M14 6a6 6 0 0 1 6 6v3"/><path d="M4 15v-3a6 6 0 0 1 6-6"/><rect x="2" y="15" width="20" height="4" rx="1"/></svg>
   <svg class="deco gear" viewBox="-80 -80 160 160"><circle r="60" stroke-width="16" stroke-dasharray="15.7 15.7"/><circle r="50" stroke-width="10"/><circle r="22" stroke-width="7"/></svg>
-  <svg class="cross" viewBox="0 0 24 24"><path d="M8 3h8v5h5v8h-5v5H8v-5H3V8h5z"/></svg>
 </div>
 
-<!-- ===== IKON ===== -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-hazard" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
   <symbol id="i-nearmiss" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></symbol>
@@ -127,12 +112,8 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
   <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
 </svg>
 
-<!-- ===== HEADER ===== -->
 <header>
-  <div class="brand">
-    <img src="assets/gambar/logo.png" alt="Logo" onerror="this.style.display='none'">
-    <span class="sep"></span><span>HSE DEPARTEMENT</span>
-  </div>
+  <div class="brand"><img src="assets/gambar/logo.png" alt="Logo" onerror="this.style.display='none'"><span class="sep"></span><span>HSE DEPARTEMENT</span></div>
   <nav>
     <a href="index.html">Home</a>
     <a href="profile.html">Profile</a>
@@ -154,9 +135,7 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
 </header>
 <div class="stripe"></div>
 
-<!-- ===== ISI HALAMAN ===== -->
 <main>
-
   <section class="tabs">
     <div class="pop" style="--i:0"><a class="tab hz" href="hazard.html"><div class="ico"><svg class="ic"><use href="#i-hazard"/></svg></div><div><b>Hazard Report</b><small>Kondisi / tindakan tidak aman</small></div></a></div>
     <div class="pop" style="--i:1"><a class="tab nm" href="nearmiss.html"><div class="ico"><svg class="ic"><use href="#i-nearmiss"/></svg></div><div><b>Near Miss Report</b><small>Hampir celaka</small></div></a></div>
@@ -165,11 +144,14 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
   </section>
 
   <section class="openlist pop" style="--i:4">
-    <div class="title"><h2 id="o-title">Open Finding List</h2><span class="sub">Temuan yang belum selesai</span></div>
+    <div class="title">
+      <h2 id="o-title">Open Finding List</h2>
+      <div class="live" id="live"><i>●</i><span id="upd">Memuat data...</span><button id="rf" type="button">⟳ Refresh</button></div>
+    </div>
     <div class="card"><div class="tscroll">
       <table>
         <thead><tr><th>ID</th><th>Type</th><th>Finding</th><th>Location</th><th>PIC</th><th>Due Date</th><th>Status</th></tr></thead>
-        <tbody id="o-body"></tbody>
+        <tbody id="o-body"><tr><td colspan="7" class="empty"><span class="spin"></span>Memuat data dari Google Sheets...</td></tr></tbody>
       </table>
     </div></div>
   </section>
@@ -186,79 +168,68 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
     <div class="card"><div class="tscroll">
       <table>
         <thead><tr><th>ID</th><th>Type</th><th>Description</th><th>Location</th><th>Date</th><th>Reporter</th><th>Status</th></tr></thead>
-        <tbody id="n-body"></tbody>
+        <tbody id="n-body"><tr><td colspan="7" class="empty"><span class="spin"></span>Memuat data...</td></tr></tbody>
       </table>
     </div></div>
   </section>
-
 </main>
 
 <footer>
-  <div class="brand">
-    <img src="assets/gambar/logo.png" alt="Logo" onerror="this.style.display='none'">
-    <span>HSE DEPARTEMEN</span>
-  </div>
+  <div class="brand"><img src="assets/gambar/logo.png" alt="Logo" onerror="this.style.display='none'"><span>HSE DEPARTEMENT</span></div>
   <div id="copy"></div>
 </footer>
 
 <script>
-/* =====================================================
-   DATA CONTOH (sementara) - nanti diganti data asli
-   status temuan: Open | In Progress | Closed
-   ===================================================== */
-const FINDINGS = [
-  {id:"HZ-0142", type:"Hazard",      temuan:"Handrail tangga area packing longgar",              lokasi:"Packing",    pic:"Supervisor Produksi",  due:"2026-10-20", status:"Open"},
-  {id:"IN-0031", type:"Inspection",  temuan:"APAR belum diisi ulang melewati masa berlaku",      lokasi:"Gudang",     pic:"Tim Maintenance",      due:"2026-10-23", status:"Open"},
-  {id:"HZ-0149", type:"Hazard",      temuan:"Kabel listrik terkelupas di panel utama",           lokasi:"Workshop",   pic:"Tim Elektrikal",       due:"2026-10-27", status:"Open"},
-  {id:"OB-0207", type:"Observation", temuan:"Pekerja tidak memakai sarung tangan saat grinding", lokasi:"Fabrikasi",  pic:"Supervisor Fabrikasi", due:"2026-10-30", status:"Open"},
-  {id:"IC-0012", type:"Incident",    temuan:"Tindak lanjut investigasi: perbaikan guard mesin",  lokasi:"Produksi 2", pic:"Manajer Produksi",     due:"2026-11-02", status:"In Progress"},
-  {id:"HZ-0153", type:"Hazard",      temuan:"Lantai licin akibat kebocoran oli",                 lokasi:"Area Mesin", pic:"Tim Maintenance",      due:"2026-11-05", status:"In Progress"},
-  {id:"HZ-0130", type:"Hazard",      temuan:"Rambu APD hilang di pintu masuk",                   lokasi:"Gerbang",    pic:"Tim HSE",              due:"2026-09-30", status:"Closed"},
-  {id:"HZ-0127", type:"Hazard",      temuan:"Kabel las melintang di jalur pejalan kaki",         lokasi:"Workshop",   pic:"Supervisor Fabrikasi", due:"2026-09-18", status:"Closed"},
-  {id:"IN-0028", type:"Inspection",  temuan:"Kaca pelindung grinder retak",                      lokasi:"Fabrikasi",  pic:"Tim Maintenance",      due:"2026-09-25", status:"Closed"}
-];
+/* ===== PENGATURAN ===== */
+const URL_SHEETS = "https://script.google.com/macros/s/AKfycbwz8ZtmBmsC-Mtxnsd7QKAh1EPGQ1wVKUgn87U-0Xs-o09AvL1MP8D7mRKXEwjcGRd2/exec";
+const REFRESH_MS = 60000;   // data diperbarui otomatis tiap 60 detik
 
-/* status laporan: Investigating | In Progress | Closed */
-const NEARMISS_INCIDENT = [
-  {id:"IC-0012", type:"Incident",  desk:"Jari operator terjepit guard mesin (first aid)",      lokasi:"Produksi 2",   tgl:"2026-10-14", pelapor:"Supervisor Produksi", status:"In Progress"},
-  {id:"NM-0047", type:"Near Miss", desk:"Material jatuh dari ketinggian, tidak ada korban",     lokasi:"Gudang",       tgl:"2026-10-22", pelapor:"Tim Gudang",          status:"Investigating"},
-  {id:"NM-0046", type:"Near Miss", desk:"Forklift hampir menabrak pejalan kaki di tikungan",    lokasi:"Area Loading", tgl:"2026-10-19", pelapor:"Security",            status:"Closed"},
-  {id:"IC-0011", type:"Incident",  desk:"Kebocoran oli hidrolik ke saluran drainase",           lokasi:"Area Mesin",   tgl:"2026-10-08", pelapor:"Tim Maintenance",     status:"Closed"},
-  {id:"NM-0045", type:"Near Miss", desk:"Percikan las mengenai tumpukan kardus",                lokasi:"Workshop",     tgl:"2026-10-03", pelapor:"Tim Fabrikasi",       status:"Closed"},
-  {id:"IC-0010", type:"Incident",  desk:"Pekerja terpeleset di lantai licin (luka ringan)",     lokasi:"Packing",      tgl:"2026-09-26", pelapor:"Supervisor Produksi", status:"Closed"}
-];
-
-/* ===================================================== */
 const $ = id => document.getElementById(id);
 const fmt = n => Number(n).toLocaleString("id-ID");
-const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const tgl = d => new Date(d).toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"});
+const pick = (r, keys) => { for(const k of keys){ if(r[k] !== undefined && r[k] !== "") return r[k]; } return ""; };
+const tgl = v => { const d = new Date(v); return isNaN(d) ? esc(v) : d.toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"}); };
+const statusOf = s => { s = String(s || "").trim().toLowerCase(); return s === "closed" ? "Closed" : s === "in progress" ? "In Progress" : "Open"; };
 
-/* angka naik dengan efek memantul */
+/* angka naik dengan efek memantul (dari nilai sebelumnya) */
 function countTo(el, target){
+  const from = el._v || 0;
+  if(from === target) { el.textContent = fmt(target); return; }
+  el._v = target;
   if(reduce){ el.textContent = fmt(target); return; }
-  const t0 = performance.now(), dur = 1000;
+  const t0 = performance.now(), dur = 900;
   const ease = t => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3*Math.pow(t-1,3) + c1*Math.pow(t-1,2); };
   (function step(now){
     const t = Math.min((now - t0) / dur, 1);
-    el.textContent = fmt(Math.round(target * ease(t)));
+    el.textContent = fmt(Math.round(from + (target - from) * ease(t)));
     if(t < 1) requestAnimationFrame(step);
   })(t0);
 }
 
-(function render(){
+/* ambil data satu sheet dari Google Sheets */
+async function load(type){
+  const res = await fetch(URL_SHEETS + "?type=" + type + "&_=" + Date.now());
+  const j = await res.json();
+  if(!j.ok) throw new Error(j.error || "Gagal membaca data");
+  return j.rows || [];
+}
+
+function render(hz, nm, ic){
   const today = new Date(); today.setHours(0,0,0,0);
 
-  /* kotak angka dihitung otomatis dari data */
-  const open   = FINDINGS.filter(f => f.status !== "Closed").sort((a,b) => new Date(a.due) - new Date(b.due));
-  const closed = FINDINGS.filter(f => f.status === "Closed").length;
-  const prog   = FINDINGS.filter(f => f.status === "In Progress").length;
-  const hazard = FINDINGS.filter(f => f.type === "Hazard").length;
-  countTo($("k-th"), hazard);
+  /* ---- temuan dari Hazard Report ---- */
+  const finds = hz.map(r => ({
+    id: pick(r,["ID"]), type: "Hazard",
+    temuan: pick(r,["Deskripsi"]), lokasi: pick(r,["Lokasi"]), pic: pick(r,["PIC"]),
+    due: pick(r,["Due Date"]), status: statusOf(pick(r,["Status"]))
+  }));
+  const open = finds.filter(f => f.status !== "Closed").sort((a,b) => new Date(a.due) - new Date(b.due));
+
+  countTo($("k-th"), finds.length);
   countTo($("k-of"), open.length);
-  countTo($("k-cf"), closed);
-  countTo($("k-op"), prog);
+  countTo($("k-cf"), finds.filter(f => f.status === "Closed").length);
+  countTo($("k-op"), finds.filter(f => f.status === "In Progress").length);
 
   $("o-title").textContent = `Open Finding List (${open.length})`;
   $("o-body").innerHTML = open.length ? open.map(f => {
@@ -266,18 +237,55 @@ function countTo(el, target){
     const st = days > 0 ? `<span class="badge over">Overdue ${days} day${days > 1 ? "s" : ""}</span>`
              : f.status === "In Progress" ? `<span class="badge prog">In Progress</span>`
              : `<span class="badge open">Open</span>`;
-    return `<tr><td>${esc(f.id)}</td><td><span class="tag t-${f.type}">${esc(f.type)}</span></td><td>${esc(f.temuan)}</td><td>${esc(f.lokasi)}</td><td>${esc(f.pic)}</td><td>${tgl(f.due)}</td><td>${st}</td></tr>`;
+    return `<tr><td>${esc(f.id)}</td><td><span class="tag t-Hazard">Hazard</span></td><td>${esc(f.temuan)}</td><td>${esc(f.lokasi)}</td><td>${esc(f.pic)}</td><td>${tgl(f.due)}</td><td>${st}</td></tr>`;
   }).join("") : `<tr><td colspan="7" class="empty">Tidak ada temuan terbuka</td></tr>`;
 
-  const list = [...NEARMISS_INCIDENT].sort((a,b) => new Date(b.tgl) - new Date(a.tgl));
+  /* ---- Near Miss & Incident ---- */
+  const conv = (rows, type) => rows.map(r => ({
+    id: pick(r,["ID"]), type,
+    desk: pick(r,["Deskripsi","Kronologi","Uraian"]), lokasi: pick(r,["Lokasi"]),
+    tgl: pick(r,["Tanggal","Timestamp"]), pelapor: pick(r,["Pelapor","Nama Pelapor"]),
+    status: pick(r,["Status"]) || "Open"
+  }));
+  const list = conv(nm,"Near Miss").concat(conv(ic,"Incident")).sort((a,b) => new Date(b.tgl) - new Date(a.tgl));
   $("n-title").textContent = `Near Miss & Incident List (${list.length})`;
   $("n-body").innerHTML = list.length ? list.map(r => {
-    const cls = r.status === "Closed" ? "done" : r.status === "In Progress" ? "prog" : "open";
+    const s = statusOf(r.status);
+    const cls = s === "Closed" ? "done" : s === "In Progress" ? "prog" : "open";
     return `<tr><td>${esc(r.id)}</td><td><span class="tag t-${r.type.replace(/\s/g,"")}">${esc(r.type)}</span></td><td>${esc(r.desk)}</td><td>${esc(r.lokasi)}</td><td>${tgl(r.tgl)}</td><td>${esc(r.pelapor)}</td><td><span class="badge ${cls}">${esc(r.status)}</span></td></tr>`;
-  }).join("") : `<tr><td colspan="7" class="empty">Belum ada laporan</td></tr>`;
+  }).join("") : `<tr><td colspan="7" class="empty">Belum ada laporan Near Miss / Incident</td></tr>`;
+}
 
-  $("copy").textContent = "© " + new Date().getFullYear() + " Dept HSE - All Right Reserved";
-})();
+let first = true;
+async function refresh(){
+  $("rf").disabled = true;
+  try{
+    const [hz, nm, ic] = await Promise.all([
+      load("hazard"),
+      load("nearmiss").catch(() => []),   // sheet belum ada = dianggap kosong
+      load("incident").catch(() => [])
+    ]);
+    render(hz, nm, ic);
+    $("live").classList.remove("bad");
+    $("upd").textContent = "Live · diperbarui " + new Date().toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"});
+    first = false;
+  }catch(err){
+    $("live").classList.add("bad");
+    $("upd").textContent = "Gagal memuat: " + err.message;
+    if(first){
+      $("o-body").innerHTML = `<tr><td colspan="7" class="empty">Data belum bisa dimuat. Periksa koneksi atau URL Web App, lalu klik Refresh.</td></tr>`;
+      $("n-body").innerHTML = `<tr><td colspan="7" class="empty">Data belum bisa dimuat.</td></tr>`;
+    }
+  }finally{
+    $("rf").disabled = false;
+  }
+}
+
+$("rf").addEventListener("click", refresh);
+$("copy").textContent = "© " + new Date().getFullYear() + " Dept HSE - All Right Reserved";
+refresh();
+setInterval(() => { if(!document.hidden) refresh(); }, REFRESH_MS);
+document.addEventListener("visibilitychange", () => { if(!document.hidden) refresh(); });
 </script>
 </body>
 </html>
