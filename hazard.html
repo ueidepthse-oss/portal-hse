@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hazard Report | HSE Portal</title>
+<style>
+:root{--g1:#0b8a42;--g2:#08672f;--g3:#24a65a;--gbg:#e8f5ec;--bg:#eaf4ed;--tx:#0d3b22;--mut:#5d7a6a;--line:#cfe3d6;--amber:#f08a00;--red:#d32f2f;--yellow:#f5c400;--bounce:cubic-bezier(.34,1.56,.64,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;display:flex;flex-direction:column;position:relative;overflow-x:hidden}
+.ic{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* LATAR GEOMETRI */
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg svg{position:absolute}
+.bg .hex{inset:0;width:100%;height:100%}
+.bg .deco{fill:none;stroke:var(--g1);stroke-linecap:round;stroke-linejoin:round}
+.bg .shield{right:-70px;bottom:20px;width:440px;height:440px;opacity:.10;stroke-width:.6}
+.bg .hat{left:-60px;bottom:30px;width:380px;height:380px;opacity:.09;stroke-width:.6}
+.bg .gear{right:26%;top:34%;width:230px;height:230px;opacity:.08;stroke-width:1}
+header,.stripe,main,footer{position:relative;z-index:1}
+header{z-index:5}
+
+/* HEADER + SUBMENU */
+header{background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 20px;height:56px;flex:none;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
+.brand img{height:36px;width:auto}
+.brand .sep{width:1px;height:26px;background:rgba(255,255,255,.55)}
+nav{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+nav>a,.dd>a{color:#fff;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.4px;padding:8px 12px;border-radius:6px;text-transform:uppercase;display:block;transition:background .2s}
+nav>a:hover,.dd>a:hover{background:rgba(255,255,255,.18);animation:hop .55s ease}
+nav .active{background:var(--g2);box-shadow:inset 0 -3px 0 var(--yellow)}
+.dd{position:relative}.dd>a::after{content:" ▾";font-size:10px}
+.menu{display:none;position:absolute;top:100%;right:0;min-width:210px;padding-top:6px}
+.menu .box{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 10px 24px rgba(13,59,34,.28);border-top:4px solid var(--yellow);animation:popIn .45s var(--bounce)}
+.dd:hover .menu,.dd:focus-within .menu{display:block}
+.menu a{display:flex;align-items:center;gap:10px;padding:10px 14px;color:var(--g2);text-decoration:none;font-size:13px;font-weight:700;border-bottom:1px solid var(--line);transition:padding .2s var(--bounce),background .2s}
+.menu a:last-child{border-bottom:0}.menu a:hover{background:var(--gbg);padding-left:20px}
+.menu .ic{font-size:17px;color:var(--g1)}
+.stripe{height:6px;flex:none;background:repeating-linear-gradient(-45deg,var(--yellow) 0 10px,#1c1c1c 10px 20px)}
+
+/* ANIMASI */
+@keyframes popIn{0%{opacity:0;transform:translateY(26px) scale(.88)}55%{opacity:1;transform:translateY(-7px) scale(1.03)}78%{transform:translateY(3px) scale(.99)}100%{opacity:1;transform:none}}
+@keyframes hop{0%,100%{transform:translateY(0)}28%{transform:translateY(-9px)}50%{transform:translateY(0)}66%{transform:translateY(-4px)}82%{transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pop{opacity:0;animation:popIn .8s var(--bounce) forwards;animation-delay:calc(var(--i,0) * 90ms)}
+
+/* FORM */
+main{flex:1;padding:16px 20px;max-width:980px;width:100%;margin:0 auto}
+.crumb{font-size:12px;color:var(--mut);margin-bottom:8px}.crumb a{color:var(--g1);text-decoration:none;font-weight:700}
+.panel{background:#fff;border-radius:10px;border-top:6px solid var(--amber);box-shadow:0 4px 14px rgba(13,59,34,.14);padding:18px 22px 22px}
+.ptitle{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.ptitle .ico{width:46px;height:46px;border-radius:50%;background:#fff1dc;color:var(--amber);display:flex;align-items:center;justify-content:center;font-size:24px;animation:hop 2.8s infinite}
+.ptitle h1{font-size:20px;color:var(--g2)}
+.psub{font-size:12.5px;color:var(--mut);margin-bottom:6px}
+.sec{font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--g2);margin:16px 0 8px;padding-bottom:4px;border-bottom:2px solid var(--gbg)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 16px}
+.full{grid-column:1/3}
+label{display:block;font-size:12.5px;font-weight:700;margin-bottom:4px}
+label i{color:var(--red);font-style:normal}
+input,select,textarea{width:100%;font:inherit;font-size:13.5px;padding:9px 11px;border:1.5px solid var(--line);border-radius:7px;background:#fff;color:var(--tx);transition:border .2s,box-shadow .2s}
+textarea{min-height:84px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--g1);box-shadow:0 0 0 3px rgba(11,138,66,.18)}
+.risk{display:flex;gap:8px;flex-wrap:wrap}
+.risk label{flex:1;margin:0;cursor:pointer}
+.risk input{display:none}
+.risk span{display:block;text-align:center;padding:9px 6px;border:2px solid var(--c);border-radius:7px;color:var(--c);font-weight:700;font-size:13px;transition:.2s var(--bounce)}
+.risk span:hover{transform:translateY(-3px)}
+.risk input:checked+span{background:var(--c);color:#fff;transform:scale(1.05)}
+.upl{border:2px dashed var(--g3);border-radius:8px;background:var(--gbg);padding:14px;text-align:center;cursor:pointer;font-size:13px;color:var(--g2);font-weight:700}
+.upl:hover{animation:hop .6s ease}
+.thumbs{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+.thumbs div{position:relative;animation:popIn .5s var(--bounce)}
+.thumbs img{width:92px;height:92px;object-fit:cover;border-radius:8px;border:2px solid var(--line)}
+.thumbs button{position:absolute;top:-8px;right:-8px;width:22px;height:22px;border-radius:50%;border:0;background:var(--red);color:#fff;cursor:pointer;font-weight:700}
+.actions{display:flex;gap:12px;justify-content:flex-end;margin-top:20px}
+.btn{font:inherit;font-weight:800;letter-spacing:.4px;padding:11px 26px;border-radius:8px;border:0;cursor:pointer;transition:.2s var(--bounce)}
+.btn:hover{transform:translateY(-3px) scale(1.04)}
+.btn.main{background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;box-shadow:0 4px 10px rgba(11,138,66,.35)}
+.btn.sec2{background:#fff;color:var(--g2);border:2px solid var(--g1)}
+.btn:disabled{opacity:.6;cursor:wait;transform:none}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
+.msg{display:none;margin-top:14px;padding:10px 14px;border-radius:7px;font-size:13px;font-weight:600;background:#fde4e4;color:#b71c1c}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(8,40,22,.55);display:none;align-items:center;justify-content:center;padding:20px}
+.modal.on{display:flex}
+.mbox{background:#fff;border-radius:14px;padding:28px 30px;text-align:center;max-width:380px;border-top:6px solid var(--g1);animation:popIn .6s var(--bounce)}
+.mbox .ok{width:64px;height:64px;margin:0 auto 10px;border-radius:50%;background:var(--gbg);color:var(--g1);display:flex;align-items:center;justify-content:center;font-size:36px;animation:hop 1.4s infinite}
+.mbox h2{color:var(--g2);margin-bottom:6px}.mbox p{font-size:13.5px;color:var(--mut)}
+.mbox b{display:inline-block;margin:8px 0 14px;font-size:22px;color:var(--g2);background:var(--gbg);padding:4px 16px;border-radius:8px}
+
+footer{background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;flex:none;height:46px;margin:0 20px 12px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:13px}
+footer .brand{font-size:13px}footer .brand img{height:26px}
+
+@media (max-width:760px){
+  header{height:auto;flex-direction:column;align-items:flex-start;padding:10px 14px}nav{justify-content:flex-start}.menu{right:auto;left:0}
+  main{padding:12px 14px}.grid{grid-template-columns:1fr}.full{grid-column:1}.panel{padding:14px}
+  footer{margin:0 14px 12px;height:auto;padding:12px;flex-direction:column;gap:6px;text-align:center}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pop{opacity:1}}
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <svg class="hex" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="hexp" width="56" height="100" patternUnits="userSpaceOnUse" patternTransform="scale(.9)"><path d="M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100" fill="none" stroke="#0b8a42" stroke-opacity=".13" stroke-width="1.2"/><path d="M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34" fill="none" stroke="#0b8a42" stroke-opacity=".13" stroke-width="1.2"/></pattern></defs><rect width="100%" height="100%" fill="url(#hexp)"/></svg>
+  <svg class="deco shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+  <svg class="deco hat" viewBox="0 0 24 24"><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M14 6a6 6 0 0 1 6 6v3"/><path d="M4 15v-3a6 6 0 0 1 6-6"/><rect x="2" y="15" width="20" height="4" rx="1"/></svg>
+  <svg class="deco gear" viewBox="-80 -80 160 160"><circle r="60" stroke-width="16" stroke-dasharray="15.7 15.7"/><circle r="50" stroke-width="10"/><circle r="22" stroke-width="7"/></svg>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-hazard" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-nearmiss" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></symbol>
+  <symbol id="i-incident" viewBox="0 0 24 24"><path d="M7 18v-6a5 5 0 1 1 10 0v6"/><path d="M5 21a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2z"/><path d="M21 12h1"/><path d="M18.5 4.5 18 5"/><path d="M2 12h1"/><path d="M12 2v1"/><path d="m4.929 4.929.707.707"/><path d="M12 12v6"/></symbol>
+  <symbol id="i-inspect" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol>
+</svg>
+
+<header>
+  <div class="brand"><img src="assets/gambar/logo.png" alt="Logo" onerror="this.style.display='none'"><span class="sep"></span><span>HSE DEPARTEMENT</span></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="profile.html">Profile</a>
+    <a href="data.html">Data</a>
+    <div class="dd">
+      <a href="report.html" class="active">Report</a>
+      <div class="menu"><div class="box">
+        <a href="hazard.html"><svg class="ic"><use href="#i-hazard"/></svg>Hazard Report</a>
+        <a href="nearmiss.html"><svg class="ic"><use href="#i-nearmiss"/></svg>Near Miss Report</a>
+        <a href="incident.html"><svg class="ic"><use href="#i-incident"/></svg>Incident Report</a>
+        <a href="inspection.html"><svg class="ic"><use href="#i-inspect"/></svg>Inspection Report</a>
+      </div></div>
+    </div>
+    <a href="health.html">Health</a>
+    <a href="sdm.html">SDM</a>
+    <a href="permit.html">Permit</a>
+    <a href="library.html">Library</a>
+  </nav>
+</header>
+<div class="stripe"></div>
+
+<main>
+  <div class="crumb"><a href="report.html">Report</a> › Hazard Report</div>
+  <form class="panel pop" id="frm" novalidate>
+    <div class="ptitle"><div class="ico"><svg class="ic"><use href="#i-hazard"/></svg></div><h1>Hazard Report</h1></div>
+    <p class="psub">Laporkan kondisi atau tindakan tidak aman yang Anda temukan. Kolom bertanda <i style="color:var(--red);font-style:normal">*</i> wajib diisi.</p>
+
+    <div class="sec">Data Pelapor</div>
+    <div class="grid">
+      <div><label>Nama Pelapor <i>*</i></label><input id="pelapor" required></div>
+      <div><label>Departemen / Bagian <i>*</i></label><input id="departemen" required></div>
+      <div><label>Tanggal Temuan <i>*</i></label><input type="date" id="tanggal" required></div>
+      <div><label>Waktu <i>*</i></label><input type="time" id="waktu" required></div>
+    </div>
+
+    <div class="sec">Detail Temuan</div>
+    <div class="grid">
+      <div class="full"><label>Lokasi Temuan <i>*</i></label><input id="lokasi" placeholder="Contoh: Workshop, dekat panel utama" required></div>
+      <div><label>Kategori <i>*</i></label>
+        <select id="kategori" required><option value="">- pilih -</option><option>Kondisi Tidak Aman</option><option>Tindakan Tidak Aman</option></select></div>
+      <div><label>Jenis Bahaya <i>*</i></label>
+        <select id="jenis" required><option value="">- pilih -</option><option>APD</option><option>Housekeeping</option><option>Listrik</option><option>Alat Berat / Kendaraan</option><option>Bekerja di Ketinggian</option><option>Kebakaran</option><option>Bahan Kimia / B3</option><option>Mesin / Peralatan</option><option>Lainnya</option></select></div>
+      <div class="full"><label>Deskripsi Temuan <i>*</i></label><textarea id="deskripsi" placeholder="Jelaskan apa yang ditemukan" required></textarea></div>
+      <div class="full"><label>Tindakan Segera / Saran Perbaikan</label><textarea id="tindakan"></textarea></div>
+      <div class="full"><label>Tingkat Risiko <i>*</i></label>
+        <div class="risk">
+          <label style="--c:#2e9e5b"><input type="radio" name="risiko" value="Rendah"><span>Rendah</span></label>
+          <label style="--c:#e0a21a"><input type="radio" name="risiko" value="Sedang"><span>Sedang</span></label>
+          <label style="--c:#d32f2f"><input type="radio" name="risiko" value="Tinggi"><span>Tinggi</span></label>
+        </div></div>
+    </div>
+
+    <div class="sec">Tindak Lanjut</div>
+    <div class="grid">
+      <div><label>PIC Tindak Lanjut <i>*</i></label><input id="pic" required></div>
+      <div><label>Batas Waktu (Due Date) <i>*</i></label><input type="date" id="due" required></div>
+    </div>
+
+    <div class="sec">Foto Temuan (maks. 3)</div>
+    <label class="upl" for="foto">📷 Ketuk untuk memilih / mengambil foto</label>
+    <input type="file" id="foto" accept="image/*" multiple style="display:none">
+    <div class="thumbs" id="thumbs"></div>
+
+    <div class="msg" id="msg"></div>
+    <div class="actions">
+      <button type="reset" class="btn sec2" id="reset">Reset</button>
+      <button type="submit" class="btn main" id="send">Kirim Laporan</button>
+    </div>
+  </form>
+</main>
+
+<div class="modal" id="modal"><div class="mbox">
+  <div class="ok"><svg class="ic"><use href="#i-check"/></svg></div>
+  <h2>Laporan Terkirim!</h2><p>Terima kasih sudah peduli keselamatan kerja.</p>
+  <b id="newid">HZ-0000</b><br>
+  <button class="btn main" id="close">Tutup</button>
+</div></div>
+
+<footer>
+  <div class="brand"><img src="assets/gambar/logo.png" alt="Logo" onerror="this.style.display='none'"><span>HSE DEPARTEMENT</span></div>
+  <div id="copy"></div>
+</footer>
+
+<script>
+/* ===== PENGATURAN ===== */
+const URL_SHEETS = "ISI_URL_WEB_APP_DI_SINI";   // tempel URL Web App (.../exec)
+const TYPE = "hazard";
+const MAX_FOTO = 3;
+
+const $ = id => document.getElementById(id);
+const FIELDS = ["tanggal","waktu","pelapor","departemen","lokasi","kategori","jenis","deskripsi","tindakan","pic","due"];
+let photos = [];   // base64 JPEG tanpa header
+
+function today(){ const d = new Date(); return d.toISOString().slice(0,10); }
+function setDefaults(){
+  $("tanggal").value = today();
+  const n = new Date(); $("waktu").value = String(n.getHours()).padStart(2,"0") + ":" + String(n.getMinutes()).padStart(2,"0");
+}
+setDefaults();
+$("copy").textContent = "© " + new Date().getFullYear() + " Dept HSE - All Right Reserved";
+
+/* kecilkan foto agar ringan dikirim */
+function shrink(file){
+  return new Promise((res, rej) => {
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => {
+      const s = Math.min(1, 1280 / Math.max(img.width, img.height));
+      const c = document.createElement("canvas");
+      c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      res(c.toDataURL("image/jpeg", .72));
+    };
+    img.onerror = () => rej(new Error("Foto tidak bisa dibaca"));
+    img.src = url;
+  });
+}
+function drawThumbs(){
+  $("thumbs").innerHTML = photos.map((p,i) => `<div><img src="${p}"><button type="button" data-i="${i}">×</button></div>`).join("");
+}
+$("foto").addEventListener("change", async e => {
+  for(const f of e.target.files){
+    if(photos.length >= MAX_FOTO) break;
+    try{ photos.push(await shrink(f)); }catch(err){ showMsg(err.message); }
+  }
+  e.target.value = ""; drawThumbs();
+});
+$("thumbs").addEventListener("click", e => {
+  if(e.target.dataset.i !== undefined){ photos.splice(+e.target.dataset.i, 1); drawThumbs(); }
+});
+
+function showMsg(t){ const m = $("msg"); m.textContent = t; m.style.display = t ? "block" : "none"; }
+
+$("reset").addEventListener("click", () => { photos = []; drawThumbs(); showMsg(""); setTimeout(setDefaults, 0); });
+$("close").addEventListener("click", () => $("modal").classList.remove("on"));
+
+$("frm").addEventListener("submit", async e => {
+  e.preventDefault(); showMsg("");
+  const data = {};
+  FIELDS.forEach(f => data[f] = $(f).value.trim());
+  const r = document.querySelector('input[name="risiko"]:checked');
+  data.risiko = r ? r.value : "";
+
+  const wajib = ["pelapor","departemen","tanggal","waktu","lokasi","kategori","jenis","deskripsi","risiko","pic","due"];
+  const kosong = wajib.filter(k => !data[k]);
+  if(kosong.length){ showMsg("Lengkapi dulu kolom wajib (*): " + kosong.join(", ") + "."); return; }
+  if(URL_SHEETS.indexOf("script.google.com") < 0){ showMsg("URL Web App Google Sheets belum diisi di bagian URL_SHEETS."); return; }
+
+  const btn = $("send"); btn.disabled = true; btn.innerHTML = '<span class="spin"></span>Mengirim...';
+  try{
+    const res = await fetch(URL_SHEETS, {
+      method: "POST",
+      headers: {"Content-Type": "text/plain;charset=utf-8"},
+      body: JSON.stringify({type: TYPE, data, photos: photos.map(p => p.split(",")[1])})
+    });
+    const j = await res.json();
+    if(!j.ok) throw new Error(j.error || "Gagal menyimpan");
+    $("newid").textContent = j.id;
+    $("modal").classList.add("on");
+    $("frm").reset(); photos = []; drawThumbs(); setDefaults();
+  }catch(err){
+    showMsg("Laporan belum terkirim: " + err.message + ". Periksa koneksi lalu coba lagi.");
+  }finally{
+    btn.disabled = false; btn.textContent = "Kirim Laporan";
+  }
+});
+</script>
+</body>
+</html>
