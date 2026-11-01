@@ -67,9 +67,9 @@ input:focus,select:focus,textarea:focus{outline:0;border-color:var(--g1);box-sha
 .btn.sec2{background:#fff;color:var(--g2);border:2px solid var(--g1)}.btn:disabled{opacity:.6;cursor:wait;transform:none}
 .spin{display:inline-block;width:14px;height:14px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
 .msg{display:none;margin-top:14px;padding:10px 14px;border-radius:7px;font-size:13px;font-weight:600;background:#fde4e4;color:#b71c1c}
-.msg.warn{background:#fff3c4;color:#7a5c00}
 .modal{position:fixed;inset:0;z-index:50;background:rgba(8,40,22,.55);display:none;align-items:center;justify-content:center;padding:20px}.modal.on{display:flex}
-.mbox{background:#fff;border-radius:14px;padding:28px 30px;text-align:center;max-width:430px;border-top:6px solid var(--g1);animation:popIn .6s var(--bounce)}
+.mbox{background:#fff;border-radius:14px;padding:28px 30px;text-align:center;max-width:440px;border-top:6px solid var(--g1);animation:popIn .6s var(--bounce)}
+.mbox.warn{border-top-color:var(--yellow)}
 .mbox .ok{width:64px;height:64px;margin:0 auto 10px;border-radius:50%;background:var(--gbg);color:var(--g1);display:flex;align-items:center;justify-content:center;font-size:36px;animation:hop 1.4s infinite}
 .mbox h2{color:var(--g2);margin-bottom:6px}.mbox p{font-size:13.5px;color:var(--mut)}
 .mbox b{display:inline-block;margin:8px 0 10px;font-size:22px;color:var(--g2);background:var(--gbg);padding:4px 16px;border-radius:8px}
@@ -81,7 +81,7 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
 /* ===== LEMBAR A4 (dipakai untuk cetak dan untuk PDF) ===== */
 #sheet{display:none}
 .sh{font-family:Arial,sans-serif;color:#000;font-size:9pt;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.pdfwrap{position:absolute;left:-10000px;top:0;width:184.6mm;min-height:268mm;display:flex;flex-direction:column}
+.pdfbox{width:184.6mm;min-height:268mm;display:flex;flex-direction:column}
 .sh .ph{display:flex;justify-content:flex-end;align-items:flex-end;gap:8px;border-bottom:2px solid #0F9ED5;padding-bottom:2px}
 .sh .ph img{height:9mm;width:auto}
 .sh .ph .id{border-left:2px solid #0F9ED5;margin-left:6px;padding-left:5px;font:bold 7.5pt 'Times New Roman',serif}
@@ -150,7 +150,7 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
   <form class="panel pop" id="frm" style="--i:1" novalidate></form>
 </main>
 
-<div class="modal" id="modal"><div class="mbox">
+<div class="modal" id="modal"><div class="mbox" id="mBox">
   <div class="ok"><svg class="ic"><use href="#i-check"/></svg></div>
   <h2>Inspeksi Tersimpan!</h2><p id="mTxt">Data masuk ke Google Sheet.</p>
   <b id="newid">IS-0000</b>
@@ -264,7 +264,7 @@ function summary(){
   $("sum").textContent = `Hasil: ${s.baik} Baik · ${s.buruk} Tidak Baik · ${s.na} N/A` + (s.kosong ? ` · ${s.kosong} butir belum diisi` : "");
   $("sum").style.color = s.buruk ? "#b71c1c" : "";
 }
-function showMsg(t, warn){ const m = $("msg"); m.textContent = t; m.className = "msg" + (warn ? " warn" : ""); m.style.display = t ? "block" : "none"; }
+function showMsg(t){ const m = $("msg"); m.textContent = t; m.style.display = t ? "block" : "none"; }
 
 /* ===== lembar A4 (HTML) ===== */
 function sheetHtml(){
@@ -295,22 +295,26 @@ function sheetHtml(){
 }
 function buildSheet(){ $("sheet").innerHTML = sheetHtml(); }
 
-/* ===== buat PDF A4 di browser ===== */
+/* ===== buat PDF A4 di browser =====
+   Lembar ditaruh di pembungkus tersembunyi (pembungkusnya yang digeser keluar layar,
+   bukan lembarnya) agar hasil foto halaman tidak kosong. */
 async function makePdf(){
   if(!window.html2pdf) throw new Error("pustaka PDF belum termuat (cek koneksi internet)");
+  const holder = document.createElement("div");
+  holder.style.cssText = "position:fixed;left:-10000px;top:0;";
   const w = document.createElement("div");
-  w.className = "sh pdfwrap"; w.innerHTML = sheetHtml();
-  document.body.appendChild(w);
+  w.className = "sh pdfbox"; w.innerHTML = sheetHtml();
+  holder.appendChild(w); document.body.appendChild(holder);
   try{
     await Promise.all([...w.querySelectorAll("img")].map(i => i.complete ? 1 : new Promise(r => { i.onload = i.onerror = r; })));
     const uri = await html2pdf().set({
       margin: [12.7,12.7,12.7,12.7],
       image: {type:"jpeg", quality:.92},
-      html2canvas: {scale:1.6, useCORS:true},
+      html2canvas: {scale:1.6, useCORS:true, scrollX:0, scrollY:0},
       jsPDF: {unit:"mm", format:"a4", orientation:"portrait"}
     }).from(w).outputPdf("datauristring");
     return uri.split(",")[1];
-  }finally{ w.remove(); }
+  }finally{ holder.remove(); }
 }
 function pdfName(t, s){ return [t.no, t.n, s.kode, s.tanggal].join("_").replace(/[^\w\-]+/g,"-"); }
 function download(){
@@ -359,9 +363,19 @@ $("frm").addEventListener("submit", async e => {
     lastPdf = pdfB64 ? {b64: pdfB64, name: pdfName(t, s)} : null;
     $("newid").textContent = resp.id;
     $("mDown").style.display = lastPdf ? "" : "none";
-    const dv = $("mDrive");
-    if(resp.pdf){ dv.href = resp.pdf; dv.style.display = "block"; $("mTxt").textContent = "Data masuk ke Google Sheet dan PDF tersimpan otomatis di Google Drive."; }
-    else { dv.style.display = "none"; $("mTxt").textContent = "Data masuk ke Google Sheet" + (pdfGagal ? ", tetapi PDF gagal dibuat: " + pdfGagal + ". Anda masih bisa mencetak form ini." : "."); }
+    const dv = $("mDrive"), warn = !resp.pdf;
+    $("mBox").classList.toggle("warn", warn);
+    if(resp.pdf){
+      dv.href = resp.pdf; dv.style.display = "block";
+      $("mTxt").textContent = "Data masuk ke Google Sheet dan PDF tersimpan otomatis di Google Drive (subfolder Inspection).";
+    }else{
+      dv.style.display = "none";
+      let m = "Data masuk ke Google Sheet, tetapi PDF belum tersimpan di Google Drive. ";
+      if(pdfGagal) m += "PDF gagal dibuat: " + pdfGagal + ".";
+      else if(resp.pdfError) m += "Penyebab dari server: " + resp.pdfError;
+      else m += "Kemungkinan Code.gs terbaru belum di-deploy sebagai New version.";
+      $("mTxt").textContent = m + " Anda masih bisa mencetak form ini.";
+    }
     $("modal").classList.add("on");
   }
 });
