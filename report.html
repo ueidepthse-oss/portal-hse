@@ -15,7 +15,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--tx
 .bg .shield{right:-70px;bottom:20px;width:440px;height:440px;opacity:.10;stroke-width:.6}
 .bg .hat{left:-60px;bottom:30px;width:380px;height:380px;opacity:.09;stroke-width:.6}
 .bg .gear{right:26%;top:34%;width:230px;height:230px;opacity:.08;stroke-width:1}
-header,.stripe,main,footer{position:relative;z-index:1}header{z-index:5}
+header,.stripe,main,footer{position:relative;z-index:1}header{z-index:50}
 
 header{background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 20px;height:56px;flex:none;box-shadow:0 2px 6px rgba(0,0,0,.2)}
 .brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
@@ -36,17 +36,17 @@ nav .active{background:var(--g2);box-shadow:inset 0 -3px 0 var(--yellow)}
 @keyframes popIn{0%{opacity:0;transform:translateY(26px) scale(.88)}55%{opacity:1;transform:translateY(-7px) scale(1.03)}78%{transform:translateY(3px) scale(.99)}100%{opacity:1;transform:none}}
 @keyframes hop{0%,100%{transform:translateY(0)}28%{transform:translateY(-9px)}50%{transform:translateY(0)}66%{transform:translateY(-4px)}82%{transform:translateY(0)}}
 @keyframes iconBounce{0%,60%,100%{transform:translateY(0)}70%{transform:translateY(-6px)}80%{transform:translateY(0)}88%{transform:translateY(-2px)}}
+@keyframes tipIn{0%{opacity:0;transform:translateY(-10px) scale(.9)}60%{opacity:1;transform:translateY(4px) scale(1.02)}100%{opacity:1;transform:none}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes blink{50%{opacity:.3}}
-.pop{opacity:0;animation:popIn .8s var(--bounce) forwards;animation-delay:calc(var(--i,0) * 80ms)}
+.pop{opacity:0;animation:popIn .8s var(--bounce) forwards;animation-delay:calc(var(--i,0) * 70ms)}
 
-main{flex:1;padding:14px 20px;display:grid;gap:12px;grid-template-columns:minmax(0,1fr) 240px;grid-template-rows:auto 340px 360px}
-.tabs{grid-column:1/3;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.openlist{grid-column:1;grid-row:2}
-.kpis{grid-column:2;grid-row:2;display:grid;grid-template-rows:repeat(4,1fr);gap:10px}
-.nmlist{grid-column:1;grid-row:3}
-.kpis2{grid-column:2;grid-row:3;display:grid;grid-template-rows:repeat(5,1fr);gap:8px}
-.nmlist,.openlist{display:flex;flex-direction:column;min-height:0}
+/* ===== LAYOUT: kartu di atas, daftar selebar penuh ===== */
+main{flex:1;padding:14px 20px;display:flex;flex-direction:column;gap:12px}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.krow{display:grid;gap:10px}
+.k4{grid-template-columns:repeat(4,1fr)}.k5{grid-template-columns:repeat(5,1fr)}
+.list{display:flex;flex-direction:column;height:300px;min-height:0}
 .title{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
 .title h2{font-size:15px;font-weight:800;color:var(--g2)}
 .title .sub{font-size:11.5px;color:var(--mut)}
@@ -62,13 +62,25 @@ main{flex:1;padding:14px 20px;display:grid;gap:12px;grid-template-columns:minmax
 .tab b{display:block;font-size:14px;color:var(--c)}.tab small{font-size:11.5px;color:var(--mut)}
 .tab.hz{--c:var(--amber);--t:#fff1dc}.tab.nm{--c:var(--g1);--t:var(--gbg)}.tab.in{--c:var(--red);--t:#fde4e4}.tab.is{--c:var(--blue);--t:#dff1fa}
 
-.kpi{background:#fff;border-radius:8px;border-left:5px solid var(--c);box-shadow:0 2px 6px rgba(13,59,34,.12);display:flex;align-items:center;gap:12px;padding:0 14px;transition:box-shadow .2s}
+/* ===== KARTU ANGKA + POP UP ===== */
+.kw{position:relative;display:grid;outline:0}
+.kw:hover,.kw:focus{z-index:40}
+.kpi{background:#fff;border-radius:8px;border-left:5px solid var(--c);box-shadow:0 2px 6px rgba(13,59,34,.12);display:flex;align-items:center;gap:12px;padding:0 16px;min-height:64px;transition:box-shadow .2s}
 .kpi:hover{animation:hop .6s ease;box-shadow:0 8px 18px rgba(13,59,34,.2)}
 .kpi .ic{font-size:26px;color:var(--c);animation:iconBounce 3s infinite;animation-delay:calc(var(--i,0) * .35s)}
 .kpi b{display:block;font-size:26px;line-height:1.1;color:var(--g2)}
 .kpi span{font-size:11.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.3px}
-.kpis2 .kpi .ic{font-size:22px}.kpis2 .kpi b{font-size:22px}
+.kw.hasTip .kpi::after{content:"ⓘ";position:absolute;top:6px;right:9px;font-size:12px;color:var(--mut)}
+.tip{display:none;position:absolute;top:calc(100% + 8px);left:0;min-width:240px;background:#fff;border-radius:10px;border-top:4px solid var(--c);box-shadow:0 12px 28px rgba(13,59,34,.3);padding:10px 14px 12px;z-index:60}
+.kw:hover .tip,.kw:focus .tip{display:block;animation:tipIn .5s var(--bounce)}
+.tip h4{font-size:12px;color:var(--g2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.tip .tr{display:flex;align-items:center;gap:8px;font-size:13px;padding:4px 0;border-top:1px solid var(--line)}
+.tip .tr i{width:10px;height:10px;border-radius:50%;flex:none}
+.tip .tr b{margin-left:auto;font-size:15px;color:var(--g2);padding-left:18px}
+.tip.two{min-width:300px}
+.tip.two .gr{display:grid;grid-template-columns:1fr 1fr;column-gap:18px}
 
+/* ===== TABEL ===== */
 .card{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:0 2px 6px rgba(13,59,34,.1);flex:1;min-height:0;display:flex;flex-direction:column}
 .tscroll{flex:1;overflow:auto;min-height:0}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
@@ -87,9 +99,9 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
 
 @media (max-width:980px){
   header{height:auto;flex-direction:column;align-items:flex-start;padding:10px 14px}nav{justify-content:flex-start}.menu{right:auto;left:0}
-  main{grid-template-columns:1fr;grid-template-rows:none;padding:12px 14px}
-  .tabs{grid-template-columns:1fr 1fr}.tabs,.openlist,.kpis,.nmlist,.kpis2{grid-column:1;grid-row:auto}
-  .kpis,.kpis2{grid-template-rows:none;grid-template-columns:1fr 1fr}.kpi{min-height:70px}.openlist,.nmlist{height:320px}
+  main{padding:12px 14px}.tabs{grid-template-columns:1fr 1fr}
+  .k4,.k5{grid-template-columns:1fr 1fr}.list{height:320px}
+  .tip,.tip.two{min-width:220px;max-width:86vw}
   footer{margin:0 14px 12px;height:auto;padding:12px 14px;flex-direction:column;gap:6px;text-align:center}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pop{opacity:1}}
@@ -146,7 +158,15 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
     <div class="pop" style="--i:3"><a class="tab is" href="inspection.html"><div class="ico"><svg class="ic"><use href="#i-inspect"/></svg></div><div><b>Inspection Report</b><small>Hasil inspeksi area & alat</small></div></a></div>
   </section>
 
-  <section class="openlist pop" style="--i:4">
+  <!-- ===== KARTU HAZARD ===== -->
+  <section class="krow k4">
+    <div class="kw hasTip pop" tabindex="0" style="--i:4"><div class="kpi" style="--c:var(--amber);--i:0"><svg class="ic"><use href="#i-hazard"/></svg><div><b id="k-th">0</b><span>Total Hazard</span></div></div><div class="tip" id="tip-hz" style="--c:var(--amber)"></div></div>
+    <div class="kw pop" style="--i:5"><div class="kpi" style="--c:var(--red);--i:1"><svg class="ic"><use href="#i-list"/></svg><div><b id="k-of">0</b><span>Open Finding</span></div></div></div>
+    <div class="kw pop" style="--i:6"><div class="kpi" style="--c:var(--g1);--i:2"><svg class="ic"><use href="#i-check"/></svg><div><b id="k-cf">0</b><span>Closed Finding</span></div></div></div>
+    <div class="kw pop" style="--i:7"><div class="kpi" style="--c:var(--blue);--i:3"><svg class="ic"><use href="#i-clock"/></svg><div><b id="k-op">0</b><span>On Progress</span></div></div></div>
+  </section>
+
+  <section class="list pop" style="--i:8">
     <div class="title">
       <h2 id="o-title">Open Finding List</h2>
       <div class="live" id="live"><i>●</i><span id="upd">Memuat data...</span><button id="rf" type="button">⟳ Refresh</button></div>
@@ -159,14 +179,16 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
     </div></div>
   </section>
 
-  <section class="kpis">
-    <div class="pop" style="--i:5;display:grid"><div class="kpi" style="--c:var(--amber);--i:0"><svg class="ic"><use href="#i-hazard"/></svg><div><b id="k-th">0</b><span>Total Hazard</span></div></div></div>
-    <div class="pop" style="--i:6;display:grid"><div class="kpi" style="--c:var(--red);--i:1"><svg class="ic"><use href="#i-list"/></svg><div><b id="k-of">0</b><span>Open Finding</span></div></div></div>
-    <div class="pop" style="--i:7;display:grid"><div class="kpi" style="--c:var(--g1);--i:2"><svg class="ic"><use href="#i-check"/></svg><div><b id="k-cf">0</b><span>Closed Finding</span></div></div></div>
-    <div class="pop" style="--i:8;display:grid"><div class="kpi" style="--c:var(--blue);--i:3"><svg class="ic"><use href="#i-clock"/></svg><div><b id="k-op">0</b><span>On Progress</span></div></div></div>
+  <!-- ===== KARTU NEAR MISS & INCIDENT ===== -->
+  <section class="krow k5">
+    <div class="kw pop" style="--i:9"><div class="kpi" style="--c:var(--g1);--i:0"><svg class="ic"><use href="#i-nearmiss"/></svg><div><b id="k-tn">0</b><span>Total Near Miss</span></div></div></div>
+    <div class="kw hasTip pop" tabindex="0" style="--i:10"><div class="kpi" style="--c:var(--red);--i:1"><svg class="ic"><use href="#i-incident"/></svg><div><b id="k-ti">0</b><span>Total Incident</span></div></div><div class="tip two" id="tip-in" style="--c:var(--red)"></div></div>
+    <div class="kw pop" style="--i:11"><div class="kpi" style="--c:var(--blue);--i:2"><svg class="ic"><use href="#i-search"/></svg><div><b id="k-iv">0</b><span>Investigating</span></div></div></div>
+    <div class="kw pop" style="--i:12"><div class="kpi" style="--c:var(--g3);--i:3"><svg class="ic"><use href="#i-check"/></svg><div><b id="k-nc">0</b><span>Closed</span></div></div></div>
+    <div class="kw pop" style="--i:13"><div class="kpi" style="--c:var(--amber);--i:4"><svg class="ic"><use href="#i-list"/></svg><div><b id="k-no">0</b><span>Open</span></div></div></div>
   </section>
 
-  <section class="nmlist pop" style="--i:9">
+  <section class="list pop" style="--i:14">
     <div class="title"><h2 id="n-title">Near Miss &amp; Incident List</h2><span class="sub">Daftar laporan near miss dan insiden</span></div>
     <div class="card"><div class="tscroll">
       <table>
@@ -174,14 +196,6 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
         <tbody id="n-body"><tr><td colspan="7" class="empty"><span class="spin"></span>Memuat data...</td></tr></tbody>
       </table>
     </div></div>
-  </section>
-
-  <section class="kpis2">
-    <div class="pop" style="--i:10;display:grid"><div class="kpi" style="--c:var(--g1);--i:0"><svg class="ic"><use href="#i-nearmiss"/></svg><div><b id="k-tn">0</b><span>Total Near Miss</span></div></div></div>
-    <div class="pop" style="--i:11;display:grid"><div class="kpi" style="--c:var(--red);--i:1"><svg class="ic"><use href="#i-incident"/></svg><div><b id="k-ti">0</b><span>Total Incident</span></div></div></div>
-    <div class="pop" style="--i:12;display:grid"><div class="kpi" style="--c:var(--blue);--i:2"><svg class="ic"><use href="#i-search"/></svg><div><b id="k-iv">0</b><span>Investigating</span></div></div></div>
-    <div class="pop" style="--i:13;display:grid"><div class="kpi" style="--c:var(--g3);--i:3"><svg class="ic"><use href="#i-check"/></svg><div><b id="k-nc">0</b><span>Closed</span></div></div></div>
-    <div class="pop" style="--i:14;display:grid"><div class="kpi" style="--c:var(--amber);--i:4"><svg class="ic"><use href="#i-list"/></svg><div><b id="k-no">0</b><span>Open</span></div></div></div>
   </section>
 </main>
 
@@ -195,16 +209,25 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
 const URL_SHEETS = "https://script.google.com/macros/s/AKfycbwz8ZtmBmsC-Mtxnsd7QKAh1EPGQ1wVKUgn87U-0Xs-o09AvL1MP8D7mRKXEwjcGRd2/exec";
 const REFRESH_MS = 60000;   // data diperbarui otomatis tiap 60 detik
 
+/* klasifikasi insiden untuk pop up (dibaca dari kolom Klasifikasi di sheet Incident) */
+const KLASIFIKASI = [
+  {k:"P3K",             c:"#2e9e5b"},
+  {k:"Medical",         c:"#0e7fa8"},
+  {k:"Property Damage", c:"#e0a21a"},
+  {k:"LTI",             c:"#7b3fc4"},
+  {k:"Fire",            c:"#f08a00"},
+  {k:"Fatality",        c:"#d32f2f"}
+];
+
 const $ = id => document.getElementById(id);
 const fmt = n => Number(n).toLocaleString("id-ID");
 const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const pick = (r, keys) => { for(const k of keys){ if(r[k] !== undefined && r[k] !== "") return r[k]; } return ""; };
+const low = s => String(s || "").toLowerCase();
 const tgl = v => { const d = new Date(v); return isNaN(d) ? esc(v) : d.toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"}); };
-/* status temuan hazard */
-const statusOf = s => { s = String(s || "").trim().toLowerCase(); return s === "closed" ? "Closed" : s === "in progress" ? "In Progress" : "Open"; };
-/* status near miss & incident: Closed | Investigating | selain itu dihitung Open */
-const niStatus = s => { s = String(s || "").trim().toLowerCase(); return s === "closed" ? "Closed" : s === "investigating" ? "Investigating" : "Open"; };
+const statusOf = s => { s = low(s).trim(); return s === "closed" ? "Closed" : s === "in progress" ? "In Progress" : "Open"; };
+const niStatus = s => { s = low(s).trim(); return s === "closed" ? "Closed" : s === "investigating" ? "Investigating" : "Open"; };
 
 function countTo(el, target){
   const from = el._v || 0;
@@ -227,13 +250,16 @@ async function load(type){
   return j.rows || [];
 }
 
+const trow = (label, color, n) => `<div class="tr"><i style="background:${color}"></i>${esc(label)}<b>${fmt(n)}</b></div>`;
+
 function render(hz, nm, ic){
   const today = new Date(); today.setHours(0,0,0,0);
 
-  /* ---- Hazard: Open Finding List + kartu ---- */
+  /* ---- Hazard ---- */
   const finds = hz.map(r => ({
     id: pick(r,["ID"]), temuan: pick(r,["Deskripsi"]), lokasi: pick(r,["Lokasi"]),
-    pic: pick(r,["PIC"]), due: pick(r,["Due Date"]), status: statusOf(pick(r,["Status"]))
+    pic: pick(r,["PIC"]), due: pick(r,["Due Date"]), status: statusOf(pick(r,["Status"])),
+    kategori: low(pick(r,["Kategori"]))
   }));
   const open = finds.filter(f => f.status !== "Closed").sort((a,b) => new Date(a.due) - new Date(b.due));
 
@@ -241,6 +267,13 @@ function render(hz, nm, ic){
   countTo($("k-of"), open.length);
   countTo($("k-cf"), finds.filter(f => f.status === "Closed").length);
   countTo($("k-op"), finds.filter(f => f.status === "In Progress").length);
+
+  /* pop up Total Hazard */
+  const kondisi  = finds.filter(f => f.kategori.includes("kondisi")).length;
+  const tindakan = finds.filter(f => f.kategori.includes("tindakan")).length;
+  $("tip-hz").innerHTML = `<h4>Rincian Hazard</h4>` +
+    trow("Kondisi Tidak Aman", "#f08a00", kondisi) +
+    trow("Tindakan Tidak Aman", "#d32f2f", tindakan);
 
   $("o-title").textContent = `Open Finding List (${open.length})`;
   $("o-body").innerHTML = open.length ? open.map(f => {
@@ -251,7 +284,7 @@ function render(hz, nm, ic){
     return `<tr><td>${esc(f.id)}</td><td><span class="tag t-Hazard">Hazard</span></td><td>${esc(f.temuan)}</td><td>${esc(f.lokasi)}</td><td>${esc(f.pic)}</td><td>${tgl(f.due)}</td><td>${st}</td></tr>`;
   }).join("") : `<tr><td colspan="7" class="empty">Tidak ada temuan terbuka</td></tr>`;
 
-  /* ---- Near Miss & Incident: list + kartu ---- */
+  /* ---- Near Miss & Incident ---- */
   const conv = (rows, type) => rows.map(r => ({
     id: pick(r,["ID"]), type,
     desk: pick(r,["Deskripsi","Kronologi","Uraian"]), lokasi: pick(r,["Lokasi"]),
@@ -265,6 +298,11 @@ function render(hz, nm, ic){
   countTo($("k-iv"), list.filter(r => niStatus(r.status) === "Investigating").length);
   countTo($("k-nc"), list.filter(r => niStatus(r.status) === "Closed").length);
   countTo($("k-no"), list.filter(r => niStatus(r.status) === "Open").length);
+
+  /* pop up Total Incident */
+  const kls = ic.map(r => low(pick(r,["Klasifikasi","Kategori","Jenis Insiden"])));
+  $("tip-in").innerHTML = `<h4>Klasifikasi Incident</h4><div class="gr">` +
+    KLASIFIKASI.map(x => trow(x.k, x.c, kls.filter(s => s.includes(x.k.toLowerCase())).length)).join("") + `</div>`;
 
   $("n-title").textContent = `Near Miss & Incident List (${list.length})`;
   $("n-body").innerHTML = list.length ? list.map(r => {
