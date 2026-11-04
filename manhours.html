@@ -35,61 +35,92 @@ nav .active{background:var(--g2);box-shadow:inset 0 -3px 0 var(--yellow)}
 @keyframes popIn{0%{opacity:0;transform:translateY(26px) scale(.88)}55%{opacity:1;transform:translateY(-7px) scale(1.03)}78%{transform:translateY(3px) scale(.99)}100%{opacity:1;transform:none}}
 @keyframes hop{0%,100%{transform:translateY(0)}28%{transform:translateY(-9px)}50%{transform:translateY(0)}66%{transform:translateY(-4px)}82%{transform:translateY(0)}}
 @keyframes iconBounce{0%,60%,100%{transform:translateY(0)}70%{transform:translateY(-6px)}80%{transform:translateY(0)}88%{transform:translateY(-2px)}}
+@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
 @keyframes spin{to{transform:rotate(360deg)}}
-.pop{opacity:0;animation:popIn .8s var(--bounce) forwards;animation-delay:calc(var(--i,0) * 80ms)}
+@keyframes blink{50%{opacity:.3}}
+.pop{opacity:0;animation:popIn .8s var(--bounce) forwards;animation-delay:calc(var(--i,0) * 70ms)}
 
 main{flex:1;padding:14px 20px;display:flex;flex-direction:column;gap:12px}
 .crumb{font-size:12px;color:var(--mut)}.crumb a{color:var(--g1);text-decoration:none;font-weight:700}
-.krow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.kpi{background:#fff;border-radius:8px;border-left:5px solid var(--c);box-shadow:0 2px 6px rgba(13,59,34,.12);display:flex;align-items:center;gap:12px;padding:0 16px;min-height:68px;transition:box-shadow .2s}
-.kpi:hover{animation:hop .6s ease;box-shadow:0 8px 18px rgba(13,59,34,.2)}
-.kpi .ic{font-size:26px;color:var(--c);animation:iconBounce 3s infinite;animation-delay:calc(var(--i,0) * .35s)}
-.kpi b{display:block;font-size:22px;line-height:1.1;color:var(--g2)}
-.kpi span{font-size:11.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.3px}
-.kpi small{display:block;font-size:10.5px;color:var(--mut)}
-
-.cols{display:grid;grid-template-columns:380px minmax(0,1fr);gap:12px;align-items:start}
-.panel{background:#fff;border-radius:10px;border-top:6px solid var(--blue);box-shadow:0 4px 14px rgba(13,59,34,.14);padding:16px 18px 18px}
-.ptitle{display:flex;align-items:center;gap:12px;margin-bottom:6px}
-.ptitle .ico{width:42px;height:42px;border-radius:50%;background:#dff1fa;color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:22px;animation:hop 2.8s infinite}
-.ptitle h1{font-size:18px;color:var(--g2)}.ptitle small{display:block;font-size:12px;color:var(--mut);font-weight:400}
-.fld{margin-top:12px}
-label{display:block;font-size:12.5px;font-weight:700;margin-bottom:4px}label i{color:var(--red);font-style:normal}
-label em{font-style:normal;font-weight:400;color:var(--mut);font-size:11px}
-input,textarea{width:100%;font:inherit;font-size:14px;padding:9px 11px;border:1.5px solid var(--line);border-radius:7px;background:#fff;color:var(--tx);transition:border .2s,box-shadow .2s}
-textarea{min-height:56px;resize:vertical}
-input:focus,textarea:focus{outline:0;border-color:var(--g1);box-shadow:0 0 0 3px rgba(11,138,66,.18)}
-input[readonly]{background:var(--gbg);font-weight:800;color:var(--g2);font-size:16px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.hint{font-size:11px;color:var(--mut);margin-top:3px}
-.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
-.btn{font:inherit;font-weight:800;letter-spacing:.4px;padding:10px 22px;border-radius:8px;border:0;cursor:pointer;transition:.2s var(--bounce)}
+.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.bar .show{font-size:12.5px;color:var(--mut)}.bar .show b{color:var(--g2)}
+.bar .fl{margin-left:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.bar label{font-size:12px;font-weight:700;color:var(--mut)}
+select,input,textarea{font:inherit;font-size:13px;padding:6px 10px;border:1.5px solid var(--line);border-radius:7px;background:#fff;color:var(--tx);transition:border .2s,box-shadow .2s}
+select:disabled{opacity:.5}
+select:focus,input:focus,textarea:focus{outline:0;border-color:var(--g1);box-shadow:0 0 0 3px rgba(11,138,66,.15)}
+.btn{font:inherit;font-weight:800;letter-spacing:.3px;padding:8px 18px;border-radius:8px;border:0;cursor:pointer;transition:.2s var(--bounce)}
 .btn:hover{transform:translateY(-3px) scale(1.04)}
 .btn.main{background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;box-shadow:0 4px 10px rgba(11,138,66,.35)}
 .btn.sec2{background:#fff;color:var(--g2);border:2px solid var(--g1)}.btn:disabled{opacity:.6;cursor:wait;transform:none}
-.spin{display:inline-block;width:14px;height:14px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
-.spin.g{border-color:var(--g1);border-top-color:transparent}
-.msg{display:none;margin-top:12px;padding:9px 12px;border-radius:7px;font-size:13px;font-weight:600}
+
+.krow{display:grid;grid-template-columns:repeat(5,1fr) 1.25fr;gap:10px}
+.kpi{background:#fff;border-radius:10px;border-top:4px solid var(--c);box-shadow:0 2px 8px rgba(13,59,34,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px 8px;min-height:116px;transition:box-shadow .2s}
+.kpi:hover{animation:hop .6s ease;box-shadow:0 8px 18px rgba(13,59,34,.2)}
+.kpi .ic{font-size:24px;color:var(--c);animation:iconBounce 3s infinite;animation-delay:calc(var(--i,0) * .35s);margin-bottom:2px}
+.kpi b{font-size:26px;line-height:1.15;color:var(--g2)}
+.kpi span{font-size:11.5px;color:var(--mut)}
+.kpi small{font-size:11px;font-weight:700;color:var(--g2)}
+.up{color:#1b7f3b}.dn{color:var(--red)}
+.src{font-size:11px;color:var(--mut);gap:2px}
+.src .g{font-weight:800;color:var(--g2);font-size:13px}.src .g i{font-style:normal;color:var(--g3);animation:blink 2s infinite}.src.bad .g i{color:var(--red);animation:none}
+.src button{margin-top:4px;font:inherit;font-size:11.5px;font-weight:800;color:#fff;background:var(--g1);border:0;border-radius:14px;padding:4px 14px;cursor:pointer;transition:.2s var(--bounce)}
+.src button:hover{transform:translateY(-2px)}.src button:disabled{opacity:.6}
+.cal{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(13,59,34,.12);padding:8px 10px;min-height:116px}
+.cal .ch{display:flex;align-items:center;justify-content:space-between;font-size:11.5px;font-weight:800;color:var(--g2)}
+.cal .ch button{width:20px;height:20px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:11px;line-height:1;color:var(--g2)}
+.cal table{width:100%;border-collapse:separate;border-spacing:2px;margin-top:3px;font-size:10px;text-align:center}
+.cal th{font-size:9px;color:var(--mut);padding:0}
+.cal td{border:0;padding:1px 0;border-radius:3px;color:#9bb0a3}
+.cal td.has{background:#cfeedb;color:var(--g2);font-weight:700;cursor:pointer}
+.cal td.has:hover{background:var(--g3);color:#fff}
+.cal td.sel{outline:2px solid var(--g1)}
+
+/* panel input harian */
+.inp{display:none;background:#fff;border-radius:10px;border-top:6px solid var(--g1);box-shadow:0 4px 14px rgba(13,59,34,.14);padding:14px 18px 16px}
+.inp.on{display:block;animation:popIn .6s var(--bounce)}
+.inp h3{font-size:15px;color:var(--g2);display:flex;align-items:center;gap:8px}
+.inp .sub{font-size:12px;color:var(--mut);margin:2px 0 10px}
+.fr{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+.fr .f{display:flex;flex-direction:column;gap:3px}.fr label{font-size:12px;font-weight:700}
+.shifts{margin-top:10px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.shifts table{width:100%;border-collapse:collapse;font-size:13px}
+.shifts th{background:var(--gbg);color:var(--g2);font-size:11px;text-transform:uppercase;padding:6px 8px;text-align:left}
+.shifts td{padding:5px 8px;border-top:1px solid var(--line)}
+.shifts input{width:100%;padding:6px 8px}
+.shifts td.mh{font-weight:800;color:var(--g2);text-align:right;white-space:nowrap}
+.shifts .x{width:26px;height:26px;border-radius:50%;border:0;background:#fde4e4;color:var(--red);font-weight:800;cursor:pointer}
+.tot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap}
+.tot b{font-size:18px;color:var(--g2)}
+.note{font-size:12px;color:#7a5c00;background:#fff3c4;border-radius:6px;padding:5px 10px;margin-top:8px;display:none}
+.msg{display:none;margin-top:10px;padding:8px 12px;border-radius:7px;font-size:13px;font-weight:600}
 .msg.err{background:#fde4e4;color:#b71c1c}.msg.ok{background:#d9f2e1;color:var(--g2);animation:popIn .6s var(--bounce)}
 
-.card{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:0 2px 6px rgba(13,59,34,.1)}
-.sechead{background:var(--g1);color:#fff;font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:8px 12px;display:flex;align-items:center;gap:10px}
-.sechead select{margin-left:auto;font:inherit;font-size:12px;font-weight:700;padding:2px 8px;border-radius:5px;border:0;background:#fff;color:var(--g2);cursor:pointer}
-.sechead button{font:inherit;font-size:11.5px;font-weight:700;color:var(--g2);background:#fff;border:0;border-radius:5px;padding:2px 9px;cursor:pointer}
-.tscroll{max-height:470px;overflow:auto}
-table{width:100%;border-collapse:collapse;font-size:12.5px}
-th{position:sticky;top:0;background:var(--gbg);text-align:left;padding:8px 10px;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--g2);z-index:1;white-space:nowrap}
-td{padding:7px 10px;border-top:1px solid var(--line)}
-td.r,th.r{text-align:right}
-tbody tr:hover td{background:#f3faf5}
-.tag{display:inline-block;padding:1px 8px;border-radius:9px;font-size:10.5px;font-weight:700;background:#dff1fa;color:#0b6283}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start}
+.sh{font-size:15px;font-weight:800;color:var(--g2);margin-bottom:8px;display:flex;align-items:baseline;gap:8px}
+.sh em{margin-left:auto;font-style:normal;font-size:12px;font-weight:600;color:var(--mut)}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(13,59,34,.1)}
+table.ms{width:100%;border-collapse:collapse;font-size:13px}
+.ms th{background:var(--gbg);text-align:right;padding:9px 12px;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--g2)}
+.ms th:first-child,.ms td:first-child{text-align:left}
+.ms td{padding:9px 12px;border-top:1px solid var(--line);text-align:right}
+.ms td:first-child{font-weight:700}
+.ms tbody tr:hover td{background:#f3faf5}
+.chart{padding:10px 14px 6px;height:236px;display:flex;flex-direction:column;margin-bottom:12px}
+.chart h3{font-size:13px;font-weight:800;color:var(--g2);flex:none}
+.plot{flex:1;min-height:0;position:relative;overflow:hidden}
+.plot svg{position:absolute;left:0;top:0;display:block}
+.grid{stroke:#dbe9e0;stroke-width:1}.ax{font-size:9px;fill:#6b8576}
+.a{animation:grow .95s var(--bounce) both}
 .empty{padding:24px;text-align:center;color:var(--mut);font-size:13px}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--g1);border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:8px}
 
 footer{background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;flex:none;height:46px;margin:0 20px 12px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:13px;box-shadow:0 2px 6px rgba(13,59,34,.2)}
 footer .brand{font-size:13px}footer .brand img{height:26px}
+@media (max-width:1100px){.krow{grid-template-columns:repeat(3,1fr)}}
 @media (max-width:980px){
   header{height:auto;flex-direction:column;align-items:flex-start;padding:10px 14px}nav{justify-content:flex-start}.menu{right:auto;left:0}
-  main{padding:12px 14px}.krow{grid-template-columns:1fr 1fr}.cols{grid-template-columns:1fr}
+  main{padding:12px 14px}.two{grid-template-columns:1fr}.krow{grid-template-columns:1fr 1fr}.bar .fl{margin-left:0}
   footer{margin:0 14px 12px;height:auto;padding:12px 14px;flex-direction:column;gap:6px;text-align:center}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pop{opacity:1}}
@@ -112,9 +143,10 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
   <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
   <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
   <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6"/><path d="M14 11v6"/></symbol>
-  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
-  <symbol id="i-avg" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></symbol>
+  <symbol id="i-bars" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></symbol>
   <symbol id="i-cal" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24"><path d="M22 7 13.5 15.5 8.5 10.5 2 17"/><path d="M16 7h6v6"/></symbol>
 </svg>
 
 <header>
@@ -150,43 +182,59 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
 <main>
   <div class="crumb"><a href="data.html">Data</a> › Man Hours</div>
 
-  <section class="krow">
-    <div class="pop" style="--i:0"><div class="kpi" style="--c:var(--blue);--i:0"><svg class="ic"><use href="#i-clock"/></svg><div><b id="k-tot">0</b><span>Total Man Hours</span><small id="k-tot-s">-</small></div></div></div>
-    <div class="pop" style="--i:1"><div class="kpi" style="--c:var(--g1);--i:1"><svg class="ic"><use href="#i-cal"/></svg><div><b id="k-last">0</b><span>Bulan Terakhir</span><small id="k-last-s">-</small></div></div></div>
-    <div class="pop" style="--i:2"><div class="kpi" style="--c:var(--amber);--i:2"><svg class="ic"><use href="#i-shield"/></svg><div><b id="k-safe">0</b><span>Safe Man Hours</span><small id="k-safe-s">kumulatif terbaru</small></div></div></div>
-    <div class="pop" style="--i:3"><div class="kpi" style="--c:var(--g3);--i:3"><svg class="ic"><use href="#i-avg"/></svg><div><b id="k-avg">0</b><span>Rata-rata / Bulan</span><small id="k-avg-s">-</small></div></div></div>
+  <section class="bar pop" style="--i:0">
+    <span class="show">Showing: <b id="showing">-</b></span>
+    <div class="fl">
+      <button class="btn main" id="bInput" type="button">➕ Input Harian</button>
+      <label>Year <select id="fYear"></select></label>
+      <label>Month <select id="fMonth"></select></label>
+      <label>Week <select id="fWeek"></select></label>
+    </div>
   </section>
 
-  <section class="cols">
-    <form class="panel pop" id="frm" style="--i:4" novalidate>
-      <div class="ptitle"><div class="ico"><svg class="ic"><use href="#i-clock"/></svg></div><h1>Input Man Hours<small>Isi per bulan (boleh lebih dari satu baris)</small></h1></div>
-      <div class="fld"><label>Periode (Bulan) <i>*</i></label><input type="month" id="periode"></div>
-      <div class="two">
-        <div class="fld"><label>Manpower <i>*</i></label><input type="number" id="manpower" min="0" step="1" inputmode="numeric" placeholder="0"><div class="hint" id="mpHint"></div></div>
-        <div class="fld"><label>Hari Kerja <i>*</i></label><input type="number" id="hari" min="1" max="31" step="1" inputmode="numeric" placeholder="26"></div>
-      </div>
-      <div class="two">
-        <div class="fld"><label>Jam Kerja / Hari <i>*</i></label><input type="number" id="jam" min="1" max="24" step="0.5" inputmode="decimal" value="8"></div>
-        <div class="fld"><label>Jam Lembur <em>(total)</em></label><input type="number" id="lembur" min="0" step="0.5" inputmode="decimal" value="0"></div>
-      </div>
-      <div class="fld"><label>Total Man Hours (otomatis)</label><input id="total" readonly value="0"><div class="hint">Manpower × Hari Kerja × Jam Kerja/Hari + Jam Lembur</div></div>
-      <div class="fld"><label>Safe Man Hours <em>(kumulatif)</em></label><input type="number" id="safe" min="0" step="1" inputmode="numeric" placeholder="0"><div class="hint">Terisi otomatis dari data sebelumnya. Isi 0 bila terjadi LTI / hitungan diulang.</div></div>
-      <div class="fld"><label>Catatan <em>(mis. bagian / kontraktor)</em></label><textarea id="catatan"></textarea></div>
-      <div class="msg" id="msg"></div>
-      <div class="actions">
-        <button type="button" class="btn sec2" id="bClear">Kosongkan</button>
-        <button type="submit" class="btn main" id="bSend">Simpan</button>
-      </div>
-    </form>
+  <!-- ===== INPUT HARIAN (sistem roster) ===== -->
+  <form class="inp" id="frm" novalidate>
+    <h3><svg class="ic"><use href="#i-clock"/></svg>Input Man Hours Harian</h3>
+    <p class="sub">Pilih tanggal, lalu isi jumlah tenaga kerja untuk tiap shift hari itu. Man Hours = Tenaga Kerja × Jam Kerja.</p>
+    <div class="fr">
+      <div class="f"><label>Tanggal</label><input type="date" id="fDate"></div>
+      <div class="f" style="flex:1;min-width:200px"><label>Catatan (opsional)</label><input id="fNote" placeholder="Contoh: overhaul unit 2"></div>
+    </div>
+    <div class="shifts"><table>
+      <thead><tr><th>Shift</th><th style="width:130px">Tenaga Kerja</th><th style="width:110px">Jam Kerja</th><th style="width:110px;text-align:right">Man Hours</th><th style="width:40px"></th></tr></thead>
+      <tbody id="sBody"></tbody>
+    </table></div>
+    <div class="tot"><button type="button" class="btn sec2" id="bAdd">+ Tambah Shift</button><span>Total hari ini: <b id="dayTot">0</b> man hours</span></div>
+    <div class="note" id="note"></div>
+    <div class="msg" id="msg"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px">
+      <button type="button" class="btn sec2" id="bCancel">Tutup</button>
+      <button type="submit" class="btn main" id="bSend">Simpan</button>
+    </div>
+    <datalist id="shiftList"><option value="Shift 1"><option value="Shift 2"><option value="Shift 3"><option value="Non-Shift"></datalist>
+  </form>
 
-    <div class="card pop" style="--i:5">
-      <div class="sechead">Riwayat Man Hours <button type="button" id="rf">⟳ Refresh</button><select id="year"></select></div>
-      <div class="tscroll">
-        <table>
-          <thead><tr><th>Periode</th><th class="r">Manpower</th><th class="r">Hari</th><th class="r">Jam/Hari</th><th class="r">Lembur</th><th class="r">Total MH</th><th class="r">Safe MH</th><th>Catatan</th></tr></thead>
-          <tbody id="t-body"><tr><td colspan="8" class="empty"><span class="spin g"></span>Memuat data dari Google Sheets...</td></tr></tbody>
-        </table>
-      </div>
+  <section class="krow">
+    <div class="pop" style="--i:1"><div class="kpi" style="--c:#5b3fc4;--i:0"><svg class="ic"><use href="#i-clock"/></svg><b id="k-tot">0</b><span>Total Man Hours</span></div></div>
+    <div class="pop" style="--i:2"><div class="kpi" style="--c:var(--blue);--i:1"><svg class="ic"><use href="#i-bars"/></svg><b id="k-avg">0</b><span>Avg / Day</span></div></div>
+    <div class="pop" style="--i:3"><div class="kpi" style="--c:var(--amber);--i:2"><svg class="ic"><use href="#i-up"/></svg><b id="k-hi">0</b><span>Highest Day</span><small id="k-hi-s">-</small></div></div>
+    <div class="pop" style="--i:4"><div class="kpi" style="--c:var(--g1);--i:3"><svg class="ic"><use href="#i-cal"/></svg><b id="k-days">0</b><span>Days Recorded</span></div></div>
+    <div class="pop" style="--i:5"><div class="kpi" style="--c:var(--g3);--i:4"><svg class="ic"><use href="#i-trend"/></svg><b id="k-py">–</b><span>vs Prev. Year</span></div></div>
+    <div class="pop" style="--i:6;display:grid"><div class="kpi src" id="src" style="--c:var(--g1)"><span>Data source</span><span class="g"><i>●</i> Google Sheet</span><span>Last loaded</span><small id="loaded">-</small><button type="button" id="rf">↻ Refresh</button></div></div>
+  </section>
+
+  <section class="two">
+    <div class="pop" style="--i:7">
+      <div class="sh"><svg class="ic" style="color:var(--blue)"><use href="#i-cal"/></svg>Monthly Summary <em id="msYear"></em></div>
+      <div class="card"><table class="ms">
+        <thead><tr><th>Month</th><th>Total</th><th>Days</th><th>Avg / Day</th><th>vs Last Month</th></tr></thead>
+        <tbody id="msBody"><tr><td colspan="5" class="empty"><span class="spin"></span>Memuat data dari Google Sheets...</td></tr></tbody>
+      </table></div>
+    </div>
+    <div class="pop" style="--i:8">
+      <div class="sh"><svg class="ic" style="color:var(--blue)"><use href="#i-trend"/></svg>Trends</div>
+      <div class="card chart"><h3 id="t1">Monthly Trend</h3><div class="plot" id="c-m"></div></div>
+      <div class="card chart" style="margin-bottom:0"><h3 id="t2">Daily Trend – Last 30 days</h3><div class="plot" id="c-d"></div></div>
     </div>
   </section>
 </main>
@@ -199,155 +247,247 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
 <script>
 /* ===== PENGATURAN ===== */
 const URL_SHEETS = "https://script.google.com/macros/s/AKfycbwz8ZtmBmsC-Mtxnsd7QKAh1EPGQ1wVKUgn87U-0Xs-o09AvL1MP8D7mRKXEwjcGRd2/exec";
+const REFRESH_MS = 60000;
+const JAM_DEFAULT = 8;                        // jam kerja awal per shift (bisa diubah di form)
+const SHIFT_DEFAULT = ["Shift 1","Shift 2"];  // baris shift awal di form
 
 const $ = id => document.getElementById(id);
-const fmt = n => Number(n).toLocaleString("id-ID");
-const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const BLN = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+const fmt = n => Number(n).toLocaleString("en-US");
+const fmt1 = n => Number(n).toLocaleString("en-US",{maximumFractionDigits:1});
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const BLN = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const num = v => { const n = Number(String(v == null ? "" : v).replace(",", ".")); return isFinite(n) ? n : 0; };
-let ROWS = [], MP = {}, mpManual = false, safeManual = false;
+const pad = n => String(n).padStart(2, "0");
+const dk = d => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
 
-function ym(v){
-  const m = String(v).match(/^(\d{4})-(\d{2})/);
-  if(m) return [+m[1], +m[2]];
+/* baca tanggal dari Sheet: 2026-10-14 | 14/10/2026 | tanggal Sheet (ISO) */
+function tgl(v){
+  if(v === "" || v == null) return null;
+  let m = String(v).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(m) return new Date(+m[1], +m[2]-1, +m[3]);
+  m = String(v).match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})$/);
+  if(m) return new Date(+m[3], +m[2]-1, +m[1]);
   const d = new Date(v);
-  return isNaN(d) ? null : [d.getFullYear(), d.getMonth() + 1];
+  return isNaN(d) ? null : new Date(d.getFullYear(), d.getMonth(), d.getDate());
 }
-const label = p => BLN[p[1]-1] + " " + p[0];
-const key = p => p[0] + "-" + p[1];
+const fDay = d => d.getDate() + " " + BLN[d.getMonth()].slice(0,3) + " " + d.getFullYear();
 
-function countTo(el, target){
+function countTo(el, target, dec){
   const from = el._v || 0;
-  if(from === target){ el.textContent = fmt(target); return; }
+  const f = dec ? fmt1 : fmt;
+  if(from === target){ el.textContent = f(target); return; }
   el._v = target;
-  if(reduce){ el.textContent = fmt(target); return; }
+  if(reduce){ el.textContent = f(target); return; }
   const t0 = performance.now(), dur = 900;
   const ease = t => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3*Math.pow(t-1,3) + c1*Math.pow(t-1,2); };
   (function step(now){
     const t = Math.min((now - t0) / dur, 1);
-    el.textContent = fmt(Math.round(from + (target - from) * ease(t)));
+    const v = from + (target - from) * ease(t);
+    el.textContent = f(dec ? Math.round(v * 10) / 10 : Math.round(v));
     if(t < 1) requestAnimationFrame(step);
   })(t0);
 }
 
-/* ---------- form ---------- */
-const hitungTotal = () => Math.round(num($("manpower").value) * num($("hari").value) * num($("jam").value) + num($("lembur").value));
-function hitung(){
-  const t = hitungTotal();
-  $("total").value = fmt(t);
-  if(!safeManual && ROWS.length){                       // usulan Safe MH = nilai terakhir + total ini
-    const last = ROWS[ROWS.length - 1];
-    $("safe").value = t ? Math.round(num(last["Safe Man Hours"]) + t) : "";
-  }
+/* ---------- data: baris Sheet -> hari ---------- */
+let ROWS = [], DAYS = {}, calY = 0, calM = 0;
+function bangun(){
+  DAYS = {};
+  ROWS.forEach(r => {
+    const d = tgl(r["Tanggal"]); if(!d) return;
+    const tk = num(r["Tenaga Kerja"]), mh = num(r["Man Hours"]) || tk * num(r["Jam Kerja"]);
+    if(!(mh > 0)) return;
+    const k = dk(d), o = DAYS[k] || (DAYS[k] = {date:d, mh:0, tk:0, shifts:[]});
+    o.mh += mh; o.tk += tk; o.shifts.push({s:r["Shift"], tk, mh});
+  });
 }
-/* manpower terisi otomatis dari data Manpower periode yang dipilih */
-function isiManpower(){
-  const p = ym($("periode").value), v = p ? MP[key(p)] : null;
-  $("mpHint").textContent = v ? "Dari data Manpower " + label(p) + " (dapat diubah)" : "";
-  if(v && !mpManual){ $("manpower").value = v; }
-  hitung();
-}
-$("manpower").addEventListener("input", () => { mpManual = true; hitung(); });
-["hari","jam","lembur"].forEach(id => $(id).addEventListener("input", hitung));
-$("safe").addEventListener("input", () => { safeManual = true; });
-$("periode").addEventListener("change", () => { mpManual = false; isiManpower(); });
+const dayList = () => Object.values(DAYS);
 
-function showMsg(t, ok){ const m = $("msg"); m.textContent = t; m.className = "msg " + (ok ? "ok" : "err"); m.style.display = t ? "block" : "none"; }
-function kosongkan(){
-  const n = new Date(); mpManual = false; safeManual = false;
-  $("periode").value = n.getFullYear() + "-" + String(n.getMonth() + 1).padStart(2, "0");
-  ["manpower","hari","safe","catatan"].forEach(id => $(id).value = "");
-  $("jam").value = 8; $("lembur").value = 0;
-  isiManpower();
+/* ---------- filter ---------- */
+function isiFilter(){
+  const ys = [...new Set(dayList().map(x => x.date.getFullYear()).concat([new Date().getFullYear()]))].sort((a,b) => b - a);
+  const ky = $("fYear").value;
+  $("fYear").innerHTML = ys.map(y => `<option value="${y}">${y}</option>`).join("");
+  $("fYear").value = ys.includes(+ky) ? ky : ys[0];
+  if(!$("fMonth").options.length){
+    $("fMonth").innerHTML = '<option value="">All months</option>' + BLN.map((m,i) => `<option value="${i+1}">${m}</option>`).join("");
+    $("fWeek").innerHTML = '<option value="">All weeks</option>' + [1,2,3,4,5].map(w => `<option value="${w}">Week ${w} (day ${(w-1)*7+1}–${w === 5 ? "end" : w*7})</option>`).join("");
+  }
+  $("fWeek").disabled = !$("fMonth").value; if(!$("fMonth").value) $("fWeek").value = "";
 }
-$("bClear").addEventListener("click", () => { kosongkan(); showMsg(""); });
+function pilih(yr, mo, wk){
+  return dayList().filter(x => x.date.getFullYear() === yr && (!mo || x.date.getMonth() + 1 === mo) && (!wk || Math.ceil(x.date.getDate() / 7) === wk));
+}
+
+/* ---------- grafik SVG ---------- */
+function niceStep(x){ const p = Math.pow(10, Math.floor(Math.log10(x))), f = x / p; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * p; }
+function drawChart(el, anim){
+  const c = el._cfg, W = el.clientWidth, H = el.clientHeight;
+  if(!c || W < 60 || H < 50) return;
+  el._w = W; el._h = H;
+  const m = {l:46, r:10, t:8, b:20}, pw = W - m.l - m.r, ph = H - m.t - m.b, n = c.labels.length || 1;
+  const max = Math.max(...c.data.map(v => v || 0), 0);
+  const step = niceStep((max || 1) / 5), top = Math.ceil((max || 1) / step) * step;
+  const y = v => m.t + ph - (v / top) * ph, base = m.t + ph, bw = pw / n;
+  const cls = anim && !reduce ? "a" : "";
+  let s = "";
+  for(let i = 0; i * step <= top + 1e-9; i++){ const v = i * step; s += `<line class="grid" x1="${m.l}" x2="${W-m.r}" y1="${y(v)}" y2="${y(v)}"/><text class="ax" x="${m.l-5}" y="${y(v)+3}" text-anchor="end">${fmt(v)}</text>`; }
+  c.labels.forEach((l,i) => { if(i % (c.every || 1) === 0) s += `<text class="ax" x="${m.l + i*bw + bw/2}" y="${H-5}" text-anchor="middle">${l}</text>`; });
+  if(c.type === "bar"){
+    c.data.forEach((v,i) => { if(!v) return;
+      s += `<rect class="${cls}" x="${m.l + i*bw + bw*.14}" width="${bw*.72}" y="${y(v)}" height="${base - y(v)}" rx="3" fill="${c.color}" style="transform-origin:0 ${base}px;animation-delay:${i*45}ms"><title>${c.tips[i]}: ${fmt(v)}</title></rect>`; });
+  }else{
+    const pts = []; c.data.forEach((v,i) => { if(v) pts.push([m.l + i*bw + bw/2, y(v), i]); });
+    if(pts.length){
+      const line = pts.map((p,i) => (i ? "L" : "M") + p[0] + " " + p[1]).join(" ");
+      s += `<g class="${cls}" style="transform-origin:0 ${base}px"><path d="${line} L${pts[pts.length-1][0]} ${base} L${pts[0][0]} ${base} Z" fill="${c.color}" fill-opacity=".2"/>
+        <path d="${line}" fill="none" stroke="${c.color}" stroke-width="2.2" stroke-linejoin="round"/>
+        ${pts.map(p => `<circle cx="${p[0]}" cy="${p[1]}" r="2.8" fill="#fff" stroke="${c.color}" stroke-width="2"><title>${c.tips[p[2]]}: ${fmt(c.data[p[2]])}</title></circle>`).join("")}</g>`;
+    }
+  }
+  el.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${s}</svg>`;
+}
+function setChart(id, cfg){ const el = $(id); el._cfg = cfg; drawChart(el, true); }
+const ro = new ResizeObserver(es => es.forEach(e => { const el = e.target; if(el._cfg && (el.clientWidth !== el._w || el.clientHeight !== el._h)) drawChart(el, false); }));
+["c-m","c-d"].forEach(id => ro.observe($(id)));
+
+/* ---------- kalender mini ---------- */
+function kalender(){
+  const first = new Date(calY, calM - 1, 1), off = (first.getDay() + 6) % 7, jml = new Date(calY, calM, 0).getDate();
+  const sel = $("fDate").value;
+  let h = `<div class="ch"><button type="button" data-n="-1">‹</button><span>${MON[calM-1]} ${calY}</span><button type="button" data-n="1">›</button></div><table><tr>${["M","T","W","T","F","S","S"].map(x => `<th>${x}</th>`).join("")}</tr><tr>`;
+  for(let i = 0; i < off; i++) h += "<td></td>";
+  for(let d = 1; d <= jml; d++){
+    const k = calY + "-" + pad(calM) + "-" + pad(d), has = DAYS[k];
+    h += `<td class="${has ? "has" : ""} ${k === sel ? "sel" : ""}" ${has ? `data-d="${k}" title="${fmt(has.mh)} man hours"` : ""}>${d}</td>`;
+    if((off + d) % 7 === 0 && d < jml) h += "</tr><tr>";
+  }
+  $("cal").innerHTML = h + "</tr></table>";
+}
+$("cal") || 0;
+
+/* ---------- render ---------- */
+function render(){
+  isiFilter();
+  const yr = +$("fYear").value, mo = +$("fMonth").value || 0, wk = +$("fWeek").value || 0;
+  const list = pilih(yr, mo, wk), total = list.reduce((a,x) => a + x.mh, 0);
+  $("showing").textContent = yr + (mo ? " · " + BLN[mo-1] : "") + (wk ? " · Week " + wk : "");
+
+  countTo($("k-tot"), Math.round(total));
+  countTo($("k-avg"), list.length ? Math.round(total / list.length * 10) / 10 : 0, true);
+  const hi = list.slice().sort((a,b) => b.mh - a.mh)[0];
+  countTo($("k-hi"), hi ? Math.round(hi.mh) : 0); $("k-hi-s").textContent = hi ? fDay(hi.date) : "-";
+  countTo($("k-days"), list.length);
+  const prev = pilih(yr - 1, mo, wk).reduce((a,x) => a + x.mh, 0), py = $("k-py");
+  if(prev > 0){ const p = (total - prev) / prev * 100; py.textContent = (p >= 0 ? "▲ " : "▼ ") + fmt1(Math.abs(p)) + "%"; py.className = p >= 0 ? "up" : "dn"; }
+  else { py.textContent = "–"; py.className = ""; }
+
+  /* ringkasan bulanan */
+  const tm = Array(12).fill(0), dm = Array(12).fill(0);
+  pilih(yr, 0, 0).forEach(x => { const i = x.date.getMonth(); tm[i] += x.mh; dm[i]++; });
+  $("msYear").textContent = yr;
+  $("msBody").innerHTML = BLN.map((b,i) => {
+    let vs = "–";
+    if(i > 0 && tm[i] > 0 && tm[i-1] > 0){ const p = (tm[i] - tm[i-1]) / tm[i-1] * 100; vs = `<span class="${p >= 0 ? "up" : "dn"}">${p >= 0 ? "▲" : "▼"} ${fmt1(Math.abs(p))}%</span>`; }
+    return `<tr><td>${b}</td><td>${tm[i] ? fmt(Math.round(tm[i])) : "–"}</td><td>${dm[i] || "–"}</td><td>${dm[i] ? fmt1(tm[i] / dm[i]) : "–"}</td><td>${vs}</td></tr>`;
+  }).join("");
+
+  /* grafik */
+  $("t1").textContent = "Monthly Trend – " + yr;
+  setChart("c-m", {type:"bar", labels:MON, data:tm.map(v => Math.round(v)), tips:BLN, color:"#24a65a"});
+  const dY = pilih(yr, 0, 0), akhir = dY.length ? new Date(Math.max(...dY.map(x => x.date))) : null, lab = [], dat = [], tip = [];
+  if(akhir) for(let i = 29; i >= 0; i--){ const d = new Date(akhir.getFullYear(), akhir.getMonth(), akhir.getDate() - i), o = DAYS[dk(d)];
+    lab.push(d.getDate() + " " + MON[d.getMonth()]); dat.push(o ? Math.round(o.mh) : 0); tip.push(fDay(d)); }
+  $("t2").textContent = "Daily Trend – Last 30 days of " + yr;
+  setChart("c-d", {type:"line", labels:lab, data:dat, tips:tip, every:3, color:"#0e7fa8"});
+
+  /* kalender: ikut bulan terpilih / bulan data terakhir */
+  if(mo){ calY = yr; calM = mo; } else if(!calY || calY !== yr){ calY = yr; calM = akhir ? akhir.getMonth() + 1 : new Date().getMonth() + 1; }
+  kalender(); infoTanggal();
+}
+$("cal") ;
+
+/* ---------- form input harian ---------- */
+function barisShift(nama, tk, jam){
+  const tr = document.createElement("tr");
+  tr.innerHTML = `<td><input class="sn" list="shiftList" value="${nama || ""}" placeholder="Nama shift"></td>
+    <td><input class="tk" type="number" min="0" step="1" inputmode="numeric" value="${tk || ""}" placeholder="0"></td>
+    <td><input class="jm" type="number" min="0" max="24" step="0.5" inputmode="decimal" value="${jam == null ? JAM_DEFAULT : jam}"></td>
+    <td class="mh">0</td><td><button type="button" class="x" title="Hapus">×</button></td>`;
+  $("sBody").appendChild(tr);
+}
+function hitung(){
+  let t = 0;
+  $("sBody").querySelectorAll("tr").forEach(tr => { const v = Math.round(num(tr.querySelector(".tk").value) * num(tr.querySelector(".jm").value) * 10) / 10; tr.querySelector(".mh").textContent = fmt(v); t += v; });
+  $("dayTot").textContent = fmt(Math.round(t * 10) / 10); return t;
+}
+function resetForm(){
+  $("sBody").innerHTML = ""; SHIFT_DEFAULT.forEach(s => barisShift(s, "", JAM_DEFAULT)); hitung(); $("fNote").value = "";
+}
+function infoTanggal(){
+  const k = $("fDate").value, o = DAYS[k], n = $("note");
+  if(o){ n.style.display = "block"; n.textContent = "Tanggal ini sudah punya data: " + fmt(Math.round(o.mh)) + " man hours (" + o.shifts.map(s => (s.s || "-") + " " + fmt(s.tk) + " orang").join(", ") + "). Data baru akan DITAMBAHKAN."; }
+  else n.style.display = "none";
+  kalender();
+}
+$("sBody").addEventListener("input", hitung);
+$("sBody").addEventListener("click", e => { if(e.target.classList.contains("x")){ e.target.closest("tr").remove(); hitung(); } });
+$("bAdd").addEventListener("click", () => { barisShift("", "", JAM_DEFAULT); hitung(); });
+$("fDate").addEventListener("change", infoTanggal);
+$("bInput").addEventListener("click", () => { const f = $("frm"); f.classList.toggle("on"); if(f.classList.contains("on")) f.scrollIntoView({behavior:"smooth", block:"center"}); });
+$("bCancel").addEventListener("click", () => $("frm").classList.remove("on"));
+function showMsg(t, ok){ const m = $("msg"); m.textContent = t; m.className = "msg " + (ok ? "ok" : "err"); m.style.display = t ? "block" : "none"; }
 
 $("frm").addEventListener("submit", async e => {
   e.preventDefault(); showMsg("");
-  const periode = $("periode").value;
-  if(!periode){ showMsg("Pilih periode (bulan) terlebih dahulu."); return; }
-  if(num($("manpower").value) <= 0){ showMsg("Isi jumlah manpower (lebih dari 0)."); return; }
-  const hari = num($("hari").value); if(hari < 1 || hari > 31){ showMsg("Hari kerja harus antara 1 dan 31."); return; }
-  const jam = num($("jam").value); if(jam <= 0 || jam > 24){ showMsg("Jam kerja per hari harus antara 0 dan 24."); return; }
-  if(num($("lembur").value) < 0){ showMsg("Jam lembur tidak boleh negatif."); return; }
-  const total = hitungTotal();
-
-  const p = ym(periode);
-  const ada = ROWS.filter(r => { const q = ym(r["Periode"]); return q && key(q) === key(p); });
-  if(ada.length){
-    const sub = ada.reduce((a, r) => a + num(r["Total Man Hours"]), 0);
-    if(!confirm("Periode " + label(p) + " sudah punya " + ada.length + " data (total " + fmt(sub) + " man hours).\nData baru ini akan DITAMBAHKAN (dijumlahkan) ke periode tersebut.\n\nLanjutkan?")) return;
+  const tanggal = $("fDate").value;
+  if(!tanggal){ showMsg("Pilih tanggal terlebih dahulu."); return; }
+  const rows = [];
+  for(const tr of $("sBody").querySelectorAll("tr")){
+    const tk = num(tr.querySelector(".tk").value), jam = num(tr.querySelector(".jm").value), nm = tr.querySelector(".sn").value.trim();
+    if(!tk && !nm) continue;
+    if(tk <= 0){ showMsg("Isi jumlah tenaga kerja untuk " + (nm || "shift") + " (hapus baris bila tidak dipakai)."); return; }
+    if(jam <= 0 || jam > 24){ showMsg("Jam kerja harus antara 0 dan 24."); return; }
+    rows.push({tanggal, shift: nm || "-", tk: Math.round(tk), jam, manhours: Math.round(tk * jam * 10) / 10, catatan: $("fNote").value.trim()});
   }
+  if(!rows.length){ showMsg("Isi minimal satu shift dengan jumlah tenaga kerja."); return; }
+  const total = rows.reduce((a,r) => a + r.manhours, 0);
+  if(DAYS[tanggal] && !confirm("Tanggal " + fDay(tgl(tanggal)) + " sudah punya " + fmt(Math.round(DAYS[tanggal].mh)) + " man hours.\nData baru ini akan DITAMBAHKAN (dijumlahkan). Jika ingin mengganti, ubah / hapus barisnya langsung di Google Sheet.\n\nLanjutkan?")) return;
 
-  const btn = $("bSend"); btn.disabled = true; btn.innerHTML = '<span class="spin"></span>Menyimpan...';
+  const btn = $("bSend"); btn.disabled = true; btn.textContent = "Menyimpan...";
   let ok = false;
   try{
-    const res = await fetch(URL_SHEETS, {method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"},
-      body: JSON.stringify({type:"manhours", data:{periode, manpower:Math.round(num($("manpower").value)), harikerja:hari, jamkerja:jam, lembur:num($("lembur").value), manhours:total, safe:num($("safe").value), catatan:$("catatan").value.trim()}})});
+    const res = await fetch(URL_SHEETS, {method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body: JSON.stringify({type:"mhharian", rows})});
     const j = await res.json();
     if(!j.ok) throw new Error(j.error || "Gagal menyimpan");
-    ok = true; showMsg("Tersimpan: " + label(p) + " — " + fmt(total) + " man hours (" + j.id + ")", true);
+    ok = true; showMsg("Tersimpan: " + fDay(tgl(tanggal)) + " — " + fmt(Math.round(total)) + " man hours (" + rows.length + " shift)", true);
   }catch(err){
     showMsg("Data belum tersimpan: " + err.message + ". Periksa koneksi lalu coba lagi.");
   }finally{
     btn.disabled = false; btn.textContent = "Simpan";
   }
-  if(ok){ kosongkan(); load(); }
+  if(ok){ resetForm(); load(); }
 });
 
-/* ---------- riwayat ---------- */
-function render(){
-  const list = ROWS.map((r, i) => { const p = ym(r["Periode"]); return p ? {r, p, i} : null; }).filter(Boolean);
-  const ys = [...new Set(list.map(x => x.p[0]).concat([new Date().getFullYear()]))].sort((a,b) => b - a);
-  const keep = $("year").value;
-  $("year").innerHTML = '<option value="all">Semua tahun</option>' + ys.map(y => `<option value="${y}">${y}</option>`).join("");
-  $("year").value = keep && (keep === "all" || ys.includes(+keep)) ? keep : String(ys[0]);
-  const yr = $("year").value;
-
-  const tampil = list.filter(x => yr === "all" || x.p[0] === +yr).sort((a,b) => (b.p[0]*100 + b.p[1]) - (a.p[0]*100 + a.p[1]) || b.i - a.i);
-  $("t-body").innerHTML = tampil.length ? tampil.map(x => { const r = x.r; return `<tr>
-      <td><b>${label(x.p)}</b></td><td class="r">${fmt(num(r["Manpower"]))}</td><td class="r">${fmt(num(r["Hari Kerja"]))}</td>
-      <td class="r">${fmt(num(r["Jam Kerja/Hari"]))}</td><td class="r">${fmt(num(r["Jam Lembur"]))}</td>
-      <td class="r"><b>${fmt(num(r["Total Man Hours"]))}</b></td><td class="r">${fmt(num(r["Safe Man Hours"]))}</td><td>${esc(r["Catatan"])}</td></tr>`; }).join("")
-    : `<tr><td colspan="8" class="empty">Belum ada data man hours${yr === "all" ? "" : " pada tahun " + yr}. Isi form di sebelah kiri untuk memulai.</td></tr>`;
-
-  /* kartu */
-  const dalam = list.filter(x => yr === "all" || x.p[0] === +yr);
-  const perBulan = {}; dalam.forEach(x => { perBulan[key(x.p)] = (perBulan[key(x.p)] || 0) + num(x.r["Total Man Hours"]); });
-  const sum = Object.values(perBulan).reduce((a,b) => a + b, 0), n = Object.keys(perBulan).length;
-  countTo($("k-tot"), Math.round(sum)); $("k-tot-s").textContent = yr === "all" ? "semua periode" : "tahun " + yr;
-  const periodeAkhir = list.map(x => x.p).sort((a,b) => (b[0]*100 + b[1]) - (a[0]*100 + a[1]))[0];
-  countTo($("k-last"), periodeAkhir ? Math.round(list.filter(x => key(x.p) === key(periodeAkhir)).reduce((a,x) => a + num(x.r["Total Man Hours"]), 0)) : 0);
-  $("k-last-s").textContent = periodeAkhir ? label(periodeAkhir) : "belum ada data";
-  countTo($("k-safe"), ROWS.length ? Math.round(num(ROWS[ROWS.length-1]["Safe Man Hours"])) : 0);
-  countTo($("k-avg"), n ? Math.round(sum / n) : 0); $("k-avg-s").textContent = n ? n + " bulan berdata" : "belum ada data";
-}
-
-async function ambil(type){
-  const res = await fetch(URL_SHEETS + "?type=" + type + "&_=" + Date.now());
-  const j = await res.json();
-  if(!j.ok) throw new Error(j.error || "Gagal membaca data");
-  return j.rows || [];
-}
+/* ---------- ambil data ---------- */
 async function load(){
   $("rf").disabled = true;
   try{
-    const [mh, mp] = await Promise.all([ambil("manhours"), ambil("manpower").catch(() => [])]);
-    ROWS = mh;
-    MP = {}; mp.forEach(r => { const p = ym(r["Periode"]); if(p) MP[key(p)] = num(r["Total Manpower"]); });   // nilai terakhir per periode
-    render(); isiManpower();
+    const res = await fetch(URL_SHEETS + "?type=mhharian&_=" + Date.now());
+    const j = await res.json();
+    if(!j.ok) throw new Error(j.error || "Gagal membaca data");
+    ROWS = j.rows || []; bangun(); render();
+    $("src").classList.remove("bad");
+    $("loaded").textContent = new Date().toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"}).replace(".", ":");
   }catch(err){
-    $("t-body").innerHTML = `<tr><td colspan="8" class="empty">Data belum bisa dimuat (${esc(err.message)}). Pastikan Code.gs terbaru sudah di-deploy, lalu klik Refresh.</td></tr>`;
+    $("src").classList.add("bad"); $("loaded").textContent = "gagal";
+    if(!ROWS.length) $("msBody").innerHTML = `<tr><td colspan="5" class="empty">Data belum bisa dimuat (${err.message}). Pastikan Code.gs terbaru sudah di-deploy, lalu klik Refresh.</td></tr>`;
   }finally{
     $("rf").disabled = false;
   }
 }
 
-$("year").addEventListener("change", render);
-$("rf").addEventListener("click", load);
-$("copy").textContent = "© " + new Date().getFullYear() + " Dept HSE - All Right Reserved";
-kosongkan(); load();
+$("cal").addEventListener ? 0 : 0;
 </script>
 </body>
 </html>
