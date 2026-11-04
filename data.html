@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data | HSE Portal</title>
+<style>
+:root{--g1:#0b8a42;--g2:#08672f;--g3:#24a65a;--gbg:#e8f5ec;--bg:#eaf4ed;--tx:#0d3b22;--mut:#5d7a6a;--line:#cfe3d6;--amber:#f08a00;--red:#d32f2f;--blue:#0e7fa8;--purple:#7b3fc4;--yellow:#f5c400;--bounce:cubic-bezier(.34,1.56,.64,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;display:flex;flex-direction:column;position:relative;overflow-x:hidden}
+.ic{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg svg{position:absolute}.bg .hex{inset:0;width:100%;height:100%}
+.bg .deco{fill:none;stroke:var(--g1);stroke-linecap:round;stroke-linejoin:round}
+.bg .shield{right:-70px;bottom:20px;width:440px;height:440px;opacity:.10;stroke-width:.6}
+.bg .hat{left:-60px;bottom:30px;width:380px;height:380px;opacity:.09;stroke-width:.6}
+.bg .gear{right:26%;top:34%;width:230px;height:230px;opacity:.08;stroke-width:1}
+header,.stripe,main,footer{position:relative;z-index:1}header{z-index:50}
+
+header{background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 20px;height:56px;flex:none;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
+.brand img{height:36px;width:auto}.brand .sep{width:1px;height:26px;background:rgba(255,255,255,.55)}
+nav{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+nav>a,.dd>a{color:#fff;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.4px;padding:8px 12px;border-radius:6px;text-transform:uppercase;display:block;transition:background .2s}
+nav>a:hover,.dd>a:hover{background:rgba(255,255,255,.18);animation:hop .55s ease}
+nav .active{background:var(--g2);box-shadow:inset 0 -3px 0 var(--yellow)}
+.dd{position:relative}.dd>a::after{content:" ▾";font-size:10px}
+.menu{display:none;position:absolute;top:100%;right:0;min-width:210px;padding-top:6px}
+.menu .box{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 10px 24px rgba(13,59,34,.28);border-top:4px solid var(--yellow);animation:popIn .45s var(--bounce)}
+.dd:hover .menu,.dd:focus-within .menu{display:block}
+.menu a{display:flex;align-items:center;gap:10px;padding:10px 14px;color:var(--g2);text-decoration:none;font-size:13px;font-weight:700;border-bottom:1px solid var(--line);transition:padding .2s var(--bounce),background .2s}
+.menu a:last-child{border-bottom:0}.menu a:hover{background:var(--gbg);padding-left:20px}.menu .ic{font-size:17px;color:var(--g1)}
+.stripe{height:6px;flex:none;background:repeating-linear-gradient(-45deg,var(--yellow) 0 10px,#1c1c1c 10px 20px)}
+
+@keyframes popIn{0%{opacity:0;transform:translateY(26px) scale(.88)}55%{opacity:1;transform:translateY(-7px) scale(1.03)}78%{transform:translateY(3px) scale(.99)}100%{opacity:1;transform:none}}
+@keyframes hop{0%,100%{transform:translateY(0)}28%{transform:translateY(-9px)}50%{transform:translateY(0)}66%{transform:translateY(-4px)}82%{transform:translateY(0)}}
+@keyframes iconBounce{0%,60%,100%{transform:translateY(0)}70%{transform:translateY(-6px)}80%{transform:translateY(0)}88%{transform:translateY(-2px)}}
+@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes blink{50%{opacity:.3}}
+.pop{opacity:0;animation:popIn .8s var(--bounce) forwards;animation-delay:calc(var(--i,0) * 70ms)}
+
+main{flex:1;padding:14px 20px;display:flex;flex-direction:column;gap:12px}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tab{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;background:#fff;border-radius:8px;padding:12px 14px;min-height:68px;border-left:5px solid var(--c);box-shadow:0 2px 6px rgba(13,59,34,.12);transition:box-shadow .2s}
+.tab:hover{animation:hop .6s ease;box-shadow:0 8px 18px rgba(13,59,34,.2)}
+.tab .ico{width:40px;height:40px;border-radius:50%;background:var(--t);color:var(--c);display:flex;align-items:center;justify-content:center;font-size:21px}
+.tab b{display:block;font-size:14px;color:var(--c)}.tab small{font-size:11.5px;color:var(--mut)}
+.tab.mp{--c:var(--g1);--t:var(--gbg)}.tab.mh{--c:var(--blue);--t:#dff1fa}.tab.lb{--c:var(--purple);--t:#efe6fa}
+
+.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.bar h2{font-size:15px;font-weight:800;color:var(--g2)}
+.bar select{font:inherit;font-weight:700;padding:4px 10px;border-radius:6px;border:1.5px solid var(--g1);background:#fff;color:var(--g2);cursor:pointer}
+.live{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--mut)}
+.live i{font-style:normal;color:var(--g1);animation:blink 2s infinite}.live.bad i{color:var(--red);animation:none}
+.live button{font:inherit;font-size:11.5px;font-weight:700;color:var(--g2);background:#fff;border:1.5px solid var(--g1);border-radius:6px;padding:3px 10px;cursor:pointer;transition:.2s var(--bounce)}
+.live button:hover{transform:translateY(-2px)}.live button:disabled{opacity:.6;cursor:wait}
+
+.krow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kpi{background:#fff;border-radius:8px;border-left:5px solid var(--c);box-shadow:0 2px 6px rgba(13,59,34,.12);display:flex;align-items:center;gap:12px;padding:0 16px;min-height:68px;transition:box-shadow .2s}
+.kpi:hover{animation:hop .6s ease;box-shadow:0 8px 18px rgba(13,59,34,.2)}
+.kpi .ic{font-size:26px;color:var(--c);animation:iconBounce 3s infinite;animation-delay:calc(var(--i,0) * .35s)}
+.kpi b{display:block;font-size:24px;line-height:1.1;color:var(--g2)}
+.kpi span{font-size:11.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.3px}
+.kpi small{display:block;font-size:10.5px;color:var(--mut);margin-top:1px}
+
+.crow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:0 2px 6px rgba(13,59,34,.1)}
+.chart{padding:8px 12px 4px;height:230px;display:flex;flex-direction:column}
+.chart h3{font-size:12.5px;font-weight:800;color:var(--g2);display:flex;justify-content:space-between;flex:none}
+.chart h3 em{font-style:normal;font-weight:600;color:var(--mut);font-size:11px}
+.plot{flex:1;min-height:0;position:relative;overflow:hidden}
+.plot svg{position:absolute;left:0;top:0;display:block}
+.grid{stroke:#dbe9e0;stroke-width:1}.ax{font-size:9px;fill:#6b8576}
+.a{animation:grow .95s var(--bounce) both}
+.empty{padding:24px;text-align:center;color:var(--mut);font-size:13px}
+
+.sechead{background:var(--g1);color:#fff;font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:8px 12px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{background:var(--gbg);text-align:left;padding:8px 10px;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--g2)}
+td{padding:7px 10px;border-top:1px solid var(--line)}
+td.r,th.r{text-align:right}
+tbody tr:hover td{background:#f3faf5}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--g1);border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:8px}
+
+footer{background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;flex:none;height:46px;margin:0 20px 12px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:13px;box-shadow:0 2px 6px rgba(13,59,34,.2)}
+footer .brand{font-size:13px}footer .brand img{height:26px}
+
+@media (max-width:980px){
+  header{height:auto;flex-direction:column;align-items:flex-start;padding:10px 14px}nav{justify-content:flex-start}.menu{right:auto;left:0}
+  main{padding:12px 14px}.tabs,.crow{grid-template-columns:1fr}.krow{grid-template-columns:1fr 1fr}
+  footer{margin:0 14px 12px;height:auto;padding:12px 14px;flex-direction:column;gap:6px;text-align:center}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pop{opacity:1}}
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <svg class="hex" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="hexp" width="56" height="100" patternUnits="userSpaceOnUse" patternTransform="scale(.9)"><path d="M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100" fill="none" stroke="#0b8a42" stroke-opacity=".13" stroke-width="1.2"/><path d="M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34" fill="none" stroke="#0b8a42" stroke-opacity=".13" stroke-width="1.2"/></pattern></defs><rect width="100%" height="100%" fill="url(#hexp)"/></svg>
+  <svg class="deco shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+  <svg class="deco hat" viewBox="0 0 24 24"><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M14 6a6 6 0 0 1 6 6v3"/><path d="M4 15v-3a6 6 0 0 1 6-6"/><rect x="2" y="15" width="20" height="4" rx="1"/></svg>
+  <svg class="deco gear" viewBox="-80 -80 160 160"><circle r="60" stroke-width="16" stroke-dasharray="15.7 15.7"/><circle r="50" stroke-width="10"/><circle r="22" stroke-width="7"/></svg>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-hazard" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-nearmiss" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></symbol>
+  <symbol id="i-incident" viewBox="0 0 24 24"><path d="M7 18v-6a5 5 0 1 1 10 0v6"/><path d="M5 21a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2z"/><path d="M21 12h1"/><path d="M18.5 4.5 18 5"/><path d="M2 12h1"/><path d="M12 2v1"/><path d="m4.929 4.929.707.707"/><path d="M12 12v6"/></symbol>
+  <symbol id="i-inspect" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6"/><path d="M14 11v6"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></symbol>
+</svg>
+
+<header>
+  <div class="brand"><img src="assets/gambar/logo.png" alt="Logo" onerror="this.style.display='none'"><span class="sep"></span><span>HSE DEPARTEMENT</span></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="profile.html">Profile</a>
+    <div class="dd">
+      <a href="data.html" class="active">Data</a>
+      <div class="menu"><div class="box">
+        <a href="manpower.html"><svg class="ic"><use href="#i-users"/></svg>Manpower</a>
+        <a href="manhours.html"><svg class="ic"><use href="#i-clock"/></svg>Man Hours</a>
+        <a href="limbah.html"><svg class="ic"><use href="#i-trash"/></svg>Limbah B3</a>
+      </div></div>
+    </div>
+    <div class="dd">
+      <a href="report.html">Report</a>
+      <div class="menu"><div class="box">
+        <a href="hazard.html"><svg class="ic"><use href="#i-hazard"/></svg>Hazard Report</a>
+        <a href="nearmiss.html"><svg class="ic"><use href="#i-nearmiss"/></svg>Near Miss Report</a>
+        <a href="incident.html"><svg class="ic"><use href="#i-incident"/></svg>Incident Report</a>
+        <a href="inspection.html"><svg class="ic"><use href="#i-inspect"/></svg>Inspection Report</a>
+      </div></div>
+    </div>
+    <a href="health.html">Health</a>
+    <a href="sdm.html">SDM</a>
+    <a href="permit.html">Permit</a>
+    <a href="library.html">Library</a>
+  </nav>
+</header>
+<div class="stripe"></div>
+
+<main>
+  <section class="tabs">
+    <div class="pop" style="--i:0"><a class="tab mp" href="manpower.html"><div class="ico"><svg class="ic"><use href="#i-users"/></svg></div><div><b>Manpower</b><small>Jumlah tenaga kerja per bulan</small></div></a></div>
+    <div class="pop" style="--i:1"><a class="tab mh" href="manhours.html"><div class="ico"><svg class="ic"><use href="#i-clock"/></svg></div><div><b>Man Hours</b><small>Jam kerja dan safe man hours</small></div></a></div>
+    <div class="pop" style="--i:2"><a class="tab lb" href="limbah.html"><div class="ico"><svg class="ic"><use href="#i-trash"/></svg></div><div><b>Limbah B3</b><small>Pencatatan limbah bahan berbahaya</small></div></a></div>
+  </section>
+
+  <section class="bar pop" style="--i:3">
+    <h2>Ringkasan Data</h2>
+    <span>Tahun : <select id="year"></select></span>
+    <div class="live" id="live"><i>●</i><span id="upd">Memuat data...</span><button id="rf" type="button">⟳ Refresh</button></div>
+  </section>
+
+  <section class="krow">
+    <div class="pop" style="--i:4"><div class="kpi" style="--c:var(--g1);--i:0"><svg class="ic"><use href="#i-users"/></svg><div><b id="k-mp">0</b><span>Manpower</span><small id="k-mp-s">-</small></div></div></div>
+    <div class="pop" style="--i:5"><div class="kpi" style="--c:var(--blue);--i:1"><svg class="ic"><use href="#i-clock"/></svg><div><b id="k-mh">0</b><span>Man Hours</span><small id="k-mh-s">-</small></div></div></div>
+    <div class="pop" style="--i:6"><div class="kpi" style="--c:var(--purple);--i:2"><svg class="ic"><use href="#i-trash"/></svg><div><b id="k-lb">0</b><span>Limbah B3 (kg)</span><small id="k-lb-s">-</small></div></div></div>
+    <div class="pop" style="--i:7"><div class="kpi" style="--c:var(--amber);--i:3"><svg class="ic"><use href="#i-cal"/></svg><div><b id="k-pr">-</b><span>Data Terakhir</span><small id="k-pr-s">periode input</small></div></div></div>
+  </section>
+
+  <section class="crow">
+    <div class="card chart pop" style="--i:8"><h3>Manpower per Bulan <em id="t-mp"></em></h3><div class="plot" id="c-mp"></div></div>
+    <div class="card chart pop" style="--i:9"><h3>Man Hours per Bulan <em id="t-mh"></em></h3><div class="plot" id="c-mh"></div></div>
+    <div class="card chart pop" style="--i:10"><h3>Limbah B3 per Bulan (kg) <em id="t-lb"></em></h3><div class="plot" id="c-lb"></div></div>
+  </section>
+
+  <section class="card pop" style="--i:11">
+    <div class="sechead">Rekap Limbah B3 per Jenis</div>
+    <table>
+      <thead><tr><th>Jenis Limbah</th><th class="r">Jumlah Catatan</th><th class="r">Total (kg)</th><th class="r">Porsi</th></tr></thead>
+      <tbody id="l-body"><tr><td colspan="4" class="empty"><span class="spin"></span>Memuat data...</td></tr></tbody>
+    </table>
+  </section>
+</main>
+
+<footer>
+  <div class="brand"><img src="assets/gambar/logo.png" alt="Logo" onerror="this.style.display='none'"><span>HSE DEPARTEMENT</span></div>
+  <div id="copy"></div>
+</footer>
+
+<script>
+/* ===== PENGATURAN ===== */
+const URL_SHEETS = "https://script.google.com/macros/s/AKfycbwz8ZtmBmsC-Mtxnsd7QKAh1EPGQ1wVKUgn87U-0Xs-o09AvL1MP8D7mRKXEwjcGRd2/exec";
+const REFRESH_MS = 60000;
+const WARNA = ["#7b3fc4","#f08a00","#0e7fa8","#0b8a42","#d32f2f","#e0a21a","#5d7a6a"];
+
+const $ = id => document.getElementById(id);
+const fmt = n => Number(n).toLocaleString("id-ID");
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const MON = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
+const BLN = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+const num = v => { const n = Number(String(v == null ? "" : v).replace(",", ".")); return isFinite(n) ? n : 0; };
+
+/* ambil [tahun, bulan] dari "2026-10" (teks) atau tanggal */
+function ym(v){
+  const m = String(v).match(/^(\d{4})-(\d{2})/);
+  if(m) return [+m[1], +m[2]];
+  const d = new Date(v);
+  return isNaN(d) ? null : [d.getFullYear(), d.getMonth() + 1];
+}
+
+function countTo(el, target){
+  const from = el._v || 0;
+  if(from === target){ el.textContent = fmt(target); return; }
+  el._v = target;
+  if(reduce){ el.textContent = fmt(target); return; }
+  const t0 = performance.now(), dur = 900;
+  const ease = t => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3*Math.pow(t-1,3) + c1*Math.pow(t-1,2); };
+  (function step(now){
+    const t = Math.min((now - t0) / dur, 1);
+    el.textContent = fmt(Math.round(from + (target - from) * ease(t)));
+    if(t < 1) requestAnimationFrame(step);
+  })(t0);
+}
+
+/* ---------- grafik SVG ---------- */
+function niceStep(x){ const p = Math.pow(10, Math.floor(Math.log10(x))), f = x / p; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * p; }
+function drawChart(el, anim){
+  const c = el._cfg, W = el.clientWidth, H = el.clientHeight;
+  if(W < 60 || H < 50) return;
+  el._w = W; el._h = H;
+  const m = {l:44, r:8, t:8, b:18}, pw = W - m.l - m.r, ph = H - m.t - m.b, n = 12;
+  const max = Math.max(...c.data, 0);
+  const step = niceStep((max || 1) / 4), top = Math.ceil((max || 1) / step) * step;
+  const y = v => m.t + ph - (v / top) * ph, base = m.t + ph, bw = pw / n;
+  const cls = anim && !reduce ? "a" : "";
+  let s = "";
+  for(let i = 0; i * step <= top + 1e-9; i++){
+    const v = i * step;
+    s += `<line class="grid" x1="${m.l}" x2="${W-m.r}" y1="${y(v)}" y2="${y(v)}"/><text class="ax" x="${m.l-5}" y="${y(v)+3}" text-anchor="end">${fmt(v)}</text>`;
+  }
+  for(let i = 0; i < n; i++) s += `<text class="ax" x="${m.l + i*bw + bw/2}" y="${H-5}" text-anchor="middle">${MON[i]}</text>`;
+  if(c.type === "bar"){
+    c.data.forEach((v,i) => { if(!v) return;
+      s += `<rect class="${cls}" x="${m.l + i*bw + bw*.14}" width="${bw*.72}" y="${y(v)}" height="${base - y(v)}" rx="2" fill="${c.color}" style="transform-origin:0 ${base}px;animation-delay:${i*45}ms"><title>${BLN[i]}: ${fmt(v)}</title></rect>`; });
+  }else{
+    const pts = []; c.data.forEach((v,i) => { if(v) pts.push([m.l + i*bw + bw/2, y(v), i]); });
+    if(pts.length){
+      const line = pts.map((p,i) => (i ? "L" : "M") + p[0] + " " + p[1]).join(" ");
+      s += `<g class="${cls}" style="transform-origin:0 ${base}px"><path d="${line} L${pts[pts.length-1][0]} ${base} L${pts[0][0]} ${base} Z" fill="${c.color}" fill-opacity=".18"/>
+        <path d="${line}" fill="none" stroke="${c.color}" stroke-width="2.2" stroke-linejoin="round"/>
+        ${pts.map(p => `<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#fff" stroke="${c.color}" stroke-width="2"><title>${BLN[p[2]]}: ${fmt(c.data[p[2]])}</title></circle>`).join("")}</g>`;
+    }
+  }
+  el.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${s}</svg>`;
+}
+function setChart(id, data, color, type){ const el = $(id); el._cfg = {data, color, type}; drawChart(el, true); }
+const ro = new ResizeObserver(es => es.forEach(e => { const el = e.target; if(el._cfg && (el.clientWidth !== el._w || el.clientHeight !== el._h)) drawChart(el, false); }));
+["c-mp","c-mh","c-lb"].forEach(id => ro.observe($(id)));
+
+/* ---------- data ---------- */
+let DB = {mp:[], mh:[], lb:[]};
+async function load(type){
+  const res = await fetch(URL_SHEETS + "?type=" + type + "&_=" + Date.now());
+  const j = await res.json();
+  if(!j.ok) throw new Error(j.error || "Gagal membaca data");
+  return j.rows || [];
+}
+
+function fillYears(){
+  const ys = new Set([new Date().getFullYear()]);
+  DB.mp.concat(DB.mh).forEach(r => { const p = ym(r["Periode"]); if(p) ys.add(p[0]); });
+  DB.lb.forEach(r => { const p = ym(r["Tanggal"]); if(p) ys.add(p[0]); });
+  const list = [...ys].sort((a,b) => b - a), keep = $("year").value;
+  $("year").innerHTML = list.map(y => `<option value="${y}">${y}</option>`).join("");
+  $("year").value = list.includes(+keep) ? keep : list[0];
+}
+
+function render(){
+  const yr = +$("year").value;
+  const mp = Array(12).fill(0), mh = Array(12).fill(0), lb = Array(12).fill(0);
+  let last = null;
+
+  DB.mp.forEach(r => { const p = ym(r["Periode"]); if(p && p[0] === yr){ mp[p[1]-1] = num(r["Total Manpower"]); if(!last || p[1] > last) last = p[1]; } });
+  DB.mh.forEach(r => { const p = ym(r["Periode"]); if(p && p[0] === yr){ mh[p[1]-1] += num(r["Total Man Hours"]); if(!last || p[1] > last) last = p[1]; } });
+  const jenis = {};
+  DB.lb.forEach(r => {
+    const p = ym(r["Tanggal"]); if(!p || p[0] !== yr) return;
+    const kg = String(r["Satuan"] || "kg").toLowerCase() === "ton" ? num(r["Jumlah"]) * 1000 : num(r["Jumlah"]);
+    lb[p[1]-1] += kg;
+    const j = r["Jenis Limbah"] || "Lainnya"; (jenis[j] = jenis[j] || {n:0, kg:0}); jenis[j].n++; jenis[j].kg += kg;
+    if(!last || p[1] > last) last = p[1];
+  });
+
+  /* kartu */
+  let lastMp = 0, lastMpBln = 0; mp.forEach((v,i) => { if(v){ lastMp = v; lastMpBln = i + 1; } });
+  const sMh = mh.reduce((a,b) => a + b, 0), sLb = lb.reduce((a,b) => a + b, 0);
+  countTo($("k-mp"), lastMp);  $("k-mp-s").textContent = lastMpBln ? "per " + BLN[lastMpBln-1] + " " + yr : "belum ada data";
+  countTo($("k-mh"), sMh);     $("k-mh-s").textContent = "total tahun " + yr;
+  countTo($("k-lb"), Math.round(sLb * 100) / 100); $("k-lb-s").textContent = "total tahun " + yr;
+  $("k-pr").textContent = last ? BLN[last-1] : "-";  $("k-pr-s").textContent = last ? "tahun " + yr : "belum ada input";
+
+  /* grafik */
+  setChart("c-mp", mp, "#0b8a42", "line");
+  setChart("c-mh", mh, "#0e7fa8", "bar");
+  setChart("c-lb", lb, "#7b3fc4", "bar");
+  $("t-mp").textContent = lastMp ? "Terakhir " + fmt(lastMp) : "";
+  $("t-mh").textContent = "Total " + fmt(sMh);
+  $("t-lb").textContent = "Total " + fmt(Math.round(sLb * 100) / 100);
+
+  /* rekap limbah */
+  const rows = Object.entries(jenis).sort((a,b) => b[1].kg - a[1].kg);
+  $("l-body").innerHTML = rows.length ? rows.map(([n, v], i) =>
+    `<tr><td><span class="dot" style="background:${WARNA[i % WARNA.length]}"></span>${esc(n)}</td><td class="r">${fmt(v.n)}</td><td class="r">${fmt(Math.round(v.kg*100)/100)}</td><td class="r">${sLb ? Math.round(v.kg / sLb * 100) : 0}%</td></tr>`).join("")
+    : `<tr><td colspan="4" class="empty">Belum ada catatan limbah B3 pada tahun ${yr}</td></tr>`;
+}
+
+let first = true;
+async function refresh(){
+  $("rf").disabled = true;
+  try{
+    const [mp, mh, lb] = await Promise.all([load("manpower"), load("manhours"), load("limbah")]);
+    DB = {mp, mh, lb};
+    fillYears(); render();
+    $("live").classList.remove("bad");
+    $("upd").textContent = "Live · diperbarui " + new Date().toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"});
+    first = false;
+  }catch(err){
+    $("live").classList.add("bad");
+    $("upd").textContent = "Gagal memuat: " + err.message;
+    if(first) $("l-body").innerHTML = `<tr><td colspan="4" class="empty">Data belum bisa dimuat. Pastikan Code.gs terbaru sudah di-deploy, lalu klik Refresh.</td></tr>`;
+  }finally{
+    $("rf").disabled = false;
+  }
+}
+
+$("year").addEventListener("change", render);
+$("rf").addEventListener("click", refresh);
+$("copy").textContent = "© " + new Date().getFullYear() + " Dept HSE - All Right Reserved";
+$("year").innerHTML = `<option>${new Date().getFullYear()}</option>`;
+refresh();
+setInterval(() => { if(!document.hidden) refresh(); }, REFRESH_MS);
+document.addEventListener("visibilitychange", () => { if(!document.hidden) refresh(); });
+</script>
+</body>
+</html>
