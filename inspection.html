@@ -60,6 +60,9 @@ input:focus,select:focus,textarea:focus{outline:0;border-color:var(--g1);box-sha
 .ck input[type=radio]{width:18px;height:18px;accent-color:var(--g1);cursor:pointer}
 .ck input.bad{accent-color:var(--red)}.ck td input[type=text]{padding:5px 7px;font-size:12.5px}
 .sum{margin-top:8px;font-size:12.5px;font-weight:700;color:var(--g2)}
+.ha{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ha label{margin:0;cursor:pointer}.ha input{display:none}
+.ha span{display:block;text-align:center;padding:10px 6px;border:2px solid var(--c);border-radius:7px;color:var(--c);font-weight:700;font-size:13px;transition:.2s var(--bounce)}
+.ha span:hover{transform:translateY(-3px)}.ha input:checked+span{background:var(--c);color:#fff;transform:scale(1.05)}
 .actions{display:flex;gap:12px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap}
 .btn{font:inherit;font-weight:800;letter-spacing:.4px;padding:11px 24px;border-radius:8px;border:0;cursor:pointer;transition:.2s var(--bounce)}
 .btn:hover{transform:translateY(-3px) scale(1.04)}
@@ -82,18 +85,36 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
 #sheet{display:none}
 .sh{font-family:Arial,sans-serif;color:#000;font-size:9pt;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .pdfbox{width:184.6mm;min-height:268mm;display:flex;flex-direction:column}
+/* header (tetap seperti awal) */
 .sh .ph{display:flex;justify-content:flex-end;align-items:flex-end;gap:8px;border-bottom:2px solid #0F9ED5;padding-bottom:2px}
 .sh .ph img{height:9mm;width:auto}
 .sh .ph .id{border-left:2px solid #0F9ED5;margin-left:6px;padding-left:5px;font:bold 7.5pt 'Times New Roman',serif}
 .sh .ph .id div{display:flex;gap:4px;border-bottom:1px dashed #000;padding:0 2px;line-height:1.35}
 .sh .ph .id div:last-child{border:0}.sh .ph .id span:first-child{width:23mm}.sh .ph .id span:nth-child(2){width:2mm}.sh .ph .id span:last-child{width:34mm}
-.sh h3{text-align:center;font-size:12pt;margin:10px 0 8px;letter-spacing:.3px}
+/* isi (mengikuti contoh) */
+.sh .ttl{background:#00673a;color:#fff;font-weight:bold;font-size:11pt;text-align:center;padding:5px;margin:8px 0 6px;letter-spacing:.4px}
 .sh table{width:100%;border-collapse:collapse}
-.sh .inf td{padding:2px 4px;font-size:9pt}.sh .inf td:nth-child(odd){width:26mm;font-weight:bold}
-.sh .cl{margin-top:6px}.sh .cl th,.sh .cl td{border:1px solid #000;padding:3px 4px;font-size:8.5pt}
-.sh .cl th{background:#d9f1fb;text-align:center}.sh .cl td.c{text-align:center;width:11mm}.sh .cl td.n{text-align:center;width:8mm}
-.sh .tt{margin-top:8px;border:1px solid #000;padding:4px 6px;min-height:14mm;font-size:8.5pt}
-.sh .sg{margin-top:10px}.sh .sg td{width:50%;text-align:center;vertical-align:top;font-size:9pt}.sh .sg .sp{height:20mm}
+.sh .inf th{background:#e4f3ea;text-align:left;font-size:8.5pt;padding:3px 6px;border:1px solid #9fd4b5;width:30mm}
+.sh .inf td{border:1px solid #9fd4b5;padding:3px 6px;font-size:8.5pt}
+.sh .cl{margin-top:7px}
+.sh .cl th{background:#00994d;color:#fff;padding:4px;border:1px solid #9fd4b5;font-size:8.5pt}
+.sh .cl td{border:1px solid #9fd4b5;padding:2.5px 5px;font-size:8.5pt}
+.sh .cl tbody tr:nth-child(even) td{background:#f3faf5}
+.sh .cl td.c{text-align:center;width:12mm;color:#0a7a3d;font-weight:bold}.sh .cl td.n{text-align:center;width:9mm}
+.sh .cl td.c.x{color:#c62828}
+.sh .rk{text-align:right;font-size:8.5pt;margin:4px 0 6px}
+.sh .bx2{display:flex;gap:8px}.sh .bx2>div{flex:1;border:1px solid #9fd4b5}
+.sh .bx2 h5{background:#e4f3ea;font-size:8.5pt;padding:3px 6px}
+.sh .bx2 p{min-height:15mm;padding:3px 6px;font-size:8.5pt;white-space:pre-wrap}
+.sh .hk{border:1px solid #9fd4b5;padding:5px 8px;margin-top:8px;font-size:9pt;display:flex;gap:16px;align-items:center}
+.sh .hk .on{font-weight:bold;color:#0a6b35}
+.sh .bt{display:flex;justify-content:space-between;align-items:flex-end;margin-top:8px}
+.sh .pr{font-size:7.5pt;color:#555}
+.sh .sgs{display:flex;gap:8px}.sh .sgs>div{width:42mm;border:1px solid #00994d;text-align:center}
+.sh .sgs h5{background:#00994d;color:#fff;font-size:8.5pt;padding:3px}
+.sh .sgs i{display:block;height:22mm}
+.sh .sgs u{display:block;border-top:1px solid #00994d;text-decoration:none;font-size:8.5pt;padding:2px;min-height:5.5mm}
+/* footer biru (tetap) */
 .sh .ft{background:#00B0F0;color:#fff;font:bold 8pt Arial,sans-serif;padding:3px 6px;margin-top:auto}
 @media print{
   @page{size:A4 portrait;margin:12.7mm}
@@ -105,7 +126,7 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
 @media (max-width:900px){
   header{height:auto;flex-direction:column;align-items:flex-start;padding:10px 14px}nav{justify-content:flex-start}.menu{right:auto;left:0}
   main{grid-template-columns:1fr;padding:12px 14px}.crumb{grid-column:1}.side{position:static}
-  .grid{grid-template-columns:1fr}.full{grid-column:1}.panel{padding:14px}
+  .grid{grid-template-columns:1fr}.full{grid-column:1}.panel{padding:14px}.ha{grid-template-columns:1fr}
   footer{margin:0 14px 12px;height:auto;padding:12px;flex-direction:column;gap:6px;text-align:center}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pop{opacity:1}}
@@ -170,29 +191,69 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
 /* ===== PENGATURAN ===== */
 const URL_SHEETS = "https://script.google.com/macros/s/AKfycbwz8ZtmBmsC-Mtxnsd7QKAh1EPGQ1wVKUgn87U-0Xs-o09AvL1MP8D7mRKXEwjcGRd2/exec";
 const TGL_BERLAKU = "01 Oktober 2025", REVISI = "00";   // ubah sesuai dokumen asli bila berbeda
+const HASIL = ["Layak Digunakan","Layak dengan Catatan","Tidak Layak Digunakan"];
+const HCOL = {"Layak Digunakan":"#2e9e5b","Layak dengan Catatan":"#e0a21a","Tidak Layak Digunakan":"#d32f2f"};
 
-const KABEL = ["Kabel dan steker tidak terkelupas atau retak","Saklar ON/OFF berfungsi baik","Rumah alat (bodi) tidak retak atau pecah","Tidak ada suara atau getaran abnormal"];
-const BATERAI = ["Baterai terpasang kuat dan tidak menggembung","Charger dan kabel charger dalam kondisi baik","Indikator baterai berfungsi","Saklar ON/OFF dan tombol reverse berfungsi","Rumah alat (bodi) tidak retak atau pecah"];
-const UMUM = ["Gagang / handle terpasang kuat","Alat bersih dari oli dan kotoran","Label / tag inspeksi masih berlaku"];
+/* ===== butir pemeriksaan (rinci) ===== */
+const BODY = "Body/casing tidak retak, pecah, dan baut tidak longgar";
+const KABEL = [
+  "Kabel power tidak terkelupas, putus, atau disambung sembarangan",
+  "Steker (plug) tidak retak, longgar, atau gosong",
+  "Saklar (switch) ON/OFF berfungsi normal dan tidak macet",
+  "Tidak ada bunyi, getaran, atau bau terbakar yang tidak normal saat dicoba"
+];
+const TAG = ["Tag/label inspeksi periode berjalan terpasang","Alat bersih dan disimpan pada tempat yang semestinya"];
 const T = [
- {k:"apar-powder",n:"APAR Powder",no:"008",apar:"Powder",kap:["6 kg","9 kg"],it:["Jarum pressure gauge berada di zona hijau","Segel dan pin pengaman terpasang","Selang dan nozzle tidak retak atau tersumbat","Tabung tidak berkarat, penyok, atau bocor","Label dan petunjuk penggunaan masih terbaca","Tinggi pemasangan sesuai dan tidak terhalang","Bracket / penggantung kuat","Tanggal kedaluwarsa belum terlewati"]},
- {k:"apar-co2",n:"APAR CO2",no:"008",apar:"CO2",kap:["9 kg"],it:["Berat tabung sesuai (tidak berkurang)","Segel dan pin pengaman terpasang","Horn / corong tidak retak atau tersumbat","Selang tidak retak atau getas","Tabung tidak berkarat, penyok, atau bocor","Label dan petunjuk penggunaan masih terbaca","Tinggi pemasangan sesuai dan tidak terhalang","Tanggal kedaluwarsa belum terlewati"]},
- {k:"gerinda",n:"Gerinda Tangan",no:"009",it:["Pelindung (guard) cakram terpasang lengkap","Cakram gerinda tidak retak, aus, atau gompal","Mur pengunci cakram kencang","Handle samping terpasang"].concat(KABEL,UMUM)},
- {k:"bor-listrik",n:"Bor Listrik",no:"010",it:["Chuck mengunci mata bor dengan kuat","Mata bor tajam dan tidak bengkok","Handle samping terpasang","Tombol pengatur arah putaran berfungsi"].concat(KABEL,UMUM)},
- {k:"bor-baterai",n:"Bor Baterai",no:"011",it:["Chuck mengunci mata bor dengan kuat","Mata bor tajam dan tidak bengkok","Handle samping terpasang"].concat(BATERAI,UMUM)},
- {k:"jigsaw",n:"Jig Saw",no:"012",it:["Bilah gergaji terpasang kuat dan tidak bengkok","Pelindung bilah terpasang","Base plate rata dan tidak longgar","Pengatur kecepatan berfungsi"].concat(KABEL,UMUM)},
- {k:"circular",n:"Circular Saw",no:"013",it:["Mata gergaji tajam, tidak retak, dan tidak aus","Guard atas dan guard bawah bergerak bebas","Mur pengunci mata gergaji kencang","Penahan (fence) dan pengunci kedalaman berfungsi"].concat(KABEL,UMUM)},
- {k:"heatgun",n:"Heat Gun",no:"014",it:["Nozzle tidak retak atau berubah bentuk","Pengatur suhu dan kipas berfungsi","Tidak ada bau terbakar atau asap","Lubang udara masuk tidak tersumbat"].concat(KABEL,UMUM)},
- {k:"cutting",n:"Cutting Wheel",no:"015",it:["Cakram potong tidak retak atau gompal","Ukuran cakram sesuai kapasitas alat","Pelindung (guard) terpasang lengkap","Flens dan mur pengunci kencang"].concat(KABEL,UMUM)},
- {k:"bor-magnet",n:"Bor Magnet",no:"016",it:["Daya magnet menempel kuat pada benda kerja","Tali / rantai pengaman terpasang","Mata bor (annular cutter) tajam dan tidak retak","Sistem pendingin / cairan pelumas berfungsi","Pelindung (guard) mata bor terpasang"].concat(KABEL,UMUM)}
+ {k:"apar-powder",n:"APAR Powder",no:"008",apar:"Powder",kap:["6 kg","9 kg"],it:[
+  "Tabung tidak berkarat, penyok, atau bocor","Jarum pressure gauge berada di zona hijau","Segel dan pin pengaman terpasang utuh",
+  "Handle / tuas penekan tidak macet dan tidak longgar","Selang tidak retak, getas, atau tersumbat","Nozzle bersih dan tidak tersumbat",
+  "Label dan petunjuk penggunaan masih terbaca jelas","Tinggi pemasangan sesuai (maks. 1,5 m dari lantai) dan mudah dijangkau",
+  "Bracket / penggantung kuat dan tidak longgar","Rambu / tanda lokasi APAR terpasang dan terlihat",
+  "Area sekitar APAR bebas dari penghalang","Tag inspeksi bulanan terisi dan terpasang","Tanggal kedaluwarsa / refill belum terlewati"]},
+ {k:"apar-co2",n:"APAR CO2",no:"008",apar:"CO2",kap:["9 kg"],it:[
+  "Tabung tidak berkarat, penyok, atau bocor","Berat tabung sesuai (tidak berkurang saat ditimbang)","Segel dan pin pengaman terpasang utuh",
+  "Handle / tuas penekan tidak macet dan tidak longgar","Selang bertekanan tidak retak, getas, atau menggembung","Horn / corong tidak retak dan tidak tersumbat",
+  "Label dan petunjuk penggunaan masih terbaca jelas","Tinggi pemasangan sesuai (maks. 1,5 m dari lantai) dan mudah dijangkau",
+  "Bracket / penggantung kuat dan tidak longgar","Rambu / tanda lokasi APAR terpasang dan terlihat",
+  "Area sekitar APAR bebas dari penghalang","Tag inspeksi bulanan terisi dan terpasang","Tanggal kedaluwarsa / refill belum terlewati"]},
+ {k:"gerinda",n:"Gerinda Tangan",no:"009",it:[BODY,
+  "Pelindung (guard) cakram terpasang lengkap dan kuat","Cakram gerinda tidak retak, gompal, atau aus","Spesifikasi cakram sesuai RPM dan diameter alat",
+  "Flens dan mur pengunci cakram kencang","Tombol spindle lock berfungsi","Handle samping terpasang kuat","Cakram berputar lurus (tidak goyang) saat dicoba tanpa beban"].concat(KABEL,TAG)},
+ {k:"bor-listrik",n:"Bor Listrik",no:"010",it:[BODY,
+  "Chuck berfungsi baik dan mengunci mata bor dengan kencang","Kunci chuck tersedia dan tidak aus","Mata bor tidak tumpul, bengkok, atau retak",
+  "Tombol forward/reverse berfungsi","Pengatur kecepatan dan trigger lock berfungsi","Handle samping dan depth stop terpasang kuat","Lubang ventilasi motor tidak tersumbat"].concat(KABEL,TAG)},
+ {k:"bor-baterai",n:"Bor Baterai",no:"011",it:[BODY,
+  "Baterai tidak menggembung, bocor, atau retak","Baterai terpasang kuat (pengunci/latch berfungsi)","Terminal baterai bersih, tidak berkarat atau terbakar",
+  "Charger dan kabel charger dalam kondisi baik, indikator pengisian normal","Daya baterai cukup, indikator baterai berfungsi","Saklar (switch) ON/OFF berfungsi normal",
+  "Chuck berfungsi baik dan mata bor terpasang kencang","Mata bor tidak tumpul atau bengkok","Tombol forward/reverse dan pengatur kecepatan berfungsi",
+  "Handle samping terpasang kuat dan lampu LED kerja berfungsi","Tidak ada bunyi, getaran, atau bau terbakar yang tidak normal saat dicoba"].concat(TAG)},
+ {k:"jigsaw",n:"Jig Saw",no:"012",it:[BODY,
+  "Bilah gergaji terpasang kuat, tidak bengkok, tidak tumpul","Pengunci bilah (blade clamp) berfungsi baik","Base plate / shoe rata dan terpasang kuat",
+  "Pelindung bilah (guard) terpasang","Pengatur kecepatan dan orbital berfungsi","Ventilasi dan blower debu tidak tersumbat"].concat(KABEL,TAG)},
+ {k:"circular",n:"Circular Saw",no:"013",it:[BODY,
+  "Mata gergaji tajam, tidak retak, dan tidak ompong","Guard atas terpasang kokoh","Guard bawah (retractable) bergerak bebas dan kembali otomatis",
+  "Mur / baut pengunci mata gergaji kencang","Riving knife / splitter terpasang","Pengatur kedalaman dan sudut potong terkunci kuat",
+  "Fence / guide potong berfungsi dan tidak longgar","Handle utama dan handle bantu terpasang kuat"].concat(KABEL,TAG)},
+ {k:"heatgun",n:"Heat Gun",no:"014",it:[BODY,
+  "Nozzle tidak retak, tidak leleh, dan tidak berubah bentuk","Pengatur suhu berfungsi sesuai tingkat","Pengatur aliran udara dan kipas berfungsi",
+  "Lubang udara masuk tidak tersumbat","Kabel power tahan panas dan tidak meleleh","Stand / penyangga alat tersedia dan stabil",
+  "Tidak ada asap atau bau terbakar saat dicoba"].concat(KABEL.slice(1,3),TAG)},
+ {k:"cutting",n:"Cutting Wheel",no:"015",it:[BODY,
+  "Cakram potong tidak retak, gompal, atau aus dan belum kedaluwarsa","Ukuran cakram sesuai spesifikasi mesin","Pelindung (guard) cakram terpasang lengkap",
+  "Flens dan mur pengunci cakram kencang","Penjepit benda kerja (vise) kuat dan berfungsi","Pegas pengembali lengan mesin berfungsi",
+  "Arah putaran sesuai tanda panah pada guard"].concat(KABEL,TAG)},
+ {k:"bor-magnet",n:"Bor Magnet",no:"016",it:[BODY,
+  "Daya magnet menempel kuat dan indikator magnet berfungsi","Dasar (base) magnet bersih, rata, dan tidak berkarat","Tali / rantai pengaman terpasang kuat",
+  "Annular cutter tajam, tidak retak, dan tidak ompong","Arbor / chuck terpasang kencang","Sistem pendingin / pelumas berfungsi tanpa kebocoran",
+  "Handle (lever) feed dan pelindung (guard) berfungsi","Kolom / slide bergerak halus tanpa goyang"].concat(KABEL,TAG)}
 ];
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const iso = () => { const n = new Date(); return new Date(n.getTime() - n.getTimezoneOffset()*60000).toISOString().slice(0,10); };
 const tglIndo = v => { const d = new Date(v); return isNaN(d) ? "" : d.toLocaleDateString("id-ID",{day:"2-digit",month:"long",year:"numeric"}); };
-const judul = t => "FORMULIR INSPEKSI " + t.n.toUpperCase();
-let cur = T[0], lastPdf = null;
+const judul = t => "FORM INSPEKSI " + t.n.toUpperCase();
+let cur = T[0], lastPdf = null, hasilManual = false;
 
 function renderList(){
   $("list").innerHTML = T.map(t => `<button type="button" data-k="${t.k}" class="${t.k === cur.k ? "on" : ""}">${esc(t.n)}<small>FRM-${t.no}</small></button>`).join("");
@@ -204,7 +265,7 @@ $("list").addEventListener("click", e => {
 });
 
 function renderForm(){
-  const t = cur;
+  const t = cur; hasilManual = false;
   $("frm").innerHTML = `
     <div class="ptitle"><div class="ico"><svg class="ic"><use href="#i-inspect"/></svg></div>
       <h1>${esc(judul(t))}<small>UEI/HSE/FRM/${t.no} · Berlaku ${TGL_BERLAKU} · Rev ${REVISI}</small></h1></div>
@@ -212,28 +273,36 @@ function renderForm(){
     <div class="sec">Data Inspeksi</div>
     <div class="grid">
       <div><label>Tanggal Inspeksi <i>*</i></label><input type="date" id="f-tanggal" value="${iso()}"></div>
-      <div><label>${t.apar ? "No. / Kode APAR" : "Kode Alat"} <i>*</i></label><input id="f-kode" placeholder="${t.apar ? "Contoh: APAR-001" : "Contoh: GRD-001"}"></div>
-      <div class="${t.apar ? "" : "full"}"><label>Lokasi <i>*</i></label><input id="f-lokasi"></div>
-      ${t.apar ? `<div><label>Jenis Media</label><input value="${t.apar}" disabled></div>
-      <div><label>Kapasitas <i>*</i></label><select id="f-kap">${t.kap.length > 1 ? '<option value="">- pilih -</option>' : ""}${t.kap.map(x => `<option>${x}</option>`).join("")}</select></div>
+      <div><label>Lokasi / Area <i>*</i></label><input id="f-lokasi"></div>
+      <div><label>Nama Inspektur <i>*</i></label><input id="f-inspektur"></div>
+      <div><label>${t.apar ? "No. ID / Kode APAR" : "No. ID / Kode Alat"} <i>*</i></label><input id="f-kode" placeholder="${t.apar ? "Contoh: APAR-001" : "Contoh: BOR-003"}"></div>
+      <div><label>Merk / Tipe</label><input id="f-merk" placeholder="Contoh: KRISBOW / 18W"></div>
+      ${t.apar ? `<div><label>Jenis Media / Kapasitas <i>*</i></label><select id="f-kap">${t.kap.length > 1 ? '<option value="">- pilih kapasitas -</option>' : ""}${t.kap.map(x => `<option>${x}</option>`).join("")}</select></div>
       <div><label>Tanggal Kedaluwarsa <i>*</i></label><input type="date" id="f-exp"></div>` : ""}
-      <div class="full"><label>Nama Inspektur <i>*</i></label><input id="f-inspektur"></div>
     </div>
 
-    <div class="sec">Checklist Pemeriksaan</div>
-    <div class="tw"><table class="ck"><thead><tr><th>No</th><th style="text-align:left">Butir Pemeriksaan</th><th>Baik</th><th>Tidak Baik</th><th>N/A</th><th>Keterangan</th></tr></thead><tbody>
+    <div class="sec">Poin Pemeriksaan</div>
+    <div class="tw"><table class="ck"><thead><tr><th>No</th><th style="text-align:left">Poin Pemeriksaan</th><th>OK</th><th>Tidak OK</th><th>N/A</th><th>Keterangan</th></tr></thead><tbody>
       ${t.it.map((x,i) => `<tr><td>${i+1}</td><td class="t">${esc(x)}</td>
-        <td><input type="radio" name="c${i}" value="Baik"></td>
-        <td><input type="radio" class="bad" name="c${i}" value="Tidak Baik"></td>
+        <td><input type="radio" name="c${i}" value="OK"></td>
+        <td><input type="radio" class="bad" name="c${i}" value="Tidak OK"></td>
         <td><input type="radio" name="c${i}" value="N/A"></td>
         <td><input type="text" id="k${i}"></td></tr>`).join("")}
     </tbody></table></div>
     <div class="sum" id="sum"></div>
 
-    <div class="sec">Catatan &amp; Pengesahan</div>
+    <div class="sec">Temuan &amp; Tindak Lanjut</div>
     <div class="grid">
-      <div class="full"><label>Catatan / Tindak Lanjut</label><textarea id="f-catatan"></textarea></div>
-      <div class="full"><label>Mengetahui (Nama Supervisor / HSE)</label><input id="f-mengetahui"></div>
+      <div><label>Temuan / Catatan</label><textarea id="f-temuan"></textarea></div>
+      <div><label>Tindak Lanjut / Perbaikan</label><textarea id="f-tindak"></textarea></div>
+    </div>
+
+    <div class="sec">Hasil Akhir <i style="color:var(--red);font-style:normal">*</i></div>
+    <div class="ha">${HASIL.map(h => `<label style="--c:${HCOL[h]}"><input type="radio" name="ha" value="${h}"><span>${h}</span></label>`).join("")}</div>
+
+    <div class="sec">Pengesahan</div>
+    <div class="grid">
+      <div class="full"><label>Diketahui oleh (Nama Supervisor / HSE)</label><input id="f-mengetahui"></div>
     </div>
 
     <div class="msg" id="msg"></div>
@@ -244,32 +313,45 @@ function renderForm(){
     </div>`;
   $("bReset").onclick = renderForm;
   $("bPrint").onclick = () => { buildSheet(); window.print(); };
-  $("frm").querySelectorAll(".ck input[type=radio]").forEach(r => r.addEventListener("change", summary));
+  $("frm").querySelectorAll(".ck input[type=radio]").forEach(r => r.addEventListener("change", () => { summary(); autoHasil(); }));
+  $("frm").querySelectorAll('input[name="ha"]').forEach(r => r.addEventListener("change", () => { hasilManual = true; }));
   summary();
 }
 
 function state(){
   const t = cur;
   const rows = t.it.map((x,i) => { const r = document.querySelector(`input[name="c${i}"]:checked`); return {x, v: r ? r.value : "", k: $("k"+i).value.trim()}; });
+  const h = document.querySelector('input[name="ha"]:checked');
   return {
     tanggal: $("f-tanggal").value, kode: $("f-kode").value.trim(), lokasi: $("f-lokasi").value.trim(),
-    inspektur: $("f-inspektur").value.trim(), kapasitas: t.apar ? $("f-kap").value : "", expired: t.apar ? $("f-exp").value : "",
-    catatan: $("f-catatan").value.trim(), mengetahui: $("f-mengetahui").value.trim(), rows,
-    baik: rows.filter(r => r.v === "Baik").length, buruk: rows.filter(r => r.v === "Tidak Baik").length,
+    inspektur: $("f-inspektur").value.trim(), merk: $("f-merk").value.trim(),
+    kapasitas: t.apar ? $("f-kap").value : "", expired: t.apar ? $("f-exp").value : "",
+    temuan: $("f-temuan").value.trim(), tindak: $("f-tindak").value.trim(), mengetahui: $("f-mengetahui").value.trim(),
+    hasil: h ? h.value : "", rows,
+    baik: rows.filter(r => r.v === "OK").length, buruk: rows.filter(r => r.v === "Tidak OK").length,
     na: rows.filter(r => r.v === "N/A").length, kosong: rows.filter(r => !r.v).length
   };
 }
 function summary(){
   const s = state();
-  $("sum").textContent = `Hasil: ${s.baik} Baik · ${s.buruk} Tidak Baik · ${s.na} N/A` + (s.kosong ? ` · ${s.kosong} butir belum diisi` : "");
+  $("sum").textContent = `Ringkasan: OK ${s.baik} | Tidak OK ${s.buruk} | N/A ${s.na}` + (s.kosong ? ` | ${s.kosong} butir belum diisi` : "");
   $("sum").style.color = s.buruk ? "#b71c1c" : "";
+}
+/* usulan Hasil Akhir otomatis (masih bisa diubah manual) */
+function autoHasil(){
+  if(hasilManual) return;
+  const s = state(); if(s.kosong) return;
+  const v = s.buruk === 0 ? HASIL[0] : HASIL[1];
+  const r = document.querySelector(`input[name="ha"][value="${v}"]`); if(r) r.checked = true;
 }
 function showMsg(t){ const m = $("msg"); m.textContent = t; m.style.display = t ? "block" : "none"; }
 
 /* ===== lembar A4 (HTML) ===== */
 function sheetHtml(){
-  const t = cur, s = state();
+  const t = cur, s = state(), now = new Date();
   const mark = (r, v) => r.v === v ? "✓" : "";
+  const cetak = now.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"}) + " pukul " +
+    String(now.getHours()).padStart(2,"0") + "." + String(now.getMinutes()).padStart(2,"0");
   return `
   <div class="ph"><img src="assets/gambar/logo-ikon.png" alt=""><img src="assets/gambar/logo-uei.png" alt="">
     <div class="id">
@@ -279,25 +361,26 @@ function sheetHtml(){
       <div><span>Halaman</span><span>:</span><span>1 dari 1</span></div>
       <div><span>Departemen</span><span>:</span><span>HSE</span></div>
     </div></div>
-  <h3>${esc(judul(t))}</h3>
+  <div class="ttl">${esc(judul(t))}</div>
   <table class="inf">
-    <tr><td>Tanggal</td><td>: ${esc(tglIndo(s.tanggal))}</td><td>${t.apar ? "No. APAR" : "Kode Alat"}</td><td>: ${esc(s.kode)}</td></tr>
-    <tr><td>Lokasi</td><td>: ${esc(s.lokasi)}</td><td>Inspektur</td><td>: ${esc(s.inspektur)}</td></tr>
-    ${t.apar ? `<tr><td>Jenis / Kapasitas</td><td>: ${t.apar} / ${esc(s.kapasitas)}</td><td>Kedaluwarsa</td><td>: ${esc(tglIndo(s.expired))}</td></tr>` : ""}
+    <tr><th>Tanggal Inspeksi</th><td>${esc(tglIndo(s.tanggal))}</td><th>Lokasi / Area</th><td>${esc(s.lokasi)}</td></tr>
+    <tr><th>Nama Inspektur</th><td>${esc(s.inspektur)}</td><th>No. ID / Kode Alat</th><td>${esc(s.kode)}</td></tr>
+    <tr><th>Merk / Tipe</th><td>${esc(s.merk)}</td>${t.apar ? `<th>Jenis / Kapasitas</th><td>${t.apar} / ${esc(s.kapasitas)}</td>` : `<th></th><td></td>`}</tr>
+    ${t.apar ? `<tr><th>Tgl Kedaluwarsa</th><td>${esc(tglIndo(s.expired))}</td><th></th><td></td></tr>` : ""}
   </table>
-  <table class="cl"><thead><tr><th>No</th><th>Butir Pemeriksaan</th><th>Baik</th><th>Tidak Baik</th><th>N/A</th><th>Keterangan</th></tr></thead><tbody>
-    ${s.rows.map((r,i) => `<tr><td class="n">${i+1}</td><td>${esc(r.x)}</td><td class="c">${mark(r,"Baik")}</td><td class="c">${mark(r,"Tidak Baik")}</td><td class="c">${mark(r,"N/A")}</td><td>${esc(r.k)}</td></tr>`).join("")}
+  <table class="cl"><thead><tr><th>No</th><th>Poin Pemeriksaan</th><th>OK</th><th>Tidak OK</th><th>N/A</th><th>Keterangan</th></tr></thead><tbody>
+    ${s.rows.map((r,i) => `<tr><td class="n">${i+1}</td><td>${esc(r.x)}</td><td class="c">${mark(r,"OK")}</td><td class="c x">${mark(r,"Tidak OK")}</td><td class="c">${mark(r,"N/A")}</td><td>${esc(r.k)}</td></tr>`).join("")}
   </tbody></table>
-  <div class="tt"><b>Catatan / Tindak Lanjut:</b> ${esc(s.catatan)}<br><b>Hasil:</b> ${s.baik} Baik, ${s.buruk} Tidak Baik, ${s.na} N/A</div>
-  <table class="sg"><tr><td>Diperiksa oleh,<div class="sp"></div><b>( ${esc(s.inspektur) || "..............................."} )</b><br>Inspektur</td>
-    <td>Mengetahui,<div class="sp"></div><b>( ${esc(s.mengetahui) || "..............................."} )</b><br>Supervisor / HSE</td></tr></table>
+  <div class="rk">Ringkasan: <b>OK ${s.baik}</b> &nbsp;|&nbsp; <b>Tidak OK ${s.buruk}</b> &nbsp;|&nbsp; <b>N/A ${s.na}</b></div>
+  <div class="bx2"><div><h5>Temuan / Catatan</h5><p>${esc(s.temuan)}</p></div><div><h5>Tindak Lanjut / Perbaikan</h5><p>${esc(s.tindak)}</p></div></div>
+  <div class="hk"><b>Hasil Akhir:</b>${HASIL.map(h => `<span class="${h === s.hasil ? "on" : ""}">${h === s.hasil ? "☑" : "☐"} ${h}</span>`).join("")}</div>
+  <div class="bt"><div class="pr">Dicetak dari Portal HSE Department pada ${cetak}</div>
+    <div class="sgs"><div><h5>Diketahui oleh</h5><i></i><u>${esc(s.mengetahui)}</u></div><div><h5>Diperiksa oleh</h5><i></i><u>${esc(s.inspektur)}</u></div></div></div>
   <div class="ft">DOKUMEN MILIK DEPARTEMEN HSE PT UNGGUL EJAWANTAH INDUSTRI</div>`;
 }
 function buildSheet(){ $("sheet").innerHTML = sheetHtml(); }
 
-/* ===== buat PDF A4 di browser =====
-   Lembar ditaruh di pembungkus tersembunyi (pembungkusnya yang digeser keluar layar,
-   bukan lembarnya) agar hasil foto halaman tidak kosong. */
+/* ===== buat PDF A4 di browser ===== */
 async function makePdf(){
   if(!window.html2pdf) throw new Error("pustaka PDF belum termuat (cek koneksi internet)");
   const holder = document.createElement("div");
@@ -332,16 +415,19 @@ $("frm").addEventListener("submit", async e => {
   if(!s.tanggal) k.push("Tanggal"); if(!s.kode) k.push("Kode"); if(!s.lokasi) k.push("Lokasi"); if(!s.inspektur) k.push("Inspektur");
   if(t.apar){ if(!s.kapasitas) k.push("Kapasitas"); if(!s.expired) k.push("Tanggal Kedaluwarsa"); }
   if(k.length){ showMsg("Lengkapi dulu kolom wajib: " + k.join(", ") + "."); return; }
-  if(s.kosong){ showMsg(`Masih ada ${s.kosong} butir checklist yang belum dipilih.`); return; }
+  if(s.kosong){ showMsg(`Masih ada ${s.kosong} butir pemeriksaan yang belum dipilih.`); return; }
+  if(!s.hasil){ showMsg("Pilih Hasil Akhir terlebih dahulu."); return; }
 
   const data = {
     tanggal: s.tanggal, form: "UEI/HSE/FRM/" + t.no, alat: t.n, kode: s.kode, lokasi: s.lokasi,
     kapasitas: s.kapasitas, expired: s.expired, inspektur: s.inspektur,
-    hasil: `${s.baik} Baik, ${s.buruk} Tidak Baik, ${s.na} N/A`,
-    ketidaksesuaian: s.rows.filter(r => r.v === "Tidak Baik").map(r => r.x + (r.k ? " (" + r.k + ")" : "")).join("; "),
+    hasil: `${s.baik} OK, ${s.buruk} Tidak OK, ${s.na} N/A`,
+    ketidaksesuaian: s.rows.filter(r => r.v === "Tidak OK").map(r => r.x + (r.k ? " (" + r.k + ")" : "")).join("; "),
     detail: s.rows.map((r,i) => `${i+1}. ${r.v}${r.k ? " - " + r.k : ""}`).join(" | "),
-    catatan: s.catatan, mengetahui: s.mengetahui
+    catatan: s.temuan, mengetahui: s.mengetahui,
+    merk: s.merk, tindaklanjut: s.tindak, hasilakhir: s.hasil
   };
+  const status = (s.hasil === HASIL[0] && s.buruk === 0) ? "Closed" : "Open";
   const btn = $("bSend"); btn.disabled = true;
   let ok = false, pdfB64 = "", resp = null, pdfGagal = "";
   try{
@@ -349,7 +435,7 @@ $("frm").addEventListener("submit", async e => {
     try{ pdfB64 = await makePdf(); }catch(err){ pdfGagal = err.message; }
     btn.innerHTML = '<span class="spin"></span>Mengirim...';
     const res = await fetch(URL_SHEETS, {method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"},
-      body: JSON.stringify({type:"inspection", status: s.buruk ? "Open" : "Closed", data, photos: [], pdf: pdfB64, pdfName: pdfName(t, s)})});
+      body: JSON.stringify({type:"inspection", status, data, photos: [], pdf: pdfB64, pdfName: pdfName(t, s)})});
     resp = await res.json();
     if(!resp.ok) throw new Error(resp.error || "Gagal menyimpan");
     ok = true;
@@ -367,7 +453,7 @@ $("frm").addEventListener("submit", async e => {
     $("mBox").classList.toggle("warn", warn);
     if(resp.pdf){
       dv.href = resp.pdf; dv.style.display = "block";
-      $("mTxt").textContent = "Data masuk ke Google Sheet dan PDF tersimpan otomatis di Google Drive (subfolder Inspection).";
+      $("mTxt").textContent = "Data masuk ke Google Sheet dan PDF tersimpan otomatis di Google Drive (folder Inspection / bulan / jenis inspeksi).";
     }else{
       dv.style.display = "none";
       let m = "Data masuk ke Google Sheet, tetapi PDF belum tersimpan di Google Drive. ";
