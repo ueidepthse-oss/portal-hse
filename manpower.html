@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manpower | HSE Portal</title>
+<style>
+:root{--g1:#0b8a42;--g2:#08672f;--g3:#24a65a;--gbg:#e8f5ec;--bg:#eaf4ed;--tx:#0d3b22;--mut:#5d7a6a;--line:#cfe3d6;--amber:#f08a00;--red:#d32f2f;--blue:#0e7fa8;--yellow:#f5c400;--bounce:cubic-bezier(.34,1.56,.64,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;display:flex;flex-direction:column;position:relative;overflow-x:hidden}
+.ic{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg svg{position:absolute}.bg .hex{inset:0;width:100%;height:100%}
+.bg .deco{fill:none;stroke:var(--g1);stroke-linecap:round;stroke-linejoin:round}
+.bg .shield{right:-70px;bottom:20px;width:440px;height:440px;opacity:.10;stroke-width:.6}
+.bg .hat{left:-60px;bottom:30px;width:380px;height:380px;opacity:.09;stroke-width:.6}
+.bg .gear{right:26%;top:34%;width:230px;height:230px;opacity:.08;stroke-width:1}
+header,.stripe,main,footer{position:relative;z-index:1}header{z-index:50}
+
+header{background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 20px;height:56px;flex:none;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
+.brand img{height:36px;width:auto}.brand .sep{width:1px;height:26px;background:rgba(255,255,255,.55)}
+nav{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+nav>a,.dd>a{color:#fff;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.4px;padding:8px 12px;border-radius:6px;text-transform:uppercase;display:block;transition:background .2s}
+nav>a:hover,.dd>a:hover{background:rgba(255,255,255,.18);animation:hop .55s ease}
+nav .active{background:var(--g2);box-shadow:inset 0 -3px 0 var(--yellow)}
+.dd{position:relative}.dd>a::after{content:" ▾";font-size:10px}
+.menu{display:none;position:absolute;top:100%;right:0;min-width:210px;padding-top:6px}
+.menu .box{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 10px 24px rgba(13,59,34,.28);border-top:4px solid var(--yellow);animation:popIn .45s var(--bounce)}
+.dd:hover .menu,.dd:focus-within .menu{display:block}
+.menu a{display:flex;align-items:center;gap:10px;padding:10px 14px;color:var(--g2);text-decoration:none;font-size:13px;font-weight:700;border-bottom:1px solid var(--line);transition:padding .2s var(--bounce),background .2s}
+.menu a:last-child{border-bottom:0}.menu a:hover{background:var(--gbg);padding-left:20px}.menu .ic{font-size:17px;color:var(--g1)}
+.stripe{height:6px;flex:none;background:repeating-linear-gradient(-45deg,var(--yellow) 0 10px,#1c1c1c 10px 20px)}
+
+@keyframes popIn{0%{opacity:0;transform:translateY(26px) scale(.88)}55%{opacity:1;transform:translateY(-7px) scale(1.03)}78%{transform:translateY(3px) scale(.99)}100%{opacity:1;transform:none}}
+@keyframes hop{0%,100%{transform:translateY(0)}28%{transform:translateY(-9px)}50%{transform:translateY(0)}66%{transform:translateY(-4px)}82%{transform:translateY(0)}}
+@keyframes iconBounce{0%,60%,100%{transform:translateY(0)}70%{transform:translateY(-6px)}80%{transform:translateY(0)}88%{transform:translateY(-2px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pop{opacity:0;animation:popIn .8s var(--bounce) forwards;animation-delay:calc(var(--i,0) * 80ms)}
+
+main{flex:1;padding:14px 20px;display:flex;flex-direction:column;gap:12px}
+.crumb{font-size:12px;color:var(--mut)}.crumb a{color:var(--g1);text-decoration:none;font-weight:700}
+.krow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kpi{background:#fff;border-radius:8px;border-left:5px solid var(--c);box-shadow:0 2px 6px rgba(13,59,34,.12);display:flex;align-items:center;gap:12px;padding:0 16px;min-height:68px;transition:box-shadow .2s}
+.kpi:hover{animation:hop .6s ease;box-shadow:0 8px 18px rgba(13,59,34,.2)}
+.kpi .ic{font-size:26px;color:var(--c);animation:iconBounce 3s infinite;animation-delay:calc(var(--i,0) * .35s)}
+.kpi b{display:block;font-size:24px;line-height:1.1;color:var(--g2)}
+.kpi span{font-size:11.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.3px}
+.kpi small{display:block;font-size:10.5px;color:var(--mut)}
+
+.cols{display:grid;grid-template-columns:360px minmax(0,1fr);gap:12px;align-items:start}
+.panel{background:#fff;border-radius:10px;border-top:6px solid var(--g1);box-shadow:0 4px 14px rgba(13,59,34,.14);padding:16px 18px 18px}
+.ptitle{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.ptitle .ico{width:42px;height:42px;border-radius:50%;background:var(--gbg);color:var(--g1);display:flex;align-items:center;justify-content:center;font-size:22px;animation:hop 2.8s infinite}
+.ptitle h1{font-size:18px;color:var(--g2)}.ptitle small{display:block;font-size:12px;color:var(--mut);font-weight:400}
+.fld{margin-top:12px}
+label{display:block;font-size:12.5px;font-weight:700;margin-bottom:4px}label i{color:var(--red);font-style:normal}
+input,textarea{width:100%;font:inherit;font-size:14px;padding:9px 11px;border:1.5px solid var(--line);border-radius:7px;background:#fff;color:var(--tx);transition:border .2s,box-shadow .2s}
+textarea{min-height:64px;resize:vertical}
+input:focus,textarea:focus{outline:0;border-color:var(--g1);box-shadow:0 0 0 3px rgba(11,138,66,.18)}
+input[readonly]{background:var(--gbg);font-weight:800;color:var(--g2);font-size:16px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+.btn{font:inherit;font-weight:800;letter-spacing:.4px;padding:10px 22px;border-radius:8px;border:0;cursor:pointer;transition:.2s var(--bounce)}
+.btn:hover{transform:translateY(-3px) scale(1.04)}
+.btn.main{background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;box-shadow:0 4px 10px rgba(11,138,66,.35)}
+.btn.sec2{background:#fff;color:var(--g2);border:2px solid var(--g1)}.btn:disabled{opacity:.6;cursor:wait;transform:none}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
+.spin.g{border-color:var(--g1);border-top-color:transparent}
+.msg{display:none;margin-top:12px;padding:9px 12px;border-radius:7px;font-size:13px;font-weight:600}
+.msg.err{background:#fde4e4;color:#b71c1c}.msg.ok{background:#d9f2e1;color:var(--g2);animation:popIn .6s var(--bounce)}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:0 2px 6px rgba(13,59,34,.1)}
+.sechead{background:var(--g1);color:#fff;font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:8px 12px;display:flex;align-items:center;gap:10px}
+.sechead select{margin-left:auto;font:inherit;font-size:12px;font-weight:700;padding:2px 8px;border-radius:5px;border:0;background:#fff;color:var(--g2);cursor:pointer}
+.sechead button{font:inherit;font-size:11.5px;font-weight:700;color:var(--g2);background:#fff;border:0;border-radius:5px;padding:2px 9px;cursor:pointer}
+.tscroll{max-height:420px;overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{position:sticky;top:0;background:var(--gbg);text-align:left;padding:8px 10px;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--g2);z-index:1}
+td{padding:7px 10px;border-top:1px solid var(--line)}
+td.r,th.r{text-align:right}
+tbody tr:hover td{background:#f3faf5}
+tr.old td{color:#9bb0a3;text-decoration:line-through}
+.tag{display:inline-block;padding:1px 8px;border-radius:9px;font-size:10.5px;font-weight:700;background:#fff3c4;color:#7a5c00;text-decoration:none}
+.empty{padding:24px;text-align:center;color:var(--mut);font-size:13px}
+
+footer{background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;flex:none;height:46px;margin:0 20px 12px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:13px;box-shadow:0 2px 6px rgba(13,59,34,.2)}
+footer .brand{font-size:13px}footer .brand img{height:26px}
+@media (max-width:980px){
+  header{height:auto;flex-direction:column;align-items:flex-start;padding:10px 14px}nav{justify-content:flex-start}.menu{right:auto;left:0}
+  main{padding:12px 14px}.krow{grid-template-columns:1fr 1fr}.cols{grid-template-columns:1fr}
+  footer{margin:0 14px 12px;height:auto;padding:12px 14px;flex-direction:column;gap:6px;text-align:center}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pop{opacity:1}}
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <svg class="hex" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="hexp" width="56" height="100" patternUnits="userSpaceOnUse" patternTransform="scale(.9)"><path d="M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100" fill="none" stroke="#0b8a42" stroke-opacity=".13" stroke-width="1.2"/><path d="M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34" fill="none" stroke="#0b8a42" stroke-opacity=".13" stroke-width="1.2"/></pattern></defs><rect width="100%" height="100%" fill="url(#hexp)"/></svg>
+  <svg class="deco shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+  <svg class="deco hat" viewBox="0 0 24 24"><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M14 6a6 6 0 0 1 6 6v3"/><path d="M4 15v-3a6 6 0 0 1 6-6"/><rect x="2" y="15" width="20" height="4" rx="1"/></svg>
+  <svg class="deco gear" viewBox="-80 -80 160 160"><circle r="60" stroke-width="16" stroke-dasharray="15.7 15.7"/><circle r="50" stroke-width="10"/><circle r="22" stroke-width="7"/></svg>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-hazard" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-nearmiss" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></symbol>
+  <symbol id="i-incident" viewBox="0 0 24 24"><path d="M7 18v-6a5 5 0 1 1 10 0v6"/><path d="M5 21a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2z"/><path d="M21 12h1"/><path d="M18.5 4.5 18 5"/><path d="M2 12h1"/><path d="M12 2v1"/><path d="m4.929 4.929.707.707"/><path d="M12 12v6"/></symbol>
+  <symbol id="i-inspect" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6"/><path d="M14 11v6"/></symbol>
+  <symbol id="i-badge" viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-avg" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></symbol>
+</svg>
+
+<header>
+  <div class="brand"><img src="assets/gambar/logo.png" alt="Logo" onerror="this.style.display='none'"><span class="sep"></span><span>HSE DEPARTEMENT</span></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="profile.html">Profile</a>
+    <div class="dd">
+      <a href="data.html" class="active">Data</a>
+      <div class="menu"><div class="box">
+        <a href="manpower.html"><svg class="ic"><use href="#i-users"/></svg>Manpower</a>
+        <a href="manhours.html"><svg class="ic"><use href="#i-clock"/></svg>Man Hours</a>
+        <a href="limbah.html"><svg class="ic"><use href="#i-trash"/></svg>Limbah B3</a>
+      </div></div>
+    </div>
+    <div class="dd">
+      <a href="report.html">Report</a>
+      <div class="menu"><div class="box">
+        <a href="hazard.html"><svg class="ic"><use href="#i-hazard"/></svg>Hazard Report</a>
+        <a href="nearmiss.html"><svg class="ic"><use href="#i-nearmiss"/></svg>Near Miss Report</a>
+        <a href="incident.html"><svg class="ic"><use href="#i-incident"/></svg>Incident Report</a>
+        <a href="inspection.html"><svg class="ic"><use href="#i-inspect"/></svg>Inspection Report</a>
+      </div></div>
+    </div>
+    <a href="health.html">Health</a>
+    <a href="sdm.html">SDM</a>
+    <a href="permit.html">Permit</a>
+    <a href="library.html">Library</a>
+  </nav>
+</header>
+<div class="stripe"></div>
+
+<main>
+  <div class="crumb"><a href="data.html">Data</a> › Manpower</div>
+
+  <section class="krow">
+    <div class="pop" style="--i:0"><div class="kpi" style="--c:var(--g1);--i:0"><svg class="ic"><use href="#i-users"/></svg><div><b id="k-tot">0</b><span>Total Manpower</span><small id="k-tot-s">-</small></div></div></div>
+    <div class="pop" style="--i:1"><div class="kpi" style="--c:var(--blue);--i:1"><svg class="ic"><use href="#i-badge"/></svg><div><b id="k-tet">0</b><span>Karyawan Tetap</span><small id="k-tet-s">-</small></div></div></div>
+    <div class="pop" style="--i:2"><div class="kpi" style="--c:var(--amber);--i:2"><svg class="ic"><use href="#i-users"/></svg><div><b id="k-kon">0</b><span>Kontraktor</span><small id="k-kon-s">-</small></div></div></div>
+    <div class="pop" style="--i:3"><div class="kpi" style="--c:var(--g3);--i:3"><svg class="ic"><use href="#i-avg"/></svg><div><b id="k-avg">0</b><span>Rata-rata Bulanan</span><small id="k-avg-s">-</small></div></div></div>
+  </section>
+
+  <section class="cols">
+    <form class="panel pop" id="frm" style="--i:4" novalidate>
+      <div class="ptitle"><div class="ico"><svg class="ic"><use href="#i-users"/></svg></div><h1>Input Manpower<small>Isi sekali per bulan</small></h1></div>
+      <div class="fld"><label>Periode (Bulan) <i>*</i></label><input type="month" id="periode"></div>
+      <div class="two">
+        <div class="fld"><label>Karyawan Tetap <i>*</i></label><input type="number" id="tetap" min="0" step="1" inputmode="numeric" placeholder="0"></div>
+        <div class="fld"><label>Kontraktor <i>*</i></label><input type="number" id="kontraktor" min="0" step="1" inputmode="numeric" placeholder="0"></div>
+      </div>
+      <div class="fld"><label>Total Manpower (otomatis)</label><input id="total" readonly value="0"></div>
+      <div class="fld"><label>Catatan</label><textarea id="catatan" placeholder="Contoh: penambahan 5 tenaga kontrak proyek"></textarea></div>
+      <div class="msg" id="msg"></div>
+      <div class="actions">
+        <button type="button" class="btn sec2" id="bClear">Kosongkan</button>
+        <button type="submit" class="btn main" id="bSend">Simpan</button>
+      </div>
+    </form>
+
+    <div class="card pop" style="--i:5">
+      <div class="sechead">Riwayat Manpower <button type="button" id="rf">⟳ Refresh</button><select id="year"></select></div>
+      <div class="tscroll">
+        <table>
+          <thead><tr><th>Periode</th><th class="r">Tetap</th><th class="r">Kontraktor</th><th class="r">Total</th><th>Catatan</th><th>Diinput</th></tr></thead>
+          <tbody id="t-body"><tr><td colspan="6" class="empty"><span class="spin g"></span>Memuat data dari Google Sheets...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="brand"><img src="assets/gambar/logo.png" alt="Logo" onerror="this.style.display='none'"><span>HSE DEPARTEMENT</span></div>
+  <div id="copy"></div>
+</footer>
+
+<script>
+/* ===== PENGATURAN ===== */
+const URL_SHEETS = "https://script.google.com/macros/s/AKfycbwz8ZtmBmsC-Mtxnsd7QKAh1EPGQ1wVKUgn87U-0Xs-o09AvL1MP8D7mRKXEwjcGRd2/exec";
+
+const $ = id => document.getElementById(id);
+const fmt = n => Number(n).toLocaleString("id-ID");
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const BLN = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const num = v => { const n = Number(String(v == null ? "" : v).replace(",", ".")); return isFinite(n) ? n : 0; };
+let ROWS = [];
+
+function ym(v){
+  const m = String(v).match(/^(\d{4})-(\d{2})/);
+  if(m) return [+m[1], +m[2]];
+  const d = new Date(v);
+  return isNaN(d) ? null : [d.getFullYear(), d.getMonth() + 1];
+}
+const label = p => BLN[p[1]-1] + " " + p[0];
+
+function countTo(el, target){
+  const from = el._v || 0;
+  if(from === target){ el.textContent = fmt(target); return; }
+  el._v = target;
+  if(reduce){ el.textContent = fmt(target); return; }
+  const t0 = performance.now(), dur = 900;
+  const ease = t => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3*Math.pow(t-1,3) + c1*Math.pow(t-1,2); };
+  (function step(now){
+    const t = Math.min((now - t0) / dur, 1);
+    el.textContent = fmt(Math.round(from + (target - from) * ease(t)));
+    if(t < 1) requestAnimationFrame(step);
+  })(t0);
+}
+
+/* ---------- form ---------- */
+function hitung(){ $("total").value = fmt(num($("tetap").value) + num($("kontraktor").value)); }
+["tetap","kontraktor"].forEach(id => $(id).addEventListener("input", hitung));
+function showMsg(t, ok){ const m = $("msg"); m.textContent = t; m.className = "msg " + (ok ? "ok" : "err"); m.style.display = t ? "block" : "none"; }
+function kosongkan(){
+  const n = new Date();
+  $("periode").value = n.getFullYear() + "-" + String(n.getMonth() + 1).padStart(2, "0");
+  $("tetap").value = ""; $("kontraktor").value = ""; $("catatan").value = ""; hitung();
+}
+$("bClear").addEventListener("click", () => { kosongkan(); showMsg(""); });
+
+$("frm").addEventListener("submit", async e => {
+  e.preventDefault(); showMsg("");
+  const periode = $("periode").value, tetap = $("tetap").value, kon = $("kontraktor").value;
+  if(!periode){ showMsg("Pilih periode (bulan) terlebih dahulu."); return; }
+  if(tetap === "" || kon === ""){ showMsg("Isi jumlah Karyawan Tetap dan Kontraktor (isi 0 bila tidak ada)."); return; }
+  if(num(tetap) < 0 || num(kon) < 0){ showMsg("Jumlah tidak boleh negatif."); return; }
+  const total = Math.round(num(tetap)) + Math.round(num(kon));
+  if(total <= 0){ showMsg("Total manpower harus lebih dari 0."); return; }
+
+  const p = ym(periode);
+  if(ROWS.some(r => { const q = ym(r["Periode"]); return q && q[0] === p[0] && q[1] === p[1]; })){
+    if(!confirm("Periode " + label(p) + " sudah pernah diinput.\nData baru ini akan dipakai sebagai nilai terbaru bulan tersebut (data lama tetap tercatat dan ditandai 'Diganti').\n\nLanjutkan?")) return;
+  }
+
+  const btn = $("bSend"); btn.disabled = true; btn.innerHTML = '<span class="spin"></span>Menyimpan...';
+  let ok = false;
+  try{
+    const res = await fetch(URL_SHEETS, {method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body: JSON.stringify({type:"manpower", data:{periode, tetap:Math.round(num(tetap)), kontraktor:Math.round(num(kon)), total, catatan:$("catatan").value.trim()}})});
+    const j = await res.json();
+    if(!j.ok) throw new Error(j.error || "Gagal menyimpan");
+    ok = true; showMsg("Tersimpan: " + label(p) + " — total " + fmt(total) + " orang (" + j.id + ")", true);
+  }catch(err){
+    showMsg("Data belum tersimpan: " + err.message + ". Periksa koneksi lalu coba lagi.");
+  }finally{
+    btn.disabled = false; btn.textContent = "Simpan";
+  }
+  if(ok){ kosongkan(); load(); }
+});
+
+/* ---------- riwayat ---------- */
+function render(){
+  /* baris terakhir per periode = yang dipakai */
+  const lastIdx = {};
+  ROWS.forEach((r, i) => { const p = ym(r["Periode"]); if(p) lastIdx[p[0] + "-" + p[1]] = i; });
+  const list = ROWS.map((r, i) => { const p = ym(r["Periode"]); return p ? {r, p, i, aktif: lastIdx[p[0] + "-" + p[1]] === i} : null; }).filter(Boolean);
+
+  /* pilihan tahun */
+  const ys = [...new Set(list.map(x => x.p[0]).concat([new Date().getFullYear()]))].sort((a,b) => b - a);
+  const keep = $("year").value;
+  $("year").innerHTML = '<option value="all">Semua tahun</option>' + ys.map(y => `<option value="${y}">${y}</option>`).join("");
+  $("year").value = (keep === "all" || ys.includes(+keep)) && keep ? keep : String(ys[0]);
+
+  const yr = $("year").value;
+  const tampil = list.filter(x => yr === "all" || x.p[0] === +yr)
+    .sort((a,b) => (b.p[0]*100 + b.p[1]) - (a.p[0]*100 + a.p[1]) || b.i - a.i);
+
+  $("t-body").innerHTML = tampil.length ? tampil.map(x => {
+    const r = x.r, d = new Date(r["Timestamp"]);
+    const waktu = isNaN(d) ? "" : d.toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"}) + " " + String(d.getHours()).padStart(2,"0") + "." + String(d.getMinutes()).padStart(2,"0");
+    return `<tr class="${x.aktif ? "" : "old"}"><td><b>${label(x.p)}</b> ${x.aktif ? "" : '<span class="tag">Diganti</span>'}</td>
+      <td class="r">${fmt(num(r["Karyawan Tetap"]))}</td><td class="r">${fmt(num(r["Kontraktor"]))}</td><td class="r"><b>${fmt(num(r["Total Manpower"]))}</b></td>
+      <td>${esc(r["Catatan"])}</td><td>${waktu}</td></tr>`;
+  }).join("") : `<tr><td colspan="6" class="empty">Belum ada data manpower${yr === "all" ? "" : " pada tahun " + yr}. Isi form di sebelah kiri untuk memulai.</td></tr>`;
+
+  /* kartu: periode terbaru (nilai aktif) + rata-rata tahun terpilih */
+  const aktif = list.filter(x => x.aktif).sort((a,b) => (b.p[0]*100 + b.p[1]) - (a.p[0]*100 + a.p[1]));
+  const t = aktif[0];
+  countTo($("k-tot"), t ? num(t.r["Total Manpower"]) : 0);
+  countTo($("k-tet"), t ? num(t.r["Karyawan Tetap"]) : 0);
+  countTo($("k-kon"), t ? num(t.r["Kontraktor"]) : 0);
+  const sub = t ? "per " + label(t.p) : "belum ada data";
+  $("k-tot-s").textContent = $("k-tet-s").textContent = $("k-kon-s").textContent = sub;
+  const dalam = aktif.filter(x => yr === "all" || x.p[0] === +yr);
+  countTo($("k-avg"), dalam.length ? Math.round(dalam.reduce((a,x) => a + num(x.r["Total Manpower"]), 0) / dalam.length) : 0);
+  $("k-avg-s").textContent = dalam.length ? (yr === "all" ? "semua periode" : "tahun " + yr) + " · " + dalam.length + " bulan" : "belum ada data";
+}
+
+async function load(){
+  $("rf").disabled = true;
+  try{
+    const res = await fetch(URL_SHEETS + "?type=manpower&_=" + Date.now());
+    const j = await res.json();
+    if(!j.ok) throw new Error(j.error || "Gagal membaca data");
+    ROWS = j.rows || []; render();
+  }catch(err){
+    $("t-body").innerHTML = `<tr><td colspan="6" class="empty">Data belum bisa dimuat (${esc(err.message)}). Pastikan Code.gs terbaru sudah di-deploy, lalu klik Refresh.</td></tr>`;
+  }finally{
+    $("rf").disabled = false;
+  }
+}
+
+$("year").addEventListener("change", render);
+$("rf").addEventListener("click", load);
+$("copy").textContent = "© " + new Date().getFullYear() + " Dept HSE - All Right Reserved";
+kosongkan(); load();
+</script>
+</body>
+</html>
