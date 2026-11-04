@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Manpower | HSE Portal</title>
+<title>Daftar Manpower | HSE Portal</title>
 <style>
 :root{--g1:#0b8a42;--g2:#08672f;--g3:#24a65a;--gbg:#e8f5ec;--bg:#eaf4ed;--tx:#0d3b22;--mut:#5d7a6a;--line:#cfe3d6;--amber:#f08a00;--red:#d32f2f;--blue:#0e7fa8;--yellow:#f5c400;--bounce:cubic-bezier(.34,1.56,.64,1)}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -36,6 +36,7 @@ nav .active{background:var(--g2);box-shadow:inset 0 -3px 0 var(--yellow)}
 @keyframes hop{0%,100%{transform:translateY(0)}28%{transform:translateY(-9px)}50%{transform:translateY(0)}66%{transform:translateY(-4px)}82%{transform:translateY(0)}}
 @keyframes iconBounce{0%,60%,100%{transform:translateY(0)}70%{transform:translateY(-6px)}80%{transform:translateY(0)}88%{transform:translateY(-2px)}}
 @keyframes spin{to{transform:rotate(360deg)}}
+@keyframes blink{50%{opacity:.3}}
 .pop{opacity:0;animation:popIn .8s var(--bounce) forwards;animation-delay:calc(var(--i,0) * 80ms)}
 
 main{flex:1;padding:14px 20px;display:flex;flex-direction:column;gap:12px}
@@ -48,47 +49,38 @@ main{flex:1;padding:14px 20px;display:flex;flex-direction:column;gap:12px}
 .kpi span{font-size:11.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.3px}
 .kpi small{display:block;font-size:10.5px;color:var(--mut)}
 
-.cols{display:grid;grid-template-columns:360px minmax(0,1fr);gap:12px;align-items:start}
-.panel{background:#fff;border-radius:10px;border-top:6px solid var(--g1);box-shadow:0 4px 14px rgba(13,59,34,.14);padding:16px 18px 18px}
-.ptitle{display:flex;align-items:center;gap:12px;margin-bottom:6px}
-.ptitle .ico{width:42px;height:42px;border-radius:50%;background:var(--gbg);color:var(--g1);display:flex;align-items:center;justify-content:center;font-size:22px;animation:hop 2.8s infinite}
-.ptitle h1{font-size:18px;color:var(--g2)}.ptitle small{display:block;font-size:12px;color:var(--mut);font-weight:400}
-.fld{margin-top:12px}
-label{display:block;font-size:12.5px;font-weight:700;margin-bottom:4px}label i{color:var(--red);font-style:normal}
-input,textarea{width:100%;font:inherit;font-size:14px;padding:9px 11px;border:1.5px solid var(--line);border-radius:7px;background:#fff;color:var(--tx);transition:border .2s,box-shadow .2s}
-textarea{min-height:64px;resize:vertical}
-input:focus,textarea:focus{outline:0;border-color:var(--g1);box-shadow:0 0 0 3px rgba(11,138,66,.18)}
-input[readonly]{background:var(--gbg);font-weight:800;color:var(--g2);font-size:16px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
-.btn{font:inherit;font-weight:800;letter-spacing:.4px;padding:10px 22px;border-radius:8px;border:0;cursor:pointer;transition:.2s var(--bounce)}
-.btn:hover{transform:translateY(-3px) scale(1.04)}
-.btn.main{background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;box-shadow:0 4px 10px rgba(11,138,66,.35)}
-.btn.sec2{background:#fff;color:var(--g2);border:2px solid var(--g1)}.btn:disabled{opacity:.6;cursor:wait;transform:none}
-.spin{display:inline-block;width:14px;height:14px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
-.spin.g{border-color:var(--g1);border-top-color:transparent}
-.msg{display:none;margin-top:12px;padding:9px 12px;border-radius:7px;font-size:13px;font-weight:600}
-.msg.err{background:#fde4e4;color:#b71c1c}.msg.ok{background:#d9f2e1;color:var(--g2);animation:popIn .6s var(--bounce)}
+.info{background:#fff;border-left:5px solid var(--yellow);border-radius:8px;padding:9px 14px;font-size:12.5px;color:var(--mut);box-shadow:0 2px 6px rgba(13,59,34,.1)}
+.info b{color:var(--g2)}.info code{background:var(--gbg);color:var(--g2);padding:1px 6px;border-radius:4px;font-size:11.5px}
 
 .card{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:0 2px 6px rgba(13,59,34,.1)}
-.sechead{background:var(--g1);color:#fff;font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:8px 12px;display:flex;align-items:center;gap:10px}
-.sechead select{margin-left:auto;font:inherit;font-size:12px;font-weight:700;padding:2px 8px;border-radius:5px;border:0;background:#fff;color:var(--g2);cursor:pointer}
-.sechead button{font:inherit;font-size:11.5px;font-weight:700;color:var(--g2);background:#fff;border:0;border-radius:5px;padding:2px 9px;cursor:pointer}
-.tscroll{max-height:420px;overflow:auto}
+.sechead{background:var(--g1);color:#fff;font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:8px 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.live{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:11.5px;text-transform:none;font-weight:400;letter-spacing:0}
+.live i{font-style:normal;animation:blink 2s infinite}.live.bad i{color:#ffb4b4;animation:none}
+.live button{font:inherit;font-size:11.5px;font-weight:700;color:var(--g2);background:#fff;border:0;border-radius:5px;padding:2px 9px;cursor:pointer}
+.filt{display:flex;gap:8px;flex-wrap:wrap;padding:10px 12px;border-bottom:1px solid var(--line);background:#f7fbf8}
+.filt input,.filt select{font:inherit;font-size:13px;padding:6px 10px;border:1.5px solid var(--line);border-radius:7px;background:#fff;color:var(--tx)}
+.filt input{flex:1;min-width:200px}
+.filt input:focus,.filt select:focus{outline:0;border-color:var(--g1);box-shadow:0 0 0 3px rgba(11,138,66,.15)}
+.filt .cnt{margin-left:auto;align-self:center;font-size:12px;color:var(--mut);font-weight:600}
+.tscroll{max-height:540px;overflow:auto}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
-th{position:sticky;top:0;background:var(--gbg);text-align:left;padding:8px 10px;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--g2);z-index:1}
-td{padding:7px 10px;border-top:1px solid var(--line)}
-td.r,th.r{text-align:right}
+th{position:sticky;top:0;background:var(--gbg);text-align:left;padding:8px 10px;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--g2);z-index:1;white-space:nowrap}
+td{padding:7px 10px;border-top:1px solid var(--line);vertical-align:middle}
 tbody tr:hover td{background:#f3faf5}
-tr.old td{color:#9bb0a3;text-decoration:line-through}
-.tag{display:inline-block;padding:1px 8px;border-radius:9px;font-size:10.5px;font-weight:700;background:#fff3c4;color:#7a5c00;text-decoration:none}
-.empty{padding:24px;text-align:center;color:var(--mut);font-size:13px}
+tr.rs td{color:#7d8f85}
+td.nm{font-weight:700;color:var(--g2)}
+.badge{display:inline-block;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:700;white-space:nowrap}
+.b-on{background:#d9f2e1;color:var(--g2)}.b-rs{background:#fde4e4;color:#b71c1c}.b-ot{background:#fff3c4;color:#7a5c00}
+.tp{display:inline-block;padding:1px 8px;border-radius:5px;font-size:11px;font-weight:700;color:#fff}
+.tp.t{background:var(--blue)}.tp.k{background:var(--amber)}
+.empty{padding:26px;text-align:center;color:var(--mut);font-size:13px}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--g1);border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:8px}
 
 footer{background:linear-gradient(90deg,var(--g2),var(--g1));color:#fff;flex:none;height:46px;margin:0 20px 12px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:13px;box-shadow:0 2px 6px rgba(13,59,34,.2)}
 footer .brand{font-size:13px}footer .brand img{height:26px}
 @media (max-width:980px){
   header{height:auto;flex-direction:column;align-items:flex-start;padding:10px 14px}nav{justify-content:flex-start}.menu{right:auto;left:0}
-  main{padding:12px 14px}.krow{grid-template-columns:1fr 1fr}.cols{grid-template-columns:1fr}
+  main{padding:12px 14px}.krow{grid-template-columns:1fr 1fr}
   footer{margin:0 14px 12px;height:auto;padding:12px 14px;flex-direction:column;gap:6px;text-align:center}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pop{opacity:1}}
@@ -112,7 +104,7 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
   <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
   <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6"/><path d="M14 11v6"/></symbol>
   <symbol id="i-badge" viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></symbol>
-  <symbol id="i-avg" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></symbol>
 </svg>
 
 <header>
@@ -146,40 +138,36 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
 <div class="stripe"></div>
 
 <main>
-  <div class="crumb"><a href="data.html">Data</a> › Manpower</div>
+  <div class="crumb"><a href="data.html">Data</a> › Daftar Manpower</div>
 
   <section class="krow">
-    <div class="pop" style="--i:0"><div class="kpi" style="--c:var(--g1);--i:0"><svg class="ic"><use href="#i-users"/></svg><div><b id="k-tot">0</b><span>Total Manpower</span><small id="k-tot-s">-</small></div></div></div>
-    <div class="pop" style="--i:1"><div class="kpi" style="--c:var(--blue);--i:1"><svg class="ic"><use href="#i-badge"/></svg><div><b id="k-tet">0</b><span>Karyawan Tetap</span><small id="k-tet-s">-</small></div></div></div>
-    <div class="pop" style="--i:2"><div class="kpi" style="--c:var(--amber);--i:2"><svg class="ic"><use href="#i-users"/></svg><div><b id="k-kon">0</b><span>Kontraktor</span><small id="k-kon-s">-</small></div></div></div>
-    <div class="pop" style="--i:3"><div class="kpi" style="--c:var(--g3);--i:3"><svg class="ic"><use href="#i-avg"/></svg><div><b id="k-avg">0</b><span>Rata-rata Bulanan</span><small id="k-avg-s">-</small></div></div></div>
+    <div class="pop" style="--i:0"><div class="kpi" style="--c:var(--g1);--i:0"><svg class="ic"><use href="#i-users"/></svg><div><b id="k-akt">0</b><span>Manpower Aktif</span><small id="k-akt-s">-</small></div></div></div>
+    <div class="pop" style="--i:1"><div class="kpi" style="--c:var(--blue);--i:1"><svg class="ic"><use href="#i-badge"/></svg><div><b id="k-tet">0</b><span>Karyawan Tetap</span><small>aktif</small></div></div></div>
+    <div class="pop" style="--i:2"><div class="kpi" style="--c:var(--amber);--i:2"><svg class="ic"><use href="#i-users"/></svg><div><b id="k-kon">0</b><span>Kontraktor</span><small>aktif</small></div></div></div>
+    <div class="pop" style="--i:3"><div class="kpi" style="--c:var(--red);--i:3"><svg class="ic"><use href="#i-out"/></svg><div><b id="k-res">0</b><span>Resign</span><small id="k-res-s">-</small></div></div></div>
   </section>
 
-  <section class="cols">
-    <form class="panel pop" id="frm" style="--i:4" novalidate>
-      <div class="ptitle"><div class="ico"><svg class="ic"><use href="#i-users"/></svg></div><h1>Input Manpower<small>Isi sekali per bulan</small></h1></div>
-      <div class="fld"><label>Periode (Bulan) <i>*</i></label><input type="month" id="periode"></div>
-      <div class="two">
-        <div class="fld"><label>Karyawan Tetap <i>*</i></label><input type="number" id="tetap" min="0" step="1" inputmode="numeric" placeholder="0"></div>
-        <div class="fld"><label>Kontraktor <i>*</i></label><input type="number" id="kontraktor" min="0" step="1" inputmode="numeric" placeholder="0"></div>
-      </div>
-      <div class="fld"><label>Total Manpower (otomatis)</label><input id="total" readonly value="0"></div>
-      <div class="fld"><label>Catatan</label><textarea id="catatan" placeholder="Contoh: penambahan 5 tenaga kontrak proyek"></textarea></div>
-      <div class="msg" id="msg"></div>
-      <div class="actions">
-        <button type="button" class="btn sec2" id="bClear">Kosongkan</button>
-        <button type="submit" class="btn main" id="bSend">Simpan</button>
-      </div>
-    </form>
+  <section class="info pop" style="--i:4">
+    <b>Data diinput langsung di Google Sheet</b>, tab <code>Daftar Manpower</code>. Kolom: <code>No</code> <code>Nama</code> <code>NIK</code> <code>Jabatan</code> <code>Departemen</code> <code>Perusahaan</code> <code>Tipe</code> <code>Status</code> <code>Tgl On Site</code> <code>Tgl Resign</code> <code>Keterangan</code>.
+    Isi <b>Tipe</b> dengan <i>Karyawan Tetap</i> atau <i>Kontraktor</i>, <b>Status</b> dengan <i>Aktif</i> / <i>Resign</i>, dan tanggal dengan format <code>2026-03-15</code>. Halaman ini diperbarui otomatis.
+  </section>
 
-    <div class="card pop" style="--i:5">
-      <div class="sechead">Riwayat Manpower <button type="button" id="rf">⟳ Refresh</button><select id="year"></select></div>
-      <div class="tscroll">
-        <table>
-          <thead><tr><th>Periode</th><th class="r">Tetap</th><th class="r">Kontraktor</th><th class="r">Total</th><th>Catatan</th><th>Diinput</th></tr></thead>
-          <tbody id="t-body"><tr><td colspan="6" class="empty"><span class="spin g"></span>Memuat data dari Google Sheets...</td></tr></tbody>
-        </table>
-      </div>
+  <section class="card pop" style="--i:5">
+    <div class="sechead">Daftar Manpower
+      <div class="live" id="live"><i>●</i><span id="upd">Memuat data...</span><button type="button" id="rf">⟳ Refresh</button></div>
+    </div>
+    <div class="filt">
+      <input id="q" type="search" placeholder="Cari nama, NIK, jabatan, departemen...">
+      <select id="fStatus"><option value="">Semua status</option><option value="Aktif">Aktif</option><option value="Resign">Resign</option></select>
+      <select id="fTipe"><option value="">Semua tipe</option><option value="Tetap">Karyawan Tetap</option><option value="Kontraktor">Kontraktor</option></select>
+      <select id="fDept"><option value="">Semua departemen</option></select>
+      <span class="cnt" id="cnt"></span>
+    </div>
+    <div class="tscroll">
+      <table>
+        <thead><tr><th>No</th><th>Nama</th><th>NIK</th><th>Jabatan</th><th>Departemen</th><th>Perusahaan</th><th>Tipe</th><th>Status</th><th>Tgl On Site</th><th>Tgl Resign</th><th>Masa Kerja</th></tr></thead>
+        <tbody id="t-body"><tr><td colspan="11" class="empty"><span class="spin"></span>Memuat data dari Google Sheets...</td></tr></tbody>
+      </table>
     </div>
   </section>
 </main>
@@ -192,22 +180,34 @@ footer .brand{font-size:13px}footer .brand img{height:26px}
 <script>
 /* ===== PENGATURAN ===== */
 const URL_SHEETS = "https://script.google.com/macros/s/AKfycbwz8ZtmBmsC-Mtxnsd7QKAh1EPGQ1wVKUgn87U-0Xs-o09AvL1MP8D7mRKXEwjcGRd2/exec";
+const REFRESH_MS = 60000;
 
 const $ = id => document.getElementById(id);
 const fmt = n => Number(n).toLocaleString("id-ID");
 const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const BLN = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+const low = s => String(s == null ? "" : s).toLowerCase();
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const num = v => { const n = Number(String(v == null ? "" : v).replace(",", ".")); return isFinite(n) ? n : 0; };
-let ROWS = [];
+let ALL = [];
 
-function ym(v){
-  const m = String(v).match(/^(\d{4})-(\d{2})/);
-  if(m) return [+m[1], +m[2]];
+/* baca tanggal dari Sheet: 2026-03-15 | 15/03/2026 | tanggal Sheet (ISO) */
+function tgl(v){
+  if(v === "" || v == null) return null;
+  let m = String(v).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(m) return new Date(+m[1], +m[2]-1, +m[3]);
+  m = String(v).match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})$/);
+  if(m) return new Date(+m[3], +m[2]-1, +m[1]);
   const d = new Date(v);
-  return isNaN(d) ? null : [d.getFullYear(), d.getMonth() + 1];
+  return isNaN(d) ? null : new Date(d.getFullYear(), d.getMonth(), d.getDate());
 }
-const label = p => BLN[p[1]-1] + " " + p[0];
+const fTgl = d => d ? d.toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"}) : "-";
+function masaKerja(a, b){
+  if(!a) return "-";
+  const end = b || new Date(); let bln = (end.getFullYear() - a.getFullYear()) * 12 + end.getMonth() - a.getMonth();
+  if(end.getDate() < a.getDate()) bln--;
+  if(bln < 0) return "-";
+  const th = Math.floor(bln / 12), bl = bln % 12;
+  return (th ? th + " th " : "") + bl + " bln";
+}
 
 function countTo(el, target){
   const from = el._v || 0;
@@ -223,103 +223,75 @@ function countTo(el, target){
   })(t0);
 }
 
-/* ---------- form ---------- */
-function hitung(){ $("total").value = fmt(num($("tetap").value) + num($("kontraktor").value)); }
-["tetap","kontraktor"].forEach(id => $(id).addEventListener("input", hitung));
-function showMsg(t, ok){ const m = $("msg"); m.textContent = t; m.className = "msg " + (ok ? "ok" : "err"); m.style.display = t ? "block" : "none"; }
-function kosongkan(){
-  const n = new Date();
-  $("periode").value = n.getFullYear() + "-" + String(n.getMonth() + 1).padStart(2, "0");
-  $("tetap").value = ""; $("kontraktor").value = ""; $("catatan").value = ""; hitung();
+/* ---------- olah data ---------- */
+function olah(rows){
+  const today = new Date(); today.setHours(0,0,0,0);
+  return rows.filter(r => String(r["Nama"] || "").trim() !== "").map((r, i) => {
+    const on = tgl(r["Tgl On Site"]), res = tgl(r["Tgl Resign"]), st = low(r["Status"]);
+    /* Resign bila status tertulis resign, atau tanggal resign sudah lewat/hari ini */
+    const resign = st.includes("resign") || (res && res <= today);
+    const status = resign ? "Resign" : (String(r["Status"] || "").trim() || "Aktif");
+    const tipe = low(r["Tipe"]).includes("tetap") ? "Tetap" : (String(r["Tipe"] || "").trim() ? "Kontraktor" : "");
+    return {no: r["No"] !== "" && r["No"] != null ? r["No"] : i + 1, nama: r["Nama"], nik: r["NIK"], jab: r["Jabatan"], dept: r["Departemen"],
+      per: r["Perusahaan"], tipe, status, resign, on, res, ket: r["Keterangan"]};
+  });
 }
-$("bClear").addEventListener("click", () => { kosongkan(); showMsg(""); });
 
-$("frm").addEventListener("submit", async e => {
-  e.preventDefault(); showMsg("");
-  const periode = $("periode").value, tetap = $("tetap").value, kon = $("kontraktor").value;
-  if(!periode){ showMsg("Pilih periode (bulan) terlebih dahulu."); return; }
-  if(tetap === "" || kon === ""){ showMsg("Isi jumlah Karyawan Tetap dan Kontraktor (isi 0 bila tidak ada)."); return; }
-  if(num(tetap) < 0 || num(kon) < 0){ showMsg("Jumlah tidak boleh negatif."); return; }
-  const total = Math.round(num(tetap)) + Math.round(num(kon));
-  if(total <= 0){ showMsg("Total manpower harus lebih dari 0."); return; }
-
-  const p = ym(periode);
-  if(ROWS.some(r => { const q = ym(r["Periode"]); return q && q[0] === p[0] && q[1] === p[1]; })){
-    if(!confirm("Periode " + label(p) + " sudah pernah diinput.\nData baru ini akan dipakai sebagai nilai terbaru bulan tersebut (data lama tetap tercatat dan ditandai 'Diganti').\n\nLanjutkan?")) return;
-  }
-
-  const btn = $("bSend"); btn.disabled = true; btn.innerHTML = '<span class="spin"></span>Menyimpan...';
-  let ok = false;
-  try{
-    const res = await fetch(URL_SHEETS, {method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"},
-      body: JSON.stringify({type:"manpower", data:{periode, tetap:Math.round(num(tetap)), kontraktor:Math.round(num(kon)), total, catatan:$("catatan").value.trim()}})});
-    const j = await res.json();
-    if(!j.ok) throw new Error(j.error || "Gagal menyimpan");
-    ok = true; showMsg("Tersimpan: " + label(p) + " — total " + fmt(total) + " orang (" + j.id + ")", true);
-  }catch(err){
-    showMsg("Data belum tersimpan: " + err.message + ". Periksa koneksi lalu coba lagi.");
-  }finally{
-    btn.disabled = false; btn.textContent = "Simpan";
-  }
-  if(ok){ kosongkan(); load(); }
-});
-
-/* ---------- riwayat ---------- */
 function render(){
-  /* baris terakhir per periode = yang dipakai */
-  const lastIdx = {};
-  ROWS.forEach((r, i) => { const p = ym(r["Periode"]); if(p) lastIdx[p[0] + "-" + p[1]] = i; });
-  const list = ROWS.map((r, i) => { const p = ym(r["Periode"]); return p ? {r, p, i, aktif: lastIdx[p[0] + "-" + p[1]] === i} : null; }).filter(Boolean);
+  const yr = new Date().getFullYear();
+  const aktif = ALL.filter(x => !x.resign);
+  countTo($("k-akt"), aktif.length); $("k-akt-s").textContent = "dari " + fmt(ALL.length) + " terdaftar";
+  countTo($("k-tet"), aktif.filter(x => x.tipe === "Tetap").length);
+  countTo($("k-kon"), aktif.filter(x => x.tipe !== "Tetap").length);
+  const resYr = ALL.filter(x => x.resign && x.res && x.res.getFullYear() === yr).length;
+  countTo($("k-res"), ALL.filter(x => x.resign).length); $("k-res-s").textContent = resYr + " resign tahun " + yr;
 
-  /* pilihan tahun */
-  const ys = [...new Set(list.map(x => x.p[0]).concat([new Date().getFullYear()]))].sort((a,b) => b - a);
-  const keep = $("year").value;
-  $("year").innerHTML = '<option value="all">Semua tahun</option>' + ys.map(y => `<option value="${y}">${y}</option>`).join("");
-  $("year").value = (keep === "all" || ys.includes(+keep)) && keep ? keep : String(ys[0]);
+  /* pilihan departemen */
+  const keep = $("fDept").value;
+  const depts = [...new Set(ALL.map(x => String(x.dept || "").trim()).filter(Boolean))].sort();
+  $("fDept").innerHTML = '<option value="">Semua departemen</option>' + depts.map(d => `<option>${esc(d)}</option>`).join("");
+  $("fDept").value = depts.includes(keep) ? keep : "";
 
-  const yr = $("year").value;
-  const tampil = list.filter(x => yr === "all" || x.p[0] === +yr)
-    .sort((a,b) => (b.p[0]*100 + b.p[1]) - (a.p[0]*100 + a.p[1]) || b.i - a.i);
+  const q = low($("q").value).trim(), fs = $("fStatus").value, ft = $("fTipe").value, fd = $("fDept").value;
+  const list = ALL.filter(x =>
+    (!fs || (fs === "Resign" ? x.resign : !x.resign)) &&
+    (!ft || (ft === "Tetap" ? x.tipe === "Tetap" : x.tipe !== "Tetap")) &&
+    (!fd || String(x.dept).trim() === fd) &&
+    (!q || low([x.nama, x.nik, x.jab, x.dept, x.per].join(" ")).includes(q)));
 
-  $("t-body").innerHTML = tampil.length ? tampil.map(x => {
-    const r = x.r, d = new Date(r["Timestamp"]);
-    const waktu = isNaN(d) ? "" : d.toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"}) + " " + String(d.getHours()).padStart(2,"0") + "." + String(d.getMinutes()).padStart(2,"0");
-    return `<tr class="${x.aktif ? "" : "old"}"><td><b>${label(x.p)}</b> ${x.aktif ? "" : '<span class="tag">Diganti</span>'}</td>
-      <td class="r">${fmt(num(r["Karyawan Tetap"]))}</td><td class="r">${fmt(num(r["Kontraktor"]))}</td><td class="r"><b>${fmt(num(r["Total Manpower"]))}</b></td>
-      <td>${esc(r["Catatan"])}</td><td>${waktu}</td></tr>`;
-  }).join("") : `<tr><td colspan="6" class="empty">Belum ada data manpower${yr === "all" ? "" : " pada tahun " + yr}. Isi form di sebelah kiri untuk memulai.</td></tr>`;
-
-  /* kartu: periode terbaru (nilai aktif) + rata-rata tahun terpilih */
-  const aktif = list.filter(x => x.aktif).sort((a,b) => (b.p[0]*100 + b.p[1]) - (a.p[0]*100 + a.p[1]));
-  const t = aktif[0];
-  countTo($("k-tot"), t ? num(t.r["Total Manpower"]) : 0);
-  countTo($("k-tet"), t ? num(t.r["Karyawan Tetap"]) : 0);
-  countTo($("k-kon"), t ? num(t.r["Kontraktor"]) : 0);
-  const sub = t ? "per " + label(t.p) : "belum ada data";
-  $("k-tot-s").textContent = $("k-tet-s").textContent = $("k-kon-s").textContent = sub;
-  const dalam = aktif.filter(x => yr === "all" || x.p[0] === +yr);
-  countTo($("k-avg"), dalam.length ? Math.round(dalam.reduce((a,x) => a + num(x.r["Total Manpower"]), 0) / dalam.length) : 0);
-  $("k-avg-s").textContent = dalam.length ? (yr === "all" ? "semua periode" : "tahun " + yr) + " · " + dalam.length + " bulan" : "belum ada data";
+  $("cnt").textContent = fmt(list.length) + " dari " + fmt(ALL.length) + " orang";
+  $("t-body").innerHTML = list.length ? list.map(x => {
+    const bc = x.resign ? "b-rs" : (low(x.status) === "aktif" ? "b-on" : "b-ot");
+    return `<tr class="${x.resign ? "rs" : ""}"><td>${esc(x.no)}</td><td class="nm">${esc(x.nama)}</td><td>${esc(x.nik)}</td><td>${esc(x.jab)}</td><td>${esc(x.dept)}</td><td>${esc(x.per)}</td>
+      <td>${x.tipe ? `<span class="tp ${x.tipe === "Tetap" ? "t" : "k"}">${x.tipe === "Tetap" ? "Tetap" : "Kontraktor"}</span>` : ""}</td>
+      <td><span class="badge ${bc}">${esc(x.status)}</span></td><td>${fTgl(x.on)}</td><td>${fTgl(x.res)}</td><td>${masaKerja(x.on, x.res)}</td></tr>`;
+  }).join("") : `<tr><td colspan="11" class="empty">${ALL.length ? "Tidak ada data yang cocok dengan pencarian / filter." : "Belum ada data. Isi tab <b>Daftar Manpower</b> di Google Sheet, lalu klik Refresh."}</td></tr>`;
 }
 
 async function load(){
   $("rf").disabled = true;
   try{
-    const res = await fetch(URL_SHEETS + "?type=manpower&_=" + Date.now());
+    const res = await fetch(URL_SHEETS + "?type=daftarmp&_=" + Date.now());
     const j = await res.json();
     if(!j.ok) throw new Error(j.error || "Gagal membaca data");
-    ROWS = j.rows || []; render();
+    ALL = olah(j.rows || []); render();
+    $("live").classList.remove("bad");
+    $("upd").textContent = "Live · diperbarui " + new Date().toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"});
   }catch(err){
-    $("t-body").innerHTML = `<tr><td colspan="6" class="empty">Data belum bisa dimuat (${esc(err.message)}). Pastikan Code.gs terbaru sudah di-deploy, lalu klik Refresh.</td></tr>`;
+    $("live").classList.add("bad");
+    $("upd").textContent = "Gagal memuat: " + err.message;
+    if(!ALL.length) $("t-body").innerHTML = `<tr><td colspan="11" class="empty">Data belum bisa dimuat. Pastikan Code.gs terbaru sudah di-deploy, lalu klik Refresh.</td></tr>`;
   }finally{
     $("rf").disabled = false;
   }
 }
 
-$("year").addEventListener("change", render);
+["q","fStatus","fTipe","fDept"].forEach(id => $(id).addEventListener(id === "q" ? "input" : "change", render));
 $("rf").addEventListener("click", load);
 $("copy").textContent = "© " + new Date().getFullYear() + " Dept HSE - All Right Reserved";
-kosongkan(); load();
+load();
+setInterval(() => { if(!document.hidden) load(); }, REFRESH_MS);
+document.addEventListener("visibilitychange", () => { if(!document.hidden) load(); });
 </script>
 </body>
 </html>
